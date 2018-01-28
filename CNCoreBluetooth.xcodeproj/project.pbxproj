@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
+		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
+		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
 		18C3A675201AB10600999678 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A674201AB10600999678 /* AppDelegate.m */; };
 		18C3A678201AB10600999678 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A677201AB10600999678 /* ViewController.m */; };
 		18C3A67B201AB10600999678 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A679201AB10600999678 /* Main.storyboard */; };
@@ -27,6 +30,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		186E8384201DD937008D08B1 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		18C3A670201AB10600999678 /* CNCoreBluetooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CNCoreBluetooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18C3A673201AB10600999678 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		18C3A674201AB10600999678 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -60,6 +68,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		186E837F201DD937008D08B1 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */,
+				186E8381201DD937008D08B1 /* SVProgressHUD.h */,
+				186E8382201DD937008D08B1 /* SVProgressHUD.m */,
+				186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */,
+				186E8384201DD937008D08B1 /* SVProgressHUD.bundle */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		18C3A667201AB10600999678 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +101,7 @@
 		18C3A672201AB10600999678 /* CNCoreBluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				186E837F201DD937008D08B1 /* SVProgressHUD */,
 				18C3A673201AB10600999678 /* AppDelegate.h */,
 				18C3A674201AB10600999678 /* AppDelegate.m */,
 				18C3A676201AB10600999678 /* ViewController.h */,
@@ -188,6 +209,7 @@
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
+				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +227,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
+				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				18C3A683201AB10600999678 /* main.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
 			);
@@ -360,6 +384,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58R7H452RZ;
 				INFOPLIST_FILE = CNCoreBluetooth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -374,6 +399,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58R7H452RZ;
 				INFOPLIST_FILE = CNCoreBluetooth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -10,6 +10,10 @@
 
 @interface ViewController : UIViewController
 
+- (IBAction)beginScan:(id)sender;
+- (IBAction)stopScan:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView2;
 
 @end
 
