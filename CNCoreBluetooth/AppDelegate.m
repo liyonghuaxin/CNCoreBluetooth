@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "HomeViewController.h"
+#import "SetViewController.h"
+#import "HelpViewController.h"
+#import "CNBlueManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +21,30 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //提前让CoreBluetooth对象初始化,不然会出现异常
+    [CNBlueManager sharedBlueManager];
+    
+    //NSArray *itemTitleArr = @[@"资讯",@"视频",@"我的"];
+    CGFloat offset = 5.0;
+    NSArray *normalImageArr = @[@"tab_bar_mall1",@"tab_bar_refresh1",@"tab_bar_user1"];
+    NSArray *selectImageArr = @[@"tab_bar_mall2",@"tab_bar_refresh2",@"tab_bar_user2"];
+    HomeViewController *homeVC = [[HomeViewController alloc] init];
+    homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[0]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[0]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    homeVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    
+    SetViewController *setVC = [[SetViewController alloc] init];
+    setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    setVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+
+    HelpViewController *helpVC = [[HelpViewController alloc] init];
+    helpVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    helpVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
+
+    UITabBarController *tabbar = [[UITabBarController alloc] init];
+    tabbar.viewControllers = @[nav1, setVC, helpVC];
+    self.window.rootViewController = tabbar;
     return YES;
 }
 
