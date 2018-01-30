@@ -49,7 +49,6 @@
     if (peri.state == CBPeripheralStateDisconnected) {
         NSLog(@"🔑🔑🔑🔑🔑🔑🔑正在连接设备 ： %@",peri.name);
         [self.mgr connectPeripheral:peri options:nil];
-        peri.delegate = self;
     }
 }
 -(void)cus_cancelConnectPeripheral:(CBPeripheral *)peri{
@@ -100,8 +99,14 @@
         1000
      );
      */
+    
+//    过滤操作
+//    if ([peripheral.name hasPrefix:@"OBand"]) {
+//
+//    }
+    
     //3、记录扫描到的外围设备
-    NSLog(@"=======发现外围设备");
+    NSLog(@"=======发现外围设备=======");
     if (![self.peripheralArray containsObject:peripheral]) {
         [self.peripheralArray addObject:peripheral];
         //更新新发现的外设列表
@@ -109,12 +114,14 @@
             _scanFinished(peripheral);
         }
     }
+    
 }
 
 //6、扫描服务 可传服务uuid代表指定服务，传nil代表所有服务
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
     NSLog(@"-✅✅✅✅✅✅✅✅-----和设备%@连接成功-------",peripheral.name);
     NSLog(@"设备%@报告： didConnect ->  discoverServices:nil",peripheral.name);
+    peripheral.delegate = self;
     [peripheral readRSSI];
     if (![self.connectedPeripheralArray containsObject:peripheral]) {
         [self.connectedPeripheralArray addObject:peripheral];
