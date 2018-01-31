@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6C92021591F001487B0 /* SetLockCell.m */; };
+		1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CA2021591F001487B0 /* SetLockCell.xib */; };
+		1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6CE202161D0001487B0 /* SetDetailVC.m */; };
+		1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CF202161D0001487B0 /* SetDetailVC.xib */; };
+		1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */; };
+		1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D620217B25001487B0 /* PresentTransformAnimation.m */; };
+		1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */; };
+		1810A6E12021A398001487B0 /* CNDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E02021A398001487B0 /* CNDataBase.m */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -29,6 +37,7 @@
 		18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A67E201AB10600999678 /* LaunchScreen.storyboard */; };
 		18C3A683201AB10600999678 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A682201AB10600999678 /* main.m */; };
 		18C3A68D201AB10600999678 /* CNCoreBluetoothUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */; };
+		7703C1B32B53266D2DBFDCC0 /* libPods-CNCoreBluetooth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +51,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1810A6C82021591F001487B0 /* SetLockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetLockCell.h; sourceTree = "<group>"; };
+		1810A6C92021591F001487B0 /* SetLockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetLockCell.m; sourceTree = "<group>"; };
+		1810A6CA2021591F001487B0 /* SetLockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetLockCell.xib; sourceTree = "<group>"; };
+		1810A6CD202161D0001487B0 /* SetDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetDetailVC.h; sourceTree = "<group>"; };
+		1810A6CE202161D0001487B0 /* SetDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetDetailVC.m; sourceTree = "<group>"; };
+		1810A6CF202161D0001487B0 /* SetDetailVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetDetailVC.xib; sourceTree = "<group>"; };
+		1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeUpInteractiveTransition.m; sourceTree = "<group>"; };
+		1810A6D420217B25001487B0 /* PresentTransformAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentTransformAnimation.h; sourceTree = "<group>"; };
+		1810A6D520217B25001487B0 /* SwipeUpInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeUpInteractiveTransition.h; sourceTree = "<group>"; };
+		1810A6D620217B25001487B0 /* PresentTransformAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentTransformAnimation.m; sourceTree = "<group>"; };
+		1810A6DC20217D16001487B0 /* UIView+KGViewExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+KGViewExtend.h"; sourceTree = "<group>"; };
+		1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+KGViewExtend.m"; sourceTree = "<group>"; };
+		1810A6DF2021A398001487B0 /* CNDataBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNDataBase.h; sourceTree = "<group>"; };
+		1810A6E02021A398001487B0 /* CNDataBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNDataBase.m; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -80,6 +103,9 @@
 		18C3A688201AB10600999678 /* CNCoreBluetoothUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CNCoreBluetoothUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNCoreBluetoothUITests.m; sourceTree = "<group>"; };
 		18C3A68E201AB10600999678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.release.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.release.xcconfig"; sourceTree = "<group>"; };
+		C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.debug.xcconfig"; sourceTree = "<group>"; };
+		F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CNCoreBluetooth.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7703C1B32B53266D2DBFDCC0 /* libPods-CNCoreBluetooth.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +127,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1810A6D220217B25001487B0 /* TransitionAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */,
+				1810A6D420217B25001487B0 /* PresentTransformAnimation.h */,
+				1810A6D520217B25001487B0 /* SwipeUpInteractiveTransition.h */,
+				1810A6D620217B25001487B0 /* PresentTransformAnimation.m */,
+			);
+			path = TransitionAnimation;
+			sourceTree = "<group>";
+		};
 		186E837F201DD937008D08B1 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +165,12 @@
 				186FCD68201FF4E400A16E87 /* LockCell.h */,
 				186FCD69201FF4E400A16E87 /* LockCell.m */,
 				186FCD6A201FF4E400A16E87 /* LockCell.xib */,
+				1810A6C82021591F001487B0 /* SetLockCell.h */,
+				1810A6C92021591F001487B0 /* SetLockCell.m */,
+				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
+				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
+				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
+				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
 			);
 			name = Function;
 			sourceTree = "<group>";
@@ -134,12 +178,17 @@
 		186FCD67201FF35300A16E87 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				1810A6D220217B25001487B0 /* TransitionAnimation */,
 				186FCD712020603500A16E87 /* CNBlueManager.h */,
 				186FCD722020603500A16E87 /* CNBlueManager.m */,
+				1810A6DF2021A398001487B0 /* CNDataBase.h */,
+				1810A6E02021A398001487B0 /* CNDataBase.m */,
 				186E8397201EE3C5008D08B1 /* CNAlertView.h */,
 				186E8398201EE3C5008D08B1 /* CNAlertView.m */,
 				186E839A201EE3EC008D08B1 /* CNAlertView.xib */,
 				186E839C201EEB16008D08B1 /* PrefixHeader.pch */,
+				1810A6DC20217D16001487B0 /* UIView+KGViewExtend.h */,
+				1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -159,6 +208,8 @@
 				18C3A672201AB10600999678 /* CNCoreBluetooth */,
 				18C3A68B201AB10600999678 /* CNCoreBluetoothUITests */,
 				18C3A671201AB10600999678 /* Products */,
+				1D5FB52DC18D3D657DB8D8FF /* Pods */,
+				3DBE1E4FCAB536674645C97B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,6 +251,23 @@
 			path = CNCoreBluetoothUITests;
 			sourceTree = "<group>";
 		};
+		1D5FB52DC18D3D657DB8D8FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */,
+				552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3DBE1E4FCAB536674645C97B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -207,9 +275,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18C3A691201AB10600999678 /* Build configuration list for PBXNativeTarget "CNCoreBluetooth" */;
 			buildPhases = (
+				65DD33C2E761F90FE781DD06 /* [CP] Check Pods Manifest.lock */,
 				18C3A66C201AB10600999678 /* Sources */,
 				18C3A66D201AB10600999678 /* Frameworks */,
 				18C3A66E201AB10600999678 /* Resources */,
+				4D36E248C97057C09927D8A4 /* [CP] Embed Pods Frameworks */,
+				5E04A9F07C17E8217AF198FD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,8 +354,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
+				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
+				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
 				186E839B201EE3EC008D08B1 /* CNAlertView.xib in Resources */,
 				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
@@ -303,19 +376,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4D36E248C97057C09927D8A4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5E04A9F07C17E8217AF198FD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		65DD33C2E761F90FE781DD06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		18C3A66C201AB10600999678 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
+				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
 				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
+				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
+				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				186E8399201EE3C5008D08B1 /* CNAlertView.m in Sources */,
 				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
+				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
 				186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */,
 				18C3A683201AB10600999678 /* main.m in Sources */,
+				1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */,
+				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
 				186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */,
 				186FCD732020603500A16E87 /* CNBlueManager.m in Sources */,
@@ -467,6 +594,7 @@
 		};
 		18C3A692201AB10600999678 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -484,6 +612,7 @@
 		};
 		18C3A693201AB10600999678 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

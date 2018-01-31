@@ -7,8 +7,18 @@
 //
 
 #import "SetViewController.h"
+#import "SetLockCell.h"
+#import "CNBlueManager.h"
+#import "SetDetailVC.h"
+#import "PresentTransformAnimation.h"
+#import "SwipeUpInteractiveTransition.h"
 
-@interface SetViewController ()
+@interface SetViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>{
+    NSMutableArray *_dataArray;
+    
+    PresentTransformAnimation *_presentAnimation;
+    SwipeUpInteractiveTransition *_transitionController;
+}
 
 @end
 
@@ -17,6 +27,62 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
+    _myTableView.tableFooterView = [[UIView alloc] init];
+    _dataArray = [NSMutableArray array];
+    _dataArray = [CNBlueManager sharedBlueManager].connectedPeripheralArray;
+    
+    _presentAnimation = [PresentTransformAnimation new];
+    _transitionController = [SwipeUpInteractiveTransition new];
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_myTableView reloadData];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _dataArray.count;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SetDetailVC *setDetail = [[SetDetailVC alloc] init];
+    setDetail.tabbarBlock = ^{
+        self.tabBarController.tabBar.hidden = NO;
+    };
+    self.tabBarController.tabBar.hidden = YES;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:setDetail];
+    setDetail.navigationController.navigationBar.hidden = YES;
+    nav.transitioningDelegate = self;
+    nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [_transitionController wireToViewController:nav];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    SetLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLockCell" forIndexPath:indexPath];
+    CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
+    cell.nameLab.text =peri.name;
+    return cell;
+}
+
+#pragma mark  UIViewControllerTransitioningDelegate
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source{
+    return _presentAnimation;
+}
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
+    return [PresentTransformAnimation makeWithTransitionType:PresentTransformAnimationTypeDismissed isHorizontal:NO];
+}
+-(id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
+    return _transitionController.interacting ? _transitionController : nil;
 }
 
 - (void)didReceiveMemoryWarning {

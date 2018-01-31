@@ -14,6 +14,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     _slider.minimumValue = 0.0;
     _slider.maximumValue = 100.0;
     _slider.value = 0.0;

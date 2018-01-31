@@ -7,6 +7,7 @@
 //
 
 #import "CNBlueManager.h"
+#import "SVProgressHUD.h"
 
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
@@ -27,14 +28,53 @@
         manager = [[CNBlueManager alloc] init];
         //lyh queue
         //dispatch_queue_t centralQueue = dispatch_queue_create("no.nordicsemi.ios.nrftoolbox", DISPATCH_QUEUE_SERIAL);
-        manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:nil];
+        
+        //----------搜多方案
+        //扫描设备时,不扫描到相同设备,这样可以节约电量,提高app性能.如果需求是需要实时获取设备最新信息的,那就需要设置为YES.
+        //manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue() options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
+        manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
         manager.peripheralArray = [NSMutableArray array];
         manager.connectedPeripheralArray = [NSMutableArray array];
+        manager.connectedPeriModelArray = [NSMutableArray array];
+
     });
     return manager;
 }
-
-#pragma mark private API
+/*
+  蓝牙mac地址
+ app向蓝牙发送指令(这是我们设备的一个指令,由于现在iOS不能直接获取蓝牙mac地址了,我们设备的厂家就写了一个指令来获取,这个指令是自定义的,不适用于其他设备,方法通用)
+ //CBCommunication.m(封装协议指令,类方法)
+ //获取mac地址
+ + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic {
+ NSLog(@"MAC地址");
+ Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
+ NSData *data = [NSData dataWithBytes:&b length:8];
+ [CBCommunication writePeripheral:peripheral characteristic:characteristic value:data];
+ }
+ //通用发送指令方法
+ + (void)writePeripheral:(CBPeripheral *)p
+ characteristic:(CBCharacteristic *)c
+ value:(NSData *)value {
+ //判断属性是否可写
+ if (c.properties & CBCharacteristicPropertyWrite) {
+ [p writeValue:value forCharacteristic:c type:CBCharacteristicWriteWithResponse];
+ } else {
+ NSLog(@"该属性不可写");
+ }
+ }
+ 
+ 
+ //如果只想扫描到特定设备,
+ //包含一个符合服务的设备即可被搜索到
+ CBUUID *uuid01 = [CBUUID UUIDWithString:SeriveID6666];
+ CBUUID *uuid02 = [CBUUID UUIDWithString:SeriveID7777];
+ NSArray *serives = [NSArray arrayWithObjects:uuid01, uuid02, nil];
+ [_cbManager scanForPeripheralsWithServices:serives options:nil];
+ 
+ //当扫描到或连接到指定设备后,取消扫描
+ 
+ */
+#pragma mark public API
 
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
     _scanFinished = finish;
@@ -46,6 +86,11 @@
 }
 
 -(void)cus_connectPeripheral:(CBPeripheral *)peri{
+    //lyh  warn
+    if (self.mgr.state != CBManagerStatePoweredOn) {
+        [SVProgressHUD showErrorWithStatus:@"请打开蓝牙"];
+        return;
+    }
     if (peri.state == CBPeripheralStateDisconnected) {
         NSLog(@"🔑🔑🔑🔑🔑🔑🔑正在连接设备 ： %@",peri.name);
         [self.mgr connectPeripheral:peri options:nil];
@@ -61,29 +106,81 @@
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
     if (self.uartRXCharacteristic){
         //lyh type?
-//        CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
-//        if ((self.uartRXCharacteristic.properties & CBCharacteristicPropertyWrite) > 0){
-//            type = CBCharacteristicWriteWithResponse;
-//        }
+        CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
+        if ((self.uartRXCharacteristic.properties & CBCharacteristicPropertyWrite)){
+            type = CBCharacteristicWriteWithResponse;
+        }
+        //lyh 这个读操作是发送指令后，来获取响应数据？待测
+        [peri readValueForCharacteristic:self.uartRXCharacteristic];
         NSData *rdata = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [peri writeValue:rdata forCharacteristic:self.uartRXCharacteristic  type:CBCharacteristicWriteWithResponse];
+        [peri writeValue:rdata forCharacteristic:self.uartRXCharacteristic  type:type];
     }
 
 }
+#pragma mark -
+//获取mac地址
+- (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic {
+    NSLog(@"MAC地址");
+    Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
+    NSData *data = [NSData dataWithBytes:&b length:8];
+    [self writePeripheral:peripheral characteristic:characteristic value:data];
+}
+
+//通用发送指令方法
+- (void)writePeripheral:(CBPeripheral *)p
+         characteristic:(CBCharacteristic *)c
+                  value:(NSData *)value {
+    //判断属性是否可写
+    if (c.properties & CBCharacteristicPropertyWrite) {
+        [p writeValue:value forCharacteristic:c type:CBCharacteristicWriteWithResponse];
+    } else {
+        NSLog(@"该属性不可写");
+    }
+}
+
+#pragma mark private API
+//设置通知
+-(void)notifyCharacteristic:(CBPeripheral *)peripheral
+             characteristic:(CBCharacteristic *)characteristic{
+    
+    if (characteristic.properties & CBCharacteristicPropertyNotify) {
+        [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        //设置通知后,进入代理方法:
+        //- peripheral: didUpdateNotificationStateForCharacteristic: characteristic error:
+    }
+}
+//取消通知
+-(void)cancelNotifyCharacteristic:(CBPeripheral *)peripheral
+                   characteristic:(CBCharacteristic *)characteristic{
+    [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+}
+
 #pragma mark   CBCentralManagerDelegate
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
-    /*
-     CBManagerStateUnknown = 0,
-     CBManagerStateResetting,
-     CBManagerStateUnsupported,不支持
-     CBManagerStateUnauthorized,
-     CBManagerStatePoweredOff, 未开启
-     CBManagerStatePoweredOn,
-     */
-    NSLog(@"state: %zd",central.state);
-//    if (central.state == CBManagerStatePoweredOn) {
-//        // 检索已经连接/配对设备加入外围设备数组
-//    }
+    switch (central.state) {
+        case CBCentralManagerStateUnknown:
+            NSLog(@">>>蓝牙未知状态");
+            break;
+        case CBCentralManagerStateResetting:
+            NSLog(@">>>蓝牙重启");
+            break;
+        case CBCentralManagerStateUnsupported:
+            NSLog(@">>>不支持蓝牙");
+            break;
+        case CBCentralManagerStateUnauthorized:
+            NSLog(@">>>未授权");
+            break;
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@">>>蓝牙关闭");
+            break;
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@">>>蓝牙打开");
+            //蓝牙打开时,再去扫描设备
+            //[_mgr scanForPeripheralsWithServices:nil options:nil];
+            break;
+        default:
+            break;
+    }
 }
 /**
  发现外围设备
@@ -114,7 +211,6 @@
             _scanFinished(peripheral);
         }
     }
-    
 }
 
 //6、扫描服务 可传服务uuid代表指定服务，传nil代表所有服务
@@ -130,13 +226,17 @@
     if (_periConnectedState) {
         _periConnectedState(peripheral,YES);
     }
+    //lyh debug
     if ([peripheral.name containsString:@"iPhone"]) {
+        //扫描服务
         [peripheral discoverServices:nil];
     }
 }
--(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error{
-    NSLog(@"rssi ======  %@",[RSSI stringValue]);
+//外设连接失败时调用
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
 }
+
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@失去连接",peripheral.name]];
     [self.connectedPeripheralArray removeObject:peripheral];
@@ -146,46 +246,116 @@
     //[self.mgr connectPeripheral:peripheral options:nil];
     NSLog(@"-❌❌❌❌❌❌❌❌-----失去和设备%@的连接-------",peripheral.name);
 }
+
 #pragma mark CBPeripheralDelegate
+
 //7、获取指定的服务，然后根据此服务来查找特征
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+    if (error) {
+        NSLog(@"%@发现服务时出错: %@", peripheral.name, [error localizedDescription]);
+        return;
+    }
     NSLog(@"--------设备%@报告---didDiscoverServices---",peripheral.name);
     NSLog(@"Services == %@",peripheral.services);
     for (CBService *service in peripheral.services) {
+        //lyh debug
         if([service.UUID.UUIDString isEqualToString:@"1000"]){
-            NSLog(@"discoverCharacteristics:nil forService:%@的服务",service.UUID);
             [peripheral discoverCharacteristics:nil forService:service];
         }
     }
 }
-//
+
 //8、发现服务特征，根据此特征进行数据处理
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
+    if (error) {
+        NSLog(@"扫描特征出错:%@", [error localizedDescription]);
+        return;
+    }
     NSLog(@"--------设备%@报告--------",peripheral.name);
     NSLog(@"service.UUID 为 %@ 的 characteristic = %@",service.UUID,service.characteristics);
+    //lyh debug
+    /*
+     需确认哪个server下的哪个Characteristic是读数据的（置通知,接收蓝牙实时数据）
+     需确认哪个server下的哪个Characteristic是发往外设数据的
+     可将两个server和Characteristic分别写为宏
+     */
+
     for (CBCharacteristic *characteristic in service.characteristics) {
-        if([characteristic.UUID.UUIDString isEqualToString:@"1002"]){
-            [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+        //判断服务：避免不同服务下有相同特征？
+        if ([service.UUID.UUIDString isEqualToString:@"1000"]) {
+            if ([characteristic.UUID.UUIDString isEqualToString:@"1002"]) {
+                //设置通知,接收蓝牙实时数据
+                [self notifyCharacteristic:peripheral characteristic:characteristic];
+            }
+            if([characteristic.UUID.UUIDString isEqualToString:@"1003"]){
+                //这里可能会有刚连接蓝牙后的一些数据发送
+                self.uartRXCharacteristic = characteristic;
+            }
         }
-        if([characteristic.UUID.UUIDString isEqualToString:@"1003"]){
-            self.uartRXCharacteristic = characteristic;
-        }
+        
+        //描述相关的方法,代理实际项目中没有涉及到,只做了解
+        [peripheral discoverDescriptorsForCharacteristic:characteristic];
+
     }
 }
-//接受来自Peripheral的消息
+
+//---------订阅后的回调----------
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    if (error) {
+        NSLog(@"错误: %@", error.localizedDescription);
+    }
+    if (characteristic.isNotifying) {
+        NSLog(@"notification====%@",characteristic.value);
+        [peripheral readValueForCharacteristic:characteristic];
+        //获取数据后,进入代理方法:
+        //- peripheral: didUpdateValueForCharacteristic: error:
+    } else {
+        NSLog(@"%@停止通知", characteristic);
+    }
+}
+//---------接受外设数据---------
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"read==%@",characteristic.value);
+    NSData *originData = characteristic.value;
+    NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
+    //根据协议解析数据
+    //因为数据是异步返回的,我并不知道现在返回的数据是是哪种数据,返回的数据中应该会有标志位来识别是哪种数据;
+    //如下图,我的设备发来的是8byte数据,收到蓝牙的数据后,打印characteristic.value:
+    //获取外设发来的数据:<0af37ab219b0>
+    //解析数据,判断首尾数据为a0何b0,即为mac地址,不同设备协议不同
     int num = [self parseIntFromData:characteristic.value];
     NSString *str = [NSString stringWithFormat:@"%d",num];
     if(str && ![str isKindOfClass:[NSNull class]]){
-  
+        
     }
 }
-//订阅后的回调
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSLog(@"notification=read===%@",characteristic.value);
-    //执下面方法，didUpdateValueForCharacteristic会接受消息
-    //[peripheral readValueForCharacteristic:characteristic];
+//写数据是否成功   对应  CBCharacteristicPropertyWrite
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (error) {
+        NSLog(@"APP发送数据失败:%@",error.localizedDescription);
+    } else {
+        NSLog(@"APP向设备发送数据成功");
+    }
+}
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    //打印出Characteristic和他的Descriptors
+//    NSLog(@"DiscoverDescriptors === characteristic uuid:%@",characteristic.UUID);
+//    for (CBDescriptor *d in characteristic.descriptors) {
+//        NSLog(@"Descriptor uuid:%@",d.UUID);
+//        [peripheral readValueForDescriptor:d];
+//    }
+}
+
+//获取到Descriptors的值
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error{
+    //打印出DescriptorsUUID 和value
+    //这个descriptor都是对于characteristic的描述，一般都是字符串，所以这里我们转换成字符串去解析
+//    NSLog(@"didUpdateValueForDescriptor == characteristic uuid:%@  value:%@",[NSString stringWithFormat:@"%@",descriptor.UUID],descriptor.value);
+}
+
+-(void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error{
+
+    NSLog(@"rssi ======  %@",[RSSI stringValue]);
+
 }
 
 #pragma mark  数据转换

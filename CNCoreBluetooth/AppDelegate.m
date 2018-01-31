@@ -11,6 +11,8 @@
 #import "SetViewController.h"
 #import "HelpViewController.h"
 #import "CNBlueManager.h"
+#import "SVProgressHUD.h"
+#import "CNDataBase.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +26,10 @@
     
     //提前让CoreBluetooth对象初始化,不然会出现异常
     [CNBlueManager sharedBlueManager];
+    [CNDataBase sharedDataBase];
+    
+    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     
     //NSArray *itemTitleArr = @[@"资讯",@"视频",@"我的"];
     CGFloat offset = 5.0;
@@ -37,13 +43,15 @@
     SetViewController *setVC = [[SetViewController alloc] init];
     setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     setVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-
+    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:setVC];
+    
     HelpViewController *helpVC = [[HelpViewController alloc] init];
     helpVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     helpVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-
+    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:helpVC];
+    
     UITabBarController *tabbar = [[UITabBarController alloc] init];
-    tabbar.viewControllers = @[nav1, setVC, helpVC];
+    tabbar.viewControllers = @[nav1, nav2, nav3];
     self.window.rootViewController = tabbar;
     return YES;
 }

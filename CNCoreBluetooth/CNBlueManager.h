@@ -28,6 +28,9 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;
 //存放已扫到的外设
 @property (nonatomic,strong) NSMutableArray *peripheralArray;
+//存放正连接的外设
 @property (nonatomic,strong) NSMutableArray *connectedPeripheralArray;
+//存放正连接的外设的模型
+@property (nonatomic,strong) NSMutableArray *connectedPeriModelArray;
 
 @end
