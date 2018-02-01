@@ -15,6 +15,7 @@
 		1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D620217B25001487B0 /* PresentTransformAnimation.m */; };
 		1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */; };
 		1810A6E12021A398001487B0 /* CNDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E02021A398001487B0 /* CNDataBase.m */; };
+		1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E920229841001487B0 /* CNBlueCommunication.m */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -65,6 +66,8 @@
 		1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+KGViewExtend.m"; sourceTree = "<group>"; };
 		1810A6DF2021A398001487B0 /* CNDataBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNDataBase.h; sourceTree = "<group>"; };
 		1810A6E02021A398001487B0 /* CNDataBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNDataBase.m; sourceTree = "<group>"; };
+		1810A6E820229841001487B0 /* CNBlueCommunication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBlueCommunication.h; sourceTree = "<group>"; };
+		1810A6E920229841001487B0 /* CNBlueCommunication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBlueCommunication.m; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 				1810A6D220217B25001487B0 /* TransitionAnimation */,
 				186FCD712020603500A16E87 /* CNBlueManager.h */,
 				186FCD722020603500A16E87 /* CNBlueManager.m */,
+				1810A6E820229841001487B0 /* CNBlueCommunication.h */,
+				1810A6E920229841001487B0 /* CNBlueCommunication.m */,
 				1810A6DF2021A398001487B0 /* CNDataBase.h */,
 				1810A6E02021A398001487B0 /* CNDataBase.m */,
 				186E8397201EE3C5008D08B1 /* CNAlertView.h */,
@@ -441,6 +446,7 @@
 				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
 				186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */,
 				18C3A683201AB10600999678 /* main.m in Sources */,
+				1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */,
 				1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */,
 				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,

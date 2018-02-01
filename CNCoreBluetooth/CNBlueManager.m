@@ -8,6 +8,7 @@
 
 #import "CNBlueManager.h"
 #import "SVProgressHUD.h"
+#import "CNBlueCommunication.h"
 
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
@@ -41,29 +42,7 @@
     return manager;
 }
 /*
-  蓝牙mac地址
- app向蓝牙发送指令(这是我们设备的一个指令,由于现在iOS不能直接获取蓝牙mac地址了,我们设备的厂家就写了一个指令来获取,这个指令是自定义的,不适用于其他设备,方法通用)
- //CBCommunication.m(封装协议指令,类方法)
- //获取mac地址
- + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic {
- NSLog(@"MAC地址");
- Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
- NSData *data = [NSData dataWithBytes:&b length:8];
- [CBCommunication writePeripheral:peripheral characteristic:characteristic value:data];
- }
- //通用发送指令方法
- + (void)writePeripheral:(CBPeripheral *)p
- characteristic:(CBCharacteristic *)c
- value:(NSData *)value {
- //判断属性是否可写
- if (c.properties & CBCharacteristicPropertyWrite) {
- [p writeValue:value forCharacteristic:c type:CBCharacteristicWriteWithResponse];
- } else {
- NSLog(@"该属性不可写");
- }
- }
- 
- 
+
  //如果只想扫描到特定设备,
  //包含一个符合服务的设备即可被搜索到
  CBUUID *uuid01 = [CBUUID UUIDWithString:SeriveID6666];
@@ -71,7 +50,7 @@
  NSArray *serives = [NSArray arrayWithObjects:uuid01, uuid02, nil];
  [_cbManager scanForPeripheralsWithServices:serives options:nil];
  
- //当扫描到或连接到指定设备后,取消扫描
+ //可在没必要描外设时，取消扫描
  
  */
 #pragma mark public API
@@ -86,7 +65,7 @@
 }
 
 -(void)cus_connectPeripheral:(CBPeripheral *)peri{
-    //lyh  warn
+    //lyh  warning
     if (self.mgr.state != CBManagerStatePoweredOn) {
         [SVProgressHUD showErrorWithStatus:@"请打开蓝牙"];
         return;
@@ -96,6 +75,7 @@
         [self.mgr connectPeripheral:peri options:nil];
     }
 }
+
 -(void)cus_cancelConnectPeripheral:(CBPeripheral *)peri{
     NSLog(@"取消连接设备 ： %@",peri.name);
     if (peri.state == CBPeripheralStateConnected) {
@@ -104,39 +84,10 @@
 }
 
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
-    if (self.uartRXCharacteristic){
-        //lyh type?
-        CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
-        if ((self.uartRXCharacteristic.properties & CBCharacteristicPropertyWrite)){
-            type = CBCharacteristicWriteWithResponse;
-        }
-        //lyh 这个读操作是发送指令后，来获取响应数据？待测
-        [peri readValueForCharacteristic:self.uartRXCharacteristic];
-        NSData *rdata = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [peri writeValue:rdata forCharacteristic:self.uartRXCharacteristic  type:type];
-    }
-
-}
-#pragma mark -
-//获取mac地址
-- (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic {
-    NSLog(@"MAC地址");
-    Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
-    NSData *data = [NSData dataWithBytes:&b length:8];
-    [self writePeripheral:peripheral characteristic:characteristic value:data];
+    
+    [CNBlueCommunication cbSenddata:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
 }
 
-//通用发送指令方法
-- (void)writePeripheral:(CBPeripheral *)p
-         characteristic:(CBCharacteristic *)c
-                  value:(NSData *)value {
-    //判断属性是否可写
-    if (c.properties & CBCharacteristicPropertyWrite) {
-        [p writeValue:value forCharacteristic:c type:CBCharacteristicWriteWithResponse];
-    } else {
-        NSLog(@"该属性不可写");
-    }
-}
 
 #pragma mark private API
 //设置通知

@@ -62,9 +62,11 @@
     }
     return i;
 }
+
 - (void)scanPeri{
     
 }
+
 //开始/停止扫描
 - (void)scanPeri:(id)sender{
     //alert.hidden = NO;
