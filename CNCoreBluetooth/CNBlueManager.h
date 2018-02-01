@@ -17,12 +17,17 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 + (CNBlueManager *)sharedBlueManager;
 - (void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish;
 - (void)cus_stopScan;
+/**
+ 开始扫描❤️广播包
+ */
 - (void)cus_connectPeripheral:(CBPeripheral *)peri;
 -(void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
 /**
  向peripheral发送数据
  */
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
+//传入解锁锁指令
+- (void)sendUnlockInstruction:(NSString*)lockInstruction toPeripheral:(CBPeripheral *)peri;
 
 //蓝牙锁被连接，或者失去连接
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;

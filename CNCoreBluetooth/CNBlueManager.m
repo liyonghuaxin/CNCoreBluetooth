@@ -16,9 +16,18 @@
 @property (nonatomic,strong) CBCentralManager *mgr;
 /** 设备特征值*/
 @property (nonatomic, strong) CBCharacteristic *uartRXCharacteristic;
+//上锁和解锁的characteristic
+@property (nonatomic, strong) CBCharacteristic* lockUnlockCharacteristic;
 
 @end
-
+/*
+ 操作细节探讨
+ 
+ 1、蓝牙中心管理器扫描广播包，时长可以自己写一个定时器控制，并且可以设定扫描的具体条件
+ 
+ 2、当然在正常连接的过程中总会出现点意外，如果两个设备突然断掉了连接，一般我们还是希望它们能够再次连接的，这里就得要看硬件和程序里对于连接断开的处理代码了
+ 
+ */
 @implementation CNBlueManager
 
 +(CNBlueManager *)sharedBlueManager{
@@ -30,7 +39,6 @@
         //lyh queue
         //dispatch_queue_t centralQueue = dispatch_queue_create("no.nordicsemi.ios.nrftoolbox", DISPATCH_QUEUE_SERIAL);
         
-        //----------搜多方案
         //扫描设备时,不扫描到相同设备,这样可以节约电量,提高app性能.如果需求是需要实时获取设备最新信息的,那就需要设置为YES.
         //manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue() options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
         manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
@@ -54,7 +62,7 @@
  
  */
 #pragma mark public API
-
+// 开始扫描❤️广播包
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
     _scanFinished = finish;
     [self.mgr scanForPeripheralsWithServices:nil options:nil];
@@ -82,15 +90,16 @@
         [self.mgr cancelPeripheralConnection:peri];
     }
 }
-
+#pragma mark 数据交互
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
     
     [CNBlueCommunication cbSenddata:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
+    [CNBlueCommunication cbCorrectTime:peri characteristic:self.uartRXCharacteristic];
 }
 
 
 #pragma mark private API
-//设置通知
+//订阅特征
 -(void)notifyCharacteristic:(CBPeripheral *)peripheral
              characteristic:(CBCharacteristic *)characteristic{
     
@@ -140,7 +149,9 @@
  RSSI：信号强度
  */
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
-    /*advertisementData数据：
+
+    /*
+     查看❤️广播包❤️数据，advertisementData数据：
      kCBAdvDataIsConnectable = 1;
      kCBAdvDataLocalName = 666;
      kCBAdvDataServiceUUIDs = (
@@ -218,6 +229,8 @@
 
 //8、发现服务特征，根据此特征进行数据处理
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
+    /*characteristic.properties),可以看到有很多种,这是一个NS_OPTIONS的枚举,可以是多个值，常见的有read,write,noitfy,indicate.知道这几个基本够用了,前俩是读写权限,后俩都是通知,俩不同的通知方式。第三方的app——LightBlue方便查看属性
+     */
     if (error) {
         NSLog(@"扫描特征出错:%@", [error localizedDescription]);
         return;
@@ -234,7 +247,9 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         //判断服务：避免不同服务下有相同特征？
         if ([service.UUID.UUIDString isEqualToString:@"1000"]) {
+            //[[c UUID] isEqual:[CBUUID UUIDWithString:@"0000fff6-0000-1000-8000-00805f9b34fb"]]
             if ([characteristic.UUID.UUIDString isEqualToString:@"1002"]) {
+                //订阅特征 可收到广播数据
                 //设置通知,接收蓝牙实时数据
                 [self notifyCharacteristic:peripheral characteristic:characteristic];
             }
@@ -245,8 +260,7 @@
         }
         
         //描述相关的方法,代理实际项目中没有涉及到,只做了解
-        [peripheral discoverDescriptorsForCharacteristic:characteristic];
-
+        //[peripheral discoverDescriptorsForCharacteristic:characteristic];
     }
 }
 
@@ -256,10 +270,10 @@
         NSLog(@"错误: %@", error.localizedDescription);
     }
     if (characteristic.isNotifying) {
-        NSLog(@"notification====%@",characteristic.value);
-        [peripheral readValueForCharacteristic:characteristic];
-        //获取数据后,进入代理方法:
-        //- peripheral: didUpdateValueForCharacteristic: error:
+        //lyh
+        //蓝牙不断，失去连接，重新连上可以记录上次接受广播的数据characteristic.value
+        //NSLog(@"notification====%@",characteristic.value);
+        //[peripheral readValueForCharacteristic:characteristic];
     } else {
         NSLog(@"%@停止通知", characteristic);
     }
@@ -284,6 +298,8 @@
     if (error) {
         NSLog(@"APP发送数据失败:%@",error.localizedDescription);
     } else {
+        //lyh 要写吗
+        //[self.cbperipheral readValueForCharacteristic:self.cbchar];
         NSLog(@"APP向设备发送数据成功");
     }
 }
