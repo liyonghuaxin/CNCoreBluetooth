@@ -7,8 +7,11 @@
 //
 
 #import "SetDetailVC.h"
+#import "CNDataBase.h"
 
-@interface SetDetailVC ()
+@interface SetDetailVC (){
+    CNPeripheralModel *periInfoModel;
+}
 
 @end
 
@@ -33,11 +36,19 @@
     [_touchBtn setImage:[UIImage imageNamed:@"btn_check1"] forState:UIControlStateNormal];
     [_touchBtn setImage:[UIImage imageNamed:@"btn_check2"] forState:UIControlStateSelected];
     
-    _slideBtn.selected = YES;
-    _pawBtn.selected = NO;
-    _touchBtn.selected = NO;
-    _saveBtn.layer.cornerRadius = 8;
 
+    _saveBtn.layer.cornerRadius = 8;
+    
+    periInfoModel = [[CNDataBase sharedDataBase] lookupPeripheralInfo:_periID];
+    _lockNameTf.text = periInfoModel.periname;
+    if (periInfoModel.isPwd) {
+        _pawBtn.selected = YES;
+    }else{
+        _slideBtn.selected = YES;
+    }
+    if (periInfoModel.isTouchUnlock) {
+        _touchBtn.selected = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,9 +71,11 @@
     if (btn.selected) {
         _pawBtn.selected = YES;
         btn.selected = NO;
+        periInfoModel.isPwd = YES;
     }else{
         _pawBtn.selected = NO;
         btn.selected = YES;
+        periInfoModel.isPwd = NO;
     }
 }
 
@@ -71,15 +84,18 @@
     if (btn.selected) {
         _slideBtn.selected = YES;
         btn.selected = NO;
+        periInfoModel.isPwd = NO;
     }else{
         _slideBtn.selected = NO;
         btn.selected = YES;
+        periInfoModel.isPwd = YES;
     }
 }
 
 - (IBAction)touchAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
     btn.selected = !btn.selected;
+    periInfoModel.isTouchUnlock = btn.selected;
 }
 - (IBAction)deleteAction:(id)sender {
 
@@ -87,6 +103,8 @@
 
 - (IBAction)saveAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+    //保存设置
+    [[CNDataBase sharedDataBase] updatePeripheralInfo:periInfoModel];
 }
 - (IBAction)cancelAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

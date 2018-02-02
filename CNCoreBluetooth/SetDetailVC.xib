@@ -16,7 +16,7 @@
                 <outlet property="deleteLab" destination="Qzf-sC-T9Z" id="IBi-rm-mBe"/>
                 <outlet property="enableTouchLab" destination="qdc-fo-gVw" id="NAg-A9-jxr"/>
                 <outlet property="lockModelLab" destination="dbH-1C-wkB" id="wCa-SK-ohh"/>
-                <outlet property="nameConLab" destination="kWk-vE-YBU" id="3mw-3h-Rjp"/>
+                <outlet property="lockNameTf" destination="X9D-yE-IxQ" id="IHH-3X-4pa"/>
                 <outlet property="nameLab" destination="X5o-5P-Hdm" id="HBJ-4j-9Xa"/>
                 <outlet property="pawBtn" destination="ZUT-jt-u7a" id="tKW-aZ-8QX"/>
                 <outlet property="pawLab" destination="avj-wd-b8R" id="gyS-4v-wqd"/>
@@ -47,21 +47,21 @@
                                 <constraint firstAttribute="height" constant="1" id="wPs-AY-VmM"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lockName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWk-vE-YBU">
-                            <rect key="frame" x="149.5" y="30" width="76.5" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Lock Name" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X9D-yE-IxQ">
+                            <rect key="frame" x="140.5" y="25" width="94" height="30"/>
                             <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="X5o-5P-Hdm" firstAttribute="top" secondItem="hAP-Tb-4eQ" secondAttribute="top" constant="10" id="1Ta-lx-pW3"/>
                         <constraint firstItem="X5o-5P-Hdm" firstAttribute="leading" secondItem="hAP-Tb-4eQ" secondAttribute="leading" constant="10" id="5QC-RL-5nV"/>
+                        <constraint firstItem="X9D-yE-IxQ" firstAttribute="centerX" secondItem="hAP-Tb-4eQ" secondAttribute="centerX" id="7fZ-iW-vTJ"/>
                         <constraint firstAttribute="height" constant="80" id="MTo-vh-ZDn"/>
-                        <constraint firstItem="kWk-vE-YBU" firstAttribute="centerY" secondItem="hAP-Tb-4eQ" secondAttribute="centerY" id="TvV-F0-xwS"/>
                         <constraint firstAttribute="bottom" secondItem="NF4-j8-7Rx" secondAttribute="bottom" constant="10" id="Tyv-r1-DJV"/>
-                        <constraint firstItem="kWk-vE-YBU" firstAttribute="centerX" secondItem="hAP-Tb-4eQ" secondAttribute="centerX" id="cbr-un-RNz"/>
+                        <constraint firstItem="X9D-yE-IxQ" firstAttribute="centerY" secondItem="hAP-Tb-4eQ" secondAttribute="centerY" id="lHA-AS-MPC"/>
                         <constraint firstAttribute="trailing" secondItem="NF4-j8-7Rx" secondAttribute="trailing" constant="60" id="o8p-eX-dZO"/>
                         <constraint firstItem="NF4-j8-7Rx" firstAttribute="leading" secondItem="hAP-Tb-4eQ" secondAttribute="leading" constant="60" id="uE2-mb-H9o"/>
                     </constraints>

@@ -14,5 +14,10 @@
 @property (nonatomic,strong)CBPeripheral *peripheral;
 @property (nonatomic,assign)NSInteger periIndex;
 @property (nonatomic,assign)BOOL sliderOn;
+@property (nonatomic,copy)NSString *periID;
+@property (nonatomic,copy)NSString *periname;
+@property (nonatomic,assign)BOOL isPwd;
+@property (nonatomic,assign)BOOL isTouchUnlock;
+
 
 @end

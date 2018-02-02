@@ -9,6 +9,7 @@
 #import "CNBlueManager.h"
 #import "SVProgressHUD.h"
 #import "CNBlueCommunication.h"
+#import "CNDataBase.h"
 
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
@@ -44,7 +45,6 @@
         manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
         manager.peripheralArray = [NSMutableArray array];
         manager.connectedPeripheralArray = [NSMutableArray array];
-        manager.connectedPeriModelArray = [NSMutableArray array];
 
     });
     return manager;
@@ -177,6 +177,13 @@
 
 //6、扫描服务 可传服务uuid代表指定服务，传nil代表所有服务
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
+    
+    //连接上设备，数据本地保存
+    CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+    model.periID = peripheral.identifier.UUIDString;
+    model.periname = peripheral.name;
+    [[CNDataBase sharedDataBase] addPeripheralInfo:model];
+    
     NSLog(@"-✅✅✅✅✅✅✅✅-----和设备%@连接成功-------",peripheral.name);
     NSLog(@"设备%@报告： didConnect ->  discoverServices:nil",peripheral.name);
     peripheral.delegate = self;

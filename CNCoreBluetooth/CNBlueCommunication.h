@@ -24,12 +24,12 @@
  7、锁具状态上报
  */
 + (void)cbSenddata:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic;
-+ (void)cbCorrectTime:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
 /*
  获取手机蓝牙mac地址
  由于现在iOS不能直接获取蓝牙mac地址了,需要设备的厂家就写了一个指令来获取
  */
 + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
++ (void)cbCorrectTime:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
 + (void)cbReadOfflineData:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
 
 @end

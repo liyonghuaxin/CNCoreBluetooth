@@ -7,9 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CNPeripheralModel.h"
 
 @interface CNDataBase : NSObject
 
 +(instancetype)sharedDataBase;
+/**
+ 只插入
+ */
+- (void)addPeripheralInfo:(CNPeripheralModel *)model;
+/**
+ 插入/更新
+ */
+- (void)updatePeripheralInfo:(CNPeripheralModel *)model;
+/**
+ 查询
+ */
+- (CNPeripheralModel *)lookupPeripheralInfo:(NSString *)lockID;
 
 @end

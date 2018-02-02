@@ -15,13 +15,16 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 @interface CNBlueManager : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
 
 + (CNBlueManager *)sharedBlueManager;
-- (void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish;
-- (void)cus_stopScan;
 /**
  开始扫描❤️广播包
  */
+- (void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish;
+- (void)cus_stopScan;
+
 - (void)cus_connectPeripheral:(CBPeripheral *)peri;
--(void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
+- (void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
+
+- (BOOL)checkPeripheralState;
 /**
  向peripheral发送数据
  */
@@ -29,13 +32,11 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 //传入解锁锁指令
 - (void)sendUnlockInstruction:(NSString*)lockInstruction toPeripheral:(CBPeripheral *)peri;
 
-//蓝牙锁被连接，或者失去连接
+//监听 蓝牙锁连接状态
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;
 //存放已扫到的外设
 @property (nonatomic,strong) NSMutableArray *peripheralArray;
 //存放正连接的外设
 @property (nonatomic,strong) NSMutableArray *connectedPeripheralArray;
-//存放正连接的外设的模型
-@property (nonatomic,strong) NSMutableArray *connectedPeriModelArray;
 
 @end

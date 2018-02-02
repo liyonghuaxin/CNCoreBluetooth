@@ -12,9 +12,9 @@
 
 
 @property (nonatomic,copy) void (^tabbarBlock)(void);
-
+@property (nonatomic,copy) NSString *periID;
+@property (weak, nonatomic) IBOutlet UITextField *lockNameTf;
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
-@property (weak, nonatomic) IBOutlet UILabel *nameConLab;
 @property (weak, nonatomic) IBOutlet UILabel *pawLab;
 @property (weak, nonatomic) IBOutlet UILabel *lockModelLab;
 @property (weak, nonatomic) IBOutlet UILabel *enableTouchLab;

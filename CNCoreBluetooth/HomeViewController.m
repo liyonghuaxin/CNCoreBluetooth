@@ -12,6 +12,8 @@
 #import "CNBlueManager.h"
 #import "LockCell.h"
 
+#import "CNDataBase.h"
+
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource>{
     CNAlertView *alert;
 }

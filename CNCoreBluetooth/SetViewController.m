@@ -12,6 +12,8 @@
 #import "SetDetailVC.h"
 #import "PresentTransformAnimation.h"
 #import "SwipeUpInteractiveTransition.h"
+#import "CNDataBase.h"
+#import "SVProgressHUD.h"
 
 @interface SetViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>{
     NSMutableArray *_dataArray;
@@ -29,12 +31,9 @@
     // Do any additional setup after loading the view from its nib.
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    _dataArray = [NSMutableArray array];
-    _dataArray = [CNBlueManager sharedBlueManager].connectedPeripheralArray;
-    
+    _dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
     _presentAnimation = [PresentTransformAnimation new];
     _transitionController = [SwipeUpInteractiveTransition new];
-    
     
 }
 
@@ -49,17 +48,25 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    SetDetailVC *setDetail = [[SetDetailVC alloc] init];
-    setDetail.tabbarBlock = ^{
-        self.tabBarController.tabBar.hidden = NO;
-    };
-    self.tabBarController.tabBar.hidden = YES;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:setDetail];
-    setDetail.navigationController.navigationBar.hidden = YES;
-    nav.transitioningDelegate = self;
-    nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [_transitionController wireToViewController:nav];
-    [self presentViewController:nav animated:YES completion:nil];
+    if (_dataArray.count) {
+        CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
+        if (peri.state != CBPeripheralStateConnected) {
+            [SVProgressHUD showErrorWithStatus:@"已断开连接"];
+            return;
+        }
+        SetDetailVC *setDetail = [[SetDetailVC alloc] init];
+        setDetail.periID = peri.identifier.UUIDString;
+        setDetail.tabbarBlock = ^{
+            self.tabBarController.tabBar.hidden = NO;
+        };
+        self.tabBarController.tabBar.hidden = YES;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:setDetail];
+        setDetail.navigationController.navigationBar.hidden = YES;
+        nav.transitioningDelegate = self;
+        nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        [_transitionController wireToViewController:nav];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
