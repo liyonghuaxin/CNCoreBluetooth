@@ -13,7 +13,9 @@
 #import "CNBlueManager.h"
 #import "SVProgressHUD.h"
 #import "CNDataBase.h"
-
+#import "CNBlueCommunication.h"
+#import "CNKeychainManager.h"
+#import "CommonData.h"
 @interface AppDelegate ()
 
 @end
@@ -23,15 +25,28 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [CNBlueCommunication parseResponseDataWithParameter:nil];
+    //获得蓝牙mac地址
+    CNKeychainManager *manager = [CNKeychainManager default];
+    NSString *macAddress = [manager load:@"customMacAddress"];
+    if (macAddress == nil) {
+        //本地生成一个mac地址
+        NSString *customMacAddress = [CNBlueCommunication makeMyBlueMacAddress];
+        [CommonData sharedCommonData].macAddress = customMacAddress;
+        [manager save:@"customMacAddress" data:customMacAddress];
+    }else{
+        [CommonData sharedCommonData].macAddress = macAddress;
+    }
     
     //提前让CoreBluetooth对象初始化,不然会出现异常
     [CNBlueManager sharedBlueManager];
-    
+    //初始化数据库
     [CNDataBase sharedDataBase];
-    
+    //设置SVProgressHUD颜色
     [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     
+    //初始化tabbar
     CGFloat offset = 5.0;
     NSArray *normalImageArr = @[@"tab_bar_mall1",@"tab_bar_refresh1",@"tab_bar_user1"];
     NSArray *selectImageArr = @[@"tab_bar_mall2",@"tab_bar_refresh2",@"tab_bar_user2"];

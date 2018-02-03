@@ -7,26 +7,33 @@
 //
 
 #import "CNBlueCommunication.h"
+#import "CommonData.h"
 
 @implementation CNBlueCommunication
 
+//一个手机只调一次，此方法生成的地址将保存到钥匙串keychain
++(NSString *)makeMyBlueMacAddress{
+    //D2C82D25-B100-4C44-BB0B-2ED76AF43304
+    //D2B14CBB2ED7
+    NSString *idfvStr = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSArray *arr = [idfvStr componentsSeparatedByString:@"-"];
+    NSMutableString *uidStr = [[NSMutableString alloc] init];
+    for (int i = 0; i<arr.count; i++) {
+        if (i == arr.count - 1) {
+            NSString *str = [NSString stringWithFormat:@"%@",arr[i]];
+            [uidStr appendString:[str substringWithRange:NSMakeRange(0, 4)]];
+        }else{
+            NSString *str = [NSString stringWithFormat:@"%@",arr[i]];
+            [uidStr appendString:[str substringWithRange:NSMakeRange(0, 2)]];
+        }
+    }
+    return uidStr;
+}
 /*
  关于写数据
  CBCharacteristicWriteWithResponse方法给外围设备写数据时，会回调 其代理的peripheral:didWriteValueForCharacteristic:error:方法。
- 
- 关于数据转换
- 1、字符串 --》 int --》组合成byte（已经十六进制了） --》转data
- NSData *data23 = [NSData dataWithBytes:byte4 length:sizeof(byte4)];
- 2、字符串 转 data 可以吗？
- 问题是还需要考虑校验位所以必须用第一步？
-
- 校验位：
- 长度域与数字域字段累加和对128取模，结果小于0x20时自增0x20
- 
  */
-
 + (void)cbSenddata:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
-    str = @"18/02/01";
     if (characteristic){
         CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
         if (characteristic.properties & CBCharacteristicPropertyWrite){
@@ -34,7 +41,7 @@
         }
         //lyh 这个读操作是发送指令后，来获取响应数据？待测
         [peripheral readValueForCharacteristic:characteristic];
-        NSData *rdata = [str dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *rdata = [CNBlueCommunication getDataPacketWith:str];
         [peripheral writeValue:rdata forCharacteristic:characteristic  type:type];
     }
 }
@@ -125,7 +132,7 @@
 }
 
 //将传入的NSData类型转换成NSString并返回
-- (NSString*)hexadecimalString:(NSData *)data{
++ (NSString*)hexadecimalString:(NSData *)data{
     NSString* result;
     const unsigned char* dataBuffer = (const unsigned char*)[data bytes];
     if(!dataBuffer){
@@ -141,10 +148,105 @@
 }
 
 //将传入的NSString类型转换成ASCII码并返回
-- (NSData*)dataWithString:(NSString *)string{
++ (NSData*)dataWithString:(NSString *)string{
     unsigned char *bytes = (unsigned char *)[string UTF8String];
     NSInteger len = string.length;
     return [NSData dataWithBytes:bytes length:len];
 }
+#pragma mark   生成发送数据
+//生成数据包
++ (NSData *)getDataPacketWith:(NSString *)str{
+    //字符串补零操作
+    NSString *lengthDomainStr = [NSString stringWithFormat:@"%lu",(unsigned long)str.length];
+    lengthDomainStr = [CNBlueCommunication addZero:lengthDomainStr withLength:3];
 
+    //校验位计算
+    NSString *verifyStr;
+    const char *lengthD = [lengthDomainStr UTF8String];//定义一个指向字符常量的指针
+    const char *dataD = [str UTF8String];//定义一个指向字符常量的指针
+    int sumChar = 0;
+    //注意：计算字符串所占的字节数（包括串尾的串结束符'\0'在内)
+    for (int i = 0; i<sizeof(lengthD)-1; i++) {
+        sumChar += lengthD[i];
+    }
+    for (int i = 0; i<sizeof(dataD)-1; i++) {
+        sumChar += dataD[i];
+    }
+    sumChar = sumChar % 128;//ascii码一共128个
+    if (sumChar < 32) {
+        //0x20 避开控制符
+        sumChar = sumChar + 32;
+    }
+    //十进制转ascii 或者说char
+    verifyStr = [NSString stringWithFormat:@"%c",sumChar];
+    
+    //mac地址
+    NSString *macAddress = [CommonData sharedCommonData].macAddress;
+    
+    //拼接数据包
+    NSString *packetName = @"BL";
+    NSString *dataPacketStr = [NSString stringWithFormat:@"%@%@%@%@%@",packetName,macAddress,lengthDomainStr,str,verifyStr];
+    NSData *data = [dataPacketStr dataUsingEncoding:NSUTF8StringEncoding];
+    return data;
+}
+
+//字符串补零操作
++(NSString *)addZero:(NSString *)str withLength:(int)length{
+    NSString *string = nil;
+    if (str.length==length) {
+        return str;
+    }
+    if (str.length<length) {
+        NSUInteger inter = length-str.length;
+        for (int i=0;i< inter; i++) {
+            string = [NSString stringWithFormat:@"0%@",str];
+            str = string;
+        }
+    }
+    return string;
+}
+#pragma mark   解析响应数据
++ (NSDictionary *)parseResponseDataWithParameter:(NSData *)data withType:(ResponseEnum)type{
+    //模拟同步回执
+    NSString *str = @"BLD2B14CBB2ED70048010]";
+    NSData *myData = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *responseString = [[NSString alloc] initWithData:myData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",responseString);
+    return nil;
+
+    switch (type) {
+        case ENAutoSynchro:{
+            //自动同步
+            
+            break;
+        }
+        case ENLock:{
+            //开锁
+            break;
+        }
+        case ENChangeNameAndPwd:{
+            //广播名称及配对密码修改
+            break;
+        }
+        case ENLookLockLog:{
+            //开锁记录查询
+            break;
+        }
+        case ENLookHasPair:{
+            //已配对设备查询
+            break;
+        }
+        case ENUnpair:{
+            //解除配对
+            break;
+        }
+        case ENLockStateReport:{
+            //锁具状态上报
+            break;
+        }
+        default:
+            break;
+    }
+}
 @end

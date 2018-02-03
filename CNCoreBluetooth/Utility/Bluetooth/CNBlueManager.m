@@ -287,8 +287,10 @@
 }
 //---------接受外设数据---------
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    
     NSData *originData = characteristic.value;
     NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
+
     //根据协议解析数据
     //因为数据是异步返回的,我并不知道现在返回的数据是是哪种数据,返回的数据中应该会有标志位来识别是哪种数据;
     //如下图,我的设备发来的是8byte数据,收到蓝牙的数据后,打印characteristic.value:
@@ -297,7 +299,8 @@
     int num = [self parseIntFromData:characteristic.value];
     NSString *str = [NSString stringWithFormat:@"%d",num];
     if(str && ![str isKindOfClass:[NSNull class]]){
-        
+        NSString *string = [CNBlueCommunication hexadecimalString:originData];
+        [SVProgressHUD showSuccessWithStatus:str];
     }
 }
 //写数据是否成功   对应  CBCharacteristicPropertyWrite

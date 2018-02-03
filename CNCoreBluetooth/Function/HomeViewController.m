@@ -13,8 +13,9 @@
 #import "LockCell.h"
 
 #import "CNDataBase.h"
+#import "SVProgressHUD.h"
 
-@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource>{
+@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
     CNAlertView *alert;
 }
 
@@ -112,6 +113,7 @@
     LockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LockCell" forIndexPath:indexPath];
     CNPeripheralModel *model = _dataArray[indexPath.row];
     [cell setModel:model];
+    cell.delegate = self;
     //lyh debug
     cell.slider.value = 0;
     cell.actionBlock = ^(BOOL isConnect) {
@@ -122,6 +124,32 @@
         }
     };
     return cell;
+}
+
+#pragma mark LockCellActionDelegate
+- (void)slideSuccess:(CBPeripheral *)peri{
+    CNPeripheralModel *model = [[CNDataBase sharedDataBase] lookupPeripheralInfo:peri.identifier.UUIDString];
+    if (model.isPwd) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"密码";
+            textField.secureTextEntry = YES;
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"Cancel Action");
+        }];
+        UIAlertAction *loginAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //UITextField *userName = alertController.textFields.firstObject;
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:loginAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+
+    }else{
+        [SVProgressHUD showSuccessWithStatus:@"已发送开锁指令"];
+        [[CNBlueManager sharedBlueManager] senddata:@"01" toPeripheral:peri];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

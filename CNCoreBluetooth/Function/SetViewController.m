@@ -31,7 +31,9 @@
     // Do any additional setup after loading the view from its nib.
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    _dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
+    //保证_dataArray的实时性
+    _dataArray = [CNBlueManager sharedBlueManager].connectedPeripheralArray;
+    //_dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
     _presentAnimation = [PresentTransformAnimation new];
     _transitionController = [SwipeUpInteractiveTransition new];
     
@@ -66,6 +68,8 @@
         nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         [_transitionController wireToViewController:nav];
         [self presentViewController:nav animated:YES completion:nil];
+    }else{
+        [SVProgressHUD showErrorWithStatus:@"已断开连接"];
     }
 }
 

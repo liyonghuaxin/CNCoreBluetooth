@@ -8,6 +8,7 @@
 
 #import "LockCell.h"
 #import "CNBlueManager.h"
+#import "SVProgressHUD.h"
 
 @implementation LockCell
 
@@ -52,8 +53,14 @@
     UISlider *slider = (UISlider *)sender;
     if (slider.value > 90) {
         slider.value = 100;
+        if (_model.peripheral.state != CBPeripheralStateConnected) {
+            [SVProgressHUD showErrorWithStatus:@"未连接"];
+            return;
+        }
         //滑动开锁
-        [[CNBlueManager sharedBlueManager] senddata:@"01" toPeripheral:_model.peripheral];
+        if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
+            [self.delegate slideSuccess:_model.peripheral];
+        }
     }else{
         slider.value = 0;
     }

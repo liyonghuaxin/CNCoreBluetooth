@@ -9,12 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "CNPeripheralModel.h"
 
+@protocol LockCellActionDelegate <NSObject>
+
+- (void)slideSuccess:(CBPeripheral *)peri;
+
+@end
+
 @interface LockCell : UITableViewCell
 
 @property (nonatomic,copy) void(^actionBlock)(BOOL isConnect);
 
 @property (nonatomic,strong)CNPeripheralModel *model;
-
+@property (nonatomic,weak) id<LockCellActionDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIButton *connectBtn;
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @property (weak, nonatomic) IBOutlet UILabel *idLable;

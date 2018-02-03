@@ -9,8 +9,22 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+typedef enum : NSUInteger {
+    ENAutoSynchro,
+    ENLock,
+    ENChangeNameAndPwd,
+    ENLookLockLog,
+    ENLookHasPair,
+    ENUnpair,
+    ENLockStateReport
+} ResponseEnum;
+
 @interface CNBlueCommunication : NSObject
 
+
++ (NSData*)dataWithString:(NSString *)string;
+
++ (NSString*)hexadecimalString:(NSData *)data;
 /*
  一、广播包格式
  
@@ -24,6 +38,9 @@
  7、锁具状态上报
  */
 + (void)cbSenddata:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic;
+//生成一个本地蓝牙地址
++ (NSString *)makeMyBlueMacAddress;
++ (NSDictionary *)parseResponseDataWithParameter:(NSData *)data;
 /*
  获取手机蓝牙mac地址
  由于现在iOS不能直接获取蓝牙mac地址了,需要设备的厂家就写了一个指令来获取
