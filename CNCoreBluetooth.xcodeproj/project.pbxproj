@@ -31,6 +31,7 @@
 		186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186FCD6A201FF4E400A16E87 /* LockCell.xib */; };
 		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
 		186FCD732020603500A16E87 /* CNBlueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD722020603500A16E87 /* CNBlueManager.m */; };
+		18997CF620268A1300C4F03A /* RespondModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18997CF520268A1300C4F03A /* RespondModel.m */; };
 		18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7177C2026008B00F25626 /* CNKeychainManager.m */; };
 		18A717832026062300F25626 /* CommonData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A717822026062300F25626 /* CommonData.m */; };
 		18C3A675201AB10600999678 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A674201AB10600999678 /* AppDelegate.m */; };
@@ -95,6 +96,8 @@
 		186FCD6F2020577300A16E87 /* CNPeripheralModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNPeripheralModel.m; sourceTree = "<group>"; };
 		186FCD712020603500A16E87 /* CNBlueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBlueManager.h; sourceTree = "<group>"; };
 		186FCD722020603500A16E87 /* CNBlueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBlueManager.m; sourceTree = "<group>"; };
+		18997CF420268A1300C4F03A /* RespondModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondModel.h; sourceTree = "<group>"; };
+		18997CF520268A1300C4F03A /* RespondModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RespondModel.m; sourceTree = "<group>"; };
 		18A7177B2026008B00F25626 /* CNKeychainManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNKeychainManager.h; sourceTree = "<group>"; };
 		18A7177C2026008B00F25626 /* CNKeychainManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNKeychainManager.m; sourceTree = "<group>"; };
 		18A717812026062300F25626 /* CommonData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonData.h; sourceTree = "<group>"; };
@@ -164,6 +167,8 @@
 			children = (
 				186FCD6E2020577300A16E87 /* CNPeripheralModel.h */,
 				186FCD6F2020577300A16E87 /* CNPeripheralModel.m */,
+				18997CF420268A1300C4F03A /* RespondModel.h */,
+				18997CF520268A1300C4F03A /* RespondModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
 				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
 				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
+				18997CF620268A1300C4F03A /* RespondModel.m in Sources */,
 				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,

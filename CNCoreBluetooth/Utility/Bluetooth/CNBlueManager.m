@@ -93,7 +93,7 @@
 #pragma mark 数据交互
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
     
-    [CNBlueCommunication cbSenddata:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
+    [CNBlueCommunication cbSendData:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
     [CNBlueCommunication cbCorrectTime:peri characteristic:self.uartRXCharacteristic];
 }
 
@@ -287,21 +287,9 @@
 }
 //---------接受外设数据---------
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    
     NSData *originData = characteristic.value;
     NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
-
-    //根据协议解析数据
-    //因为数据是异步返回的,我并不知道现在返回的数据是是哪种数据,返回的数据中应该会有标志位来识别是哪种数据;
-    //如下图,我的设备发来的是8byte数据,收到蓝牙的数据后,打印characteristic.value:
-    //获取外设发来的数据:<0af37ab219b0>
-    //解析数据,判断首尾数据为a0何b0,即为mac地址,不同设备协议不同
-    int num = [self parseIntFromData:characteristic.value];
-    NSString *str = [NSString stringWithFormat:@"%d",num];
-    if(str && ![str isKindOfClass:[NSNull class]]){
-        NSString *string = [CNBlueCommunication hexadecimalString:originData];
-        [SVProgressHUD showSuccessWithStatus:str];
-    }
+    [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];;
 }
 //写数据是否成功   对应  CBCharacteristicPropertyWrite
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
@@ -333,18 +321,6 @@
 
     NSLog(@"rssi ======  %@",[RSSI stringValue]);
 
-}
-
-#pragma mark  数据转换
-- (unsigned)parseIntFromData:(NSData *)data{
-    
-    NSString *dataDescription = [data description];
-    NSString *dataAsString = [dataDescription substringWithRange:NSMakeRange(1, [dataDescription length]-2)];
-    
-    unsigned intData = 0;
-    NSScanner *scanner = [NSScanner scannerWithString:dataAsString];
-    [scanner scanHexInt:&intData];
-    return intData;
 }
 
 @end

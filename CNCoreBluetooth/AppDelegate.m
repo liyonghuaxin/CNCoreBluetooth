@@ -25,7 +25,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [CNBlueCommunication parseResponseDataWithParameter:nil];
     //获得蓝牙mac地址
     CNKeychainManager *manager = [CNKeychainManager default];
     NSString *macAddress = [manager load:@"customMacAddress"];
