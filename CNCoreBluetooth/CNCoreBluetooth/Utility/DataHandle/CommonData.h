@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+extern float iPhoneXTopPara;
+extern float iPhoneXBottomPara;
+
 @interface CommonData : NSObject
 
 +(instancetype)sharedCommonData;

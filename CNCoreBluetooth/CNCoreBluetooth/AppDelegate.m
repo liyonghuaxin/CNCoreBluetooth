@@ -16,6 +16,8 @@
 #import "CNBlueCommunication.h"
 #import "CNKeychainManager.h"
 #import "CommonData.h"
+#import "CNNavController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -25,6 +27,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    if (kDevice_Is_iPhoneX) {
+        iPhoneXTopPara = 24;
+        iPhoneXBottomPara = 34;
+    }
     //获得蓝牙mac地址
     CNKeychainManager *manager = [CNKeychainManager default];
     NSString *macAddress = [manager load:@"customMacAddress"];
@@ -53,21 +60,22 @@
     HomeViewController *homeVC = [[HomeViewController alloc] init];
     homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[0]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[0]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     homeVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    
+    CNNavController *nav1 = [[CNNavController alloc] initWithRootViewController:homeVC];
+  
     SetViewController *setVC = [[SetViewController alloc] init];
     setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[1]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     setVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-    UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:setVC];
+    CNNavController *nav2 = [[CNNavController alloc] initWithRootViewController:setVC];
     
     HelpViewController *helpVC = [[HelpViewController alloc] init];
     helpVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:normalImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:selectImageArr[2]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     helpVC.tabBarItem.imageInsets = UIEdgeInsetsMake(offset, 0, -offset, 0);
-    UINavigationController *nav3 = [[UINavigationController alloc] initWithRootViewController:helpVC];
+    CNNavController *nav3 = [[CNNavController alloc] initWithRootViewController:helpVC];
     
-    UITabBarController *tabbar = [[UITabBarController alloc] init];
-    tabbar.viewControllers = @[nav1, nav2, nav3];
-    self.window.rootViewController = tabbar;
+    UITabBarController *Controller = [[UITabBarController alloc] init];
+    Controller.tabBar.translucent = NO;
+    Controller.viewControllers = @[nav1, nav2, nav3];
+    self.window.rootViewController = Controller;
     return YES;
 }
 

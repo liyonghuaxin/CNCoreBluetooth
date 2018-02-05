@@ -16,6 +16,8 @@
 		1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */; };
 		1810A6E12021A398001487B0 /* CNDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E02021A398001487B0 /* CNDataBase.m */; };
 		1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E920229841001487B0 /* CNBlueCommunication.m */; };
+		182629E820274E11004DE2B2 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629E720274E11004DE2B2 /* BaseViewController.m */; };
+		182629EB20274E43004DE2B2 /* CNNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629EA20274E43004DE2B2 /* CNNavController.m */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -71,6 +73,11 @@
 		1810A6E02021A398001487B0 /* CNDataBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNDataBase.m; sourceTree = "<group>"; };
 		1810A6E820229841001487B0 /* CNBlueCommunication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBlueCommunication.h; sourceTree = "<group>"; };
 		1810A6E920229841001487B0 /* CNBlueCommunication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBlueCommunication.m; sourceTree = "<group>"; };
+		182629E120272725004DE2B2 /* CNBlueCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBlueCommon.h; sourceTree = "<group>"; };
+		182629E620274E11004DE2B2 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		182629E720274E11004DE2B2 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		182629E920274E43004DE2B2 /* CNNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNavController.h; sourceTree = "<group>"; };
+		182629EA20274E43004DE2B2 /* CNNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNavController.m; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -150,6 +157,17 @@
 			path = TransitionAnimation;
 			sourceTree = "<group>";
 		};
+		182629E22027453C004DE2B2 /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				182629E920274E43004DE2B2 /* CNNavController.h */,
+				182629EA20274E43004DE2B2 /* CNNavController.m */,
+				182629E620274E11004DE2B2 /* BaseViewController.h */,
+				182629E720274E11004DE2B2 /* BaseViewController.m */,
+			);
+			path = BaseClass;
+			sourceTree = "<group>";
+		};
 		186E837F201DD937008D08B1 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +194,7 @@
 		18A717842026081E00F25626 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				182629E120272725004DE2B2 /* CNBlueCommon.h */,
 				186FCD712020603500A16E87 /* CNBlueManager.h */,
 				186FCD722020603500A16E87 /* CNBlueManager.m */,
 				1810A6E820229841001487B0 /* CNBlueCommunication.h */,
@@ -276,13 +295,14 @@
 		18C3A672201AB10600999678 /* CNCoreBluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				182629E22027453C004DE2B2 /* BaseClass */,
 				18A7178A2026099C00F25626 /* View */,
 				18A717892026096200F25626 /* Utility */,
 				18A717882026094300F25626 /* Function */,
 				186FCD6D2020574300A16E87 /* Models */,
+				186E839C201EEB16008D08B1 /* PrefixHeader.pch */,
 				18C3A673201AB10600999678 /* AppDelegate.h */,
 				18C3A674201AB10600999678 /* AppDelegate.m */,
-				186E839C201EEB16008D08B1 /* PrefixHeader.pch */,
 				18C3A676201AB10600999678 /* ViewController.h */,
 				18C3A677201AB10600999678 /* ViewController.m */,
 				18C3A679201AB10600999678 /* Main.storyboard */,
@@ -482,10 +502,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
+				182629E820274E11004DE2B2 /* BaseViewController.m in Sources */,
 				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
 				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
 				18997CF620268A1300C4F03A /* RespondModel.m in Sources */,
 				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
+				182629EB20274E43004DE2B2 /* CNNavController.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,

@@ -90,13 +90,12 @@
         [self.mgr cancelPeripheralConnection:peri];
     }
 }
+
 #pragma mark 数据交互
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
     
     [CNBlueCommunication cbSendData:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
-    [CNBlueCommunication cbCorrectTime:peri characteristic:self.uartRXCharacteristic];
 }
-
 
 #pragma mark private API
 //订阅特征
@@ -263,6 +262,7 @@
             if([characteristic.UUID.UUIDString isEqualToString:@"1003"]){
                 //这里可能会有刚连接蓝牙后的一些数据发送
                 self.uartRXCharacteristic = characteristic;
+                [CNBlueCommunication initCharacteristic:characteristic];
             }
         }
         

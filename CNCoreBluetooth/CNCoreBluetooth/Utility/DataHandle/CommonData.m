@@ -8,6 +8,9 @@
 
 #import "CommonData.h"
 
+float iPhoneXTopPara = 0.0;
+float iPhoneXBottomPara = 0.0;
+
 @implementation CommonData
 
 +(instancetype)sharedCommonData{

@@ -14,6 +14,7 @@
 
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
+#import "CNBlueCommunication.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
     CNAlertView *alert;
@@ -28,10 +29,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
+    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
+    [self setRightBtn:rightBtn];
+    [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     
     _dataArray = [NSMutableArray array];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"开始扫描" style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"scanPeripheral"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri)];
+
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"开始扫描" style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri:)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"scanPeripheral"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri)];
     [_myTableView registerNib:[UINib nibWithNibName:@"LockCell" bundle:nil] forCellReuseIdentifier:@"LockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     CNBlueManager *blueManager = [CNBlueManager sharedBlueManager];
@@ -147,7 +154,8 @@
 
     }else{
         [SVProgressHUD showSuccessWithStatus:@"已发送开锁指令"];
-        [[CNBlueManager sharedBlueManager] senddata:@"01" toPeripheral:peri];
+        [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+        //[[CNBlueManager sharedBlueManager] senddata:@"01" toPeripheral:peri];
         
     }
 }

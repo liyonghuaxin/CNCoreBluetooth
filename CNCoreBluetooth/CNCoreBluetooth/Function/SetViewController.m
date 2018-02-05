@@ -29,6 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.headImageV.image = [UIImage imageNamed:@"LOCK-SETTINGS"];
+
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     //保证_dataArray的实时性

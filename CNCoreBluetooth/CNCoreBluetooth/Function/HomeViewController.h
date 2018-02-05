@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : BaseViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 

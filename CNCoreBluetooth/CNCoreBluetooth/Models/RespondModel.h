@@ -7,26 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
-typedef enum : NSUInteger {
-    ENAutoSynchro,//自动同步
-    ENLock,//开锁
-    ENChangeNameAndPwd,//广播名称及配对密码修改
-    ENLookLockLog,//开锁记录查询
-    ENLookHasPair,//已配对设备查询
-    ENUnpair,//解除配对
-    ENLockStateReport//锁具状态上报
-} ResponseEnum;
-
-typedef enum : NSUInteger {
-    ENSlideMethod,
-    ENTouchMethod,
-    ENPwdMethod,
-} ENLockMethod;
+#import "CNBlueCommon.h"
 
 @interface RespondModel : NSObject
 //指令码
-@property (nonatomic, assign) ResponseEnum type;
+@property (nonatomic, assign) InstructionEnum type;
 //状态码
 @property (nonatomic, copy) NSString *state;
 //锁状态

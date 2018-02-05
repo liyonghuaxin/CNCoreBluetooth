@@ -10,7 +10,16 @@
 #import "CommonData.h"
 #import "RespondModel.h"
 
+static CBCharacteristic *blCharacteristic = nil;
+
 @implementation CNBlueCommunication
+
++ (void)initCharacteristic:(CBCharacteristic *)chara{
+    if (blCharacteristic == nil) {
+        blCharacteristic = chara;
+    }
+}
+
 #pragma mark 生成自定义mac地址
 //一个手机只调一次，此方法生成的地址将保存到钥匙串keychain
 +(NSString *)makeMyBlueMacAddress{
@@ -31,24 +40,54 @@
     return uidStr;
 }
 #pragma mark ----------发送数据-------------
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral{
+    switch (instruction) {
+        case ENAutoSynchro:{
+            //自动同步
+            
+            break;
+        }
+        case ENLock:{
+            //开锁
+            
+            break;
+        }
+        case ENChangeNameAndPwd:{
+            //广播名称及配对密码修改
+            
+            break;
+        }
+        case ENLookLockLog:{
+            //开锁记录查询
+            
+            break;
+        }
+        case ENLookHasPair:{
+            //已配对设备查询
+            
+            break;
+        }
+        case ENUnpair:{
+            //解除配对
+            
+            break;
+        }
+        case ENLockStateReport:{
+            //锁具状态上报
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
 /*
  关于写数据
  CBCharacteristicWriteWithResponse方法给外围设备写数据时，会回调 其代理的peripheral:didWriteValueForCharacteristic:error:方法。
  */
 + (void)cbSendData:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     if (characteristic){
-        /*
-         CBCharacteristicPropertyWriteWithoutResponse                                    = 0x04,
-         CBCharacteristicPropertyWrite                                                    = 0x08,
-         
-         typedef NS_ENUM(NSInteger, CBCharacteristicWriteType) {
-         CBCharacteristicWriteWithResponse = 0,
-         CBCharacteristicWriteWithoutResponse,
-         };
-         
-         */
         CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
-        //CBCharacteristicPropertyWriteWithoutResponse CBCharacteristicPropertyWrite
         if (characteristic.properties & CBCharacteristicPropertyWrite){
             type = CBCharacteristicWriteWithoutResponse;
         }
@@ -62,7 +101,7 @@
     //字符串补零操作
     NSString *lengthDomainStr = [NSString stringWithFormat:@"%lu",(unsigned long)str.length];
     lengthDomainStr = [CNBlueCommunication addZero:lengthDomainStr withLength:3];
-
+    
     //校验位计算
     NSString *verifyStr;
     const char *lengthD = [lengthDomainStr UTF8String];//定义一个指向字符常量的指针
@@ -261,6 +300,8 @@
     verifyStr = [NSString stringWithFormat:@"%c",sumChar];
     return verifyStr;
 }
+#pragma mark ----------数据转换-------------
+
 #pragma mark 备用
 - (unsigned)parseIntFromData:(NSData *)data{
     

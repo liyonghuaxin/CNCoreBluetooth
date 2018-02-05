@@ -23,6 +23,10 @@
 /**
  app->锁具
  */
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral;
+/**
+ app->锁具
+ */
 + (void)cbSendData:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic;
 /**
  锁具->app
@@ -34,6 +38,7 @@
 + (RespondModel *)parseResponseDataWithParameter:(NSData *)data;
 //生成一个本地蓝牙地址
 + (NSString *)makeMyBlueMacAddress;
++ (void)initCharacteristic:(CBCharacteristic *)chara;
 
 // 获取手机蓝牙mac地址
 + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;

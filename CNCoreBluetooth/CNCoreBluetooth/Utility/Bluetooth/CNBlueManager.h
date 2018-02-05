@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "CNBlueCommon.h"
 
 typedef void(^scanFinishBlock)(CBPeripheral *per);
 typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect);
@@ -25,6 +26,11 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 - (void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
 
 - (BOOL)checkPeripheralState;
+/**
+ app发送指令
+ */
+- (void)cus_sendInstruction:(InstructionEnum)instruction;
+
 /**
  向peripheral发送数据
  */
