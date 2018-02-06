@@ -21,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qga-kL-0Wo">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="50" width="375" height="617"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="w72-tN-Lwh"/>
@@ -34,9 +34,9 @@
                 <constraint firstAttribute="trailing" secondItem="qga-kL-0Wo" secondAttribute="trailing" id="RJO-HA-hYe"/>
                 <constraint firstItem="qga-kL-0Wo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="awt-8g-8AI"/>
                 <constraint firstAttribute="bottom" secondItem="qga-kL-0Wo" secondAttribute="bottom" id="eOc-F9-gaZ"/>
-                <constraint firstItem="qga-kL-0Wo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="nOg-Xp-Z5b"/>
+                <constraint firstItem="qga-kL-0Wo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="50" id="nOg-Xp-Z5b"/>
             </constraints>
-            <point key="canvasLocation" x="25.5" y="52.5"/>
+            <point key="canvasLocation" x="-114" y="-60"/>
         </view>
     </objects>
 </document>

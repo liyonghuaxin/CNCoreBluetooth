@@ -11,6 +11,7 @@
 
 #import "CNBlueManager.h"
 #import "LockCell.h"
+#import "CNLockCell.h"
 
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
@@ -40,6 +41,9 @@
 //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"开始扫描" style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri:)];
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"scanPeripheral"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri)];
     [_myTableView registerNib:[UINib nibWithNibName:@"LockCell" bundle:nil] forCellReuseIdentifier:@"LockCell"];
+    
+    [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
+
     _myTableView.tableFooterView = [[UIView alloc] init];
     CNBlueManager *blueManager = [CNBlueManager sharedBlueManager];
     //外设连接状态发生变化
@@ -107,16 +111,21 @@
 #pragma mark tableviewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 136;
     return 108;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 7;
     return _dataArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CNLockCell *curCell = [tableView dequeueReusableCellWithIdentifier:@"CNLockCell" forIndexPath:indexPath];
+    curCell.model = nil;
+    return curCell;
     LockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LockCell" forIndexPath:indexPath];
     CNPeripheralModel *model = _dataArray[indexPath.row];
     [cell setModel:model];

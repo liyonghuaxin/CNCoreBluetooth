@@ -32,6 +32,9 @@
         iPhoneXTopPara = 24;
         iPhoneXBottomPara = 34;
     }
+    scalePage = SCREENWIDTH/375.0;
+    edgeDistancePage = 30*scalePage;
+
     //获得蓝牙mac地址
     CNKeychainManager *manager = [CNKeychainManager default];
     NSString *macAddress = [manager load:@"customMacAddress"];

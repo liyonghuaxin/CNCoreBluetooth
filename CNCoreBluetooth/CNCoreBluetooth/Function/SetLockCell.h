@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseCell.h"
 
-@interface SetLockCell : UITableViewCell
+@interface SetLockCell : BaseCell
+
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 
 @end

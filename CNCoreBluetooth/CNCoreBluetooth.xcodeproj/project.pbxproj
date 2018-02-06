@@ -18,6 +18,16 @@
 		1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E920229841001487B0 /* CNBlueCommunication.m */; };
 		182629E820274E11004DE2B2 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629E720274E11004DE2B2 /* BaseViewController.m */; };
 		182629EB20274E43004DE2B2 /* CNNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629EA20274E43004DE2B2 /* CNNavController.m */; };
+		182629F42028236F004DE2B2 /* CNLockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629F22028236F004DE2B2 /* CNLockCell.m */; };
+		182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182629F32028236F004DE2B2 /* CNLockCell.xib */; };
+		182629F82028284E004DE2B2 /* CNSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629F72028284E004DE2B2 /* CNSlider.m */; };
+		182629FE20284281004DE2B2 /* CNPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629FD20284281004DE2B2 /* CNPromptView.m */; };
+		18262A01202855CB004DE2B2 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A00202855CB004DE2B2 /* BaseCell.m */; };
+		18262A0520285772004DE2B2 /* HelpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A0320285772004DE2B2 /* HelpCell.m */; };
+		18262A0620285772004DE2B2 /* HelpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A0420285772004DE2B2 /* HelpCell.xib */; };
+		18262A0A202931BA004DE2B2 /* HelpConCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A08202931BA004DE2B2 /* HelpConCell.m */; };
+		18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A09202931BA004DE2B2 /* HelpConCell.xib */; };
+		18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A0D20294595004DE2B2 /* NSString+Utils.m */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -78,6 +88,23 @@
 		182629E720274E11004DE2B2 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		182629E920274E43004DE2B2 /* CNNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNavController.h; sourceTree = "<group>"; };
 		182629EA20274E43004DE2B2 /* CNNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNavController.m; sourceTree = "<group>"; };
+		182629F12028236F004DE2B2 /* CNLockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNLockCell.h; sourceTree = "<group>"; };
+		182629F22028236F004DE2B2 /* CNLockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNLockCell.m; sourceTree = "<group>"; };
+		182629F32028236F004DE2B2 /* CNLockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CNLockCell.xib; sourceTree = "<group>"; };
+		182629F62028284E004DE2B2 /* CNSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNSlider.h; sourceTree = "<group>"; };
+		182629F72028284E004DE2B2 /* CNSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNSlider.m; sourceTree = "<group>"; };
+		182629FC20284281004DE2B2 /* CNPromptView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNPromptView.h; sourceTree = "<group>"; };
+		182629FD20284281004DE2B2 /* CNPromptView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNPromptView.m; sourceTree = "<group>"; };
+		182629FF202855CB004DE2B2 /* BaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
+		18262A00202855CB004DE2B2 /* BaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
+		18262A0220285772004DE2B2 /* HelpCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpCell.h; sourceTree = "<group>"; };
+		18262A0320285772004DE2B2 /* HelpCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpCell.m; sourceTree = "<group>"; };
+		18262A0420285772004DE2B2 /* HelpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpCell.xib; sourceTree = "<group>"; };
+		18262A07202931BA004DE2B2 /* HelpConCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpConCell.h; sourceTree = "<group>"; };
+		18262A08202931BA004DE2B2 /* HelpConCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpConCell.m; sourceTree = "<group>"; };
+		18262A09202931BA004DE2B2 /* HelpConCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpConCell.xib; sourceTree = "<group>"; };
+		18262A0C20294595004DE2B2 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
+		18262A0D20294595004DE2B2 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -160,10 +187,14 @@
 		182629E22027453C004DE2B2 /* BaseClass */ = {
 			isa = PBXGroup;
 			children = (
+				18A717812026062300F25626 /* CommonData.h */,
+				18A717822026062300F25626 /* CommonData.m */,
 				182629E920274E43004DE2B2 /* CNNavController.h */,
 				182629EA20274E43004DE2B2 /* CNNavController.m */,
 				182629E620274E11004DE2B2 /* BaseViewController.h */,
 				182629E720274E11004DE2B2 /* BaseViewController.m */,
+				182629FF202855CB004DE2B2 /* BaseCell.h */,
+				18262A00202855CB004DE2B2 /* BaseCell.m */,
 			);
 			path = BaseClass;
 			sourceTree = "<group>";
@@ -208,8 +239,6 @@
 			children = (
 				1810A6DF2021A398001487B0 /* CNDataBase.h */,
 				1810A6E02021A398001487B0 /* CNDataBase.m */,
-				18A717812026062300F25626 /* CommonData.h */,
-				18A717822026062300F25626 /* CommonData.m */,
 				18A7177B2026008B00F25626 /* CNKeychainManager.h */,
 				18A7177C2026008B00F25626 /* CNKeychainManager.m */,
 			);
@@ -228,6 +257,12 @@
 				186E8392201EBFDA008D08B1 /* HelpViewController.h */,
 				186E8393201EBFDA008D08B1 /* HelpViewController.m */,
 				186E8394201EBFDA008D08B1 /* HelpViewController.xib */,
+				18262A0220285772004DE2B2 /* HelpCell.h */,
+				18262A0320285772004DE2B2 /* HelpCell.m */,
+				18262A0420285772004DE2B2 /* HelpCell.xib */,
+				18262A07202931BA004DE2B2 /* HelpConCell.h */,
+				18262A08202931BA004DE2B2 /* HelpConCell.m */,
+				18262A09202931BA004DE2B2 /* HelpConCell.xib */,
 				186FCD68201FF4E400A16E87 /* LockCell.h */,
 				186FCD69201FF4E400A16E87 /* LockCell.m */,
 				186FCD6A201FF4E400A16E87 /* LockCell.xib */,
@@ -237,6 +272,9 @@
 				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
 				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
 				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
+				182629F12028236F004DE2B2 /* CNLockCell.h */,
+				182629F22028236F004DE2B2 /* CNLockCell.m */,
+				182629F32028236F004DE2B2 /* CNLockCell.xib */,
 			);
 			path = Function;
 			sourceTree = "<group>";
@@ -249,6 +287,8 @@
 				18A717842026081E00F25626 /* Bluetooth */,
 				186E837F201DD937008D08B1 /* SVProgressHUD */,
 				1810A6D220217B25001487B0 /* TransitionAnimation */,
+				182629FC20284281004DE2B2 /* CNPromptView.h */,
+				182629FD20284281004DE2B2 /* CNPromptView.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -259,6 +299,8 @@
 				186E8397201EE3C5008D08B1 /* CNAlertView.h */,
 				186E8398201EE3C5008D08B1 /* CNAlertView.m */,
 				186E839A201EE3EC008D08B1 /* CNAlertView.xib */,
+				182629F62028284E004DE2B2 /* CNSlider.h */,
+				182629F72028284E004DE2B2 /* CNSlider.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -266,6 +308,8 @@
 		18A7178B202609BE00F25626 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				18262A0C20294595004DE2B2 /* NSString+Utils.h */,
+				18262A0D20294595004DE2B2 /* NSString+Utils.m */,
 				1810A6DC20217D16001487B0 /* UIView+KGViewExtend.h */,
 				1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */,
 			);
@@ -426,14 +470,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
+				182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */,
 				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
 				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
+				18262A0620285772004DE2B2 /* HelpCell.xib in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
 				186E839B201EE3EC008D08B1 /* CNAlertView.xib in Resources */,
 				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
 				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
+				18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */,
 				186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */,
 				186E8391201EBFC3008D08B1 /* SetViewController.xib in Resources */,
 			);
@@ -504,11 +551,15 @@
 				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
 				182629E820274E11004DE2B2 /* BaseViewController.m in Sources */,
 				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
+				18262A0520285772004DE2B2 /* HelpCell.m in Sources */,
 				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
+				18262A01202855CB004DE2B2 /* BaseCell.m in Sources */,
 				18997CF620268A1300C4F03A /* RespondModel.m in Sources */,
 				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
 				182629EB20274E43004DE2B2 /* CNNavController.m in Sources */,
+				18262A0A202931BA004DE2B2 /* HelpConCell.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
+				18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */,
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				186E8399201EE3C5008D08B1 /* CNAlertView.m in Sources */,
@@ -522,7 +573,10 @@
 				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
 				186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */,
+				182629F82028284E004DE2B2 /* CNSlider.m in Sources */,
 				186FCD732020603500A16E87 /* CNBlueManager.m in Sources */,
+				182629F42028236F004DE2B2 /* CNLockCell.m in Sources */,
+				182629FE20284281004DE2B2 /* CNPromptView.m in Sources */,
 				18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */,
 				186E8395201EBFDA008D08B1 /* HelpViewController.m in Sources */,
 			);

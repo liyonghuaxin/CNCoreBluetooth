@@ -47,11 +47,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 7;
     return _dataArray.count;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    return;
     if (_dataArray.count) {
         CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
         if (peri.state != CBPeripheralStateConnected) {
@@ -81,8 +83,8 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SetLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLockCell" forIndexPath:indexPath];
-    CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
-    cell.nameLab.text =peri.name;
+    //CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
+    //cell.nameLab.text =peri.name;
     return cell;
 }
 

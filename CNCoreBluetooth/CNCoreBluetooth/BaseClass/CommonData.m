@@ -10,6 +10,9 @@
 
 float iPhoneXTopPara = 0.0;
 float iPhoneXBottomPara = 0.0;
+float edgeDistancePage = 0.0;
+float scalePage = 1.0;
+Boolean isopen = false;
 
 @implementation CommonData
 

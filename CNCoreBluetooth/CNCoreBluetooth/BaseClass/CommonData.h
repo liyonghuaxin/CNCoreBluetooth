@@ -10,6 +10,8 @@
 
 extern float iPhoneXTopPara;
 extern float iPhoneXBottomPara;
+extern float edgeDistancePage;
+extern float scalePage;
 
 @interface CommonData : NSObject
 

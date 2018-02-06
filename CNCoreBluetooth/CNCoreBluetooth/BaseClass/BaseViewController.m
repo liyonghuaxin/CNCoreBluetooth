@@ -30,7 +30,7 @@
     [headView addSubview:_headImageV];
     _headImageV.contentMode = UIViewContentModeLeft;
     [_headImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headView).with.offset(30);
+        make.left.equalTo(headView).with.offset(edgeDistancePage);
         make.right.top.bottom.equalTo(headView);
     }];
     UIView *lineView = [[UIView alloc] init];
@@ -43,7 +43,7 @@
 }
 -(void)setRightBtn:(UIButton *)btn{
     [btn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 30);
+    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage);
     CNNavController *nav = (CNNavController *)self.navigationController;
     [nav setRightBtn:btn];
 }
