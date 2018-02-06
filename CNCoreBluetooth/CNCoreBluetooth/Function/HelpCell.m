@@ -14,6 +14,11 @@
     [super awakeFromNib];
     // Initialization code
     _lineView.backgroundColor = LINE_COLOR;
+    if (@available(iOS 8.2, *)) {
+        _questionLab.font = [UIFont systemFontOfSize:15 weight:UIFontWeightBold];
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -30,12 +35,7 @@
             _isSelected = YES;
             _lineView.hidden = YES;
         }
-        [UIView animateWithDuration:0.2 animations:^{
-            self.imageV.transform = angle;
-        } completion:^(BOOL finished) {
-
-        }];
-
+        self.imageV.transform = angle;
     }
     // Configure the view for the selected state
 }

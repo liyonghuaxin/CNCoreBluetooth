@@ -42,9 +42,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    SetModel *setModel = (SetModel *)dataArray[indexPath.row/2];
-    setModel.isSelect = !setModel.isSelect;
     if (indexPath.row%2 == 0) {
+        SetModel *setModel = (SetModel *)dataArray[indexPath.row/2];
+        setModel.isSelect = !setModel.isSelect;
         NSIndexPath *indexP = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:0];
         [tableView reloadRowsAtIndexPaths:@[indexP] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
