@@ -33,7 +33,7 @@
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(scanPeri:) forControlEvents:UIControlEventTouchUpInside];
     [self setRightBtn:rightBtn];
     [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     
@@ -57,14 +57,16 @@
             [self.myTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
     };
-//    alert = [[NSBundle mainBundle] loadNibNamed:@"CNAlertView" owner:self options:nil][0];
-//    alert.hidden = YES;
-//    __weak typeof(self) weakSelf = self;
-//    alert.alertBlock = ^{
-//        [weakSelf stopScanPeri];
-//    };
-//    alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-//    [[UIApplication sharedApplication].keyWindow addSubview:alert];
+    
+    //警告框
+    alert = [[NSBundle mainBundle] loadNibNamed:@"CNAlertView" owner:self options:nil][0];
+    alert.hidden = YES;
+    __weak typeof(self) weakSelf = self;
+    alert.alertBlock = ^{
+        [weakSelf stopScanPeri];
+    };
+    alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    [[UIApplication sharedApplication].keyWindow addSubview:alert];
 }
 #pragma mark Private API
 - (NSInteger)getIndexOfPeripheral:(CBPeripheral *)peripheral{
@@ -84,8 +86,9 @@
 
 //开始/停止扫描
 - (void)scanPeri:(id)sender{
-    //alert.hidden = NO;
-    //[alert startAnimation];
+    alert.hidden = NO;
+    [alert startAnimation];
+    return;
     UIBarButtonItem *item = (UIBarButtonItem *)sender;
     if ([item.title  isEqualToString:@"开始扫描"]) {
         __weak typeof(self) weakself = self;

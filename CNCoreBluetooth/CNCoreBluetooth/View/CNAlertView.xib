@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,55 +16,77 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOR-SK-klE">
+                <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOR-SK-klE">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Iw-x9-kTO">
-                    <rect key="frame" x="67.5" y="209.5" width="240" height="128"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Iw-x9-kTO" customClass="UIImageView">
+                    <rect key="frame" x="52.5" y="164.5" width="270" height="178"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_11" translatesAutoresizingMaskIntoConstraints="NO" id="JVg-L5-uh7">
-                            <rect key="frame" x="77" y="0.0" width="86.5" height="85.5"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="JVg-L5-uh7" secondAttribute="height" constant="1" id="Tad-LW-VjA"/>
-                            </constraints>
-                        </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fA5-Iq-j7R">
-                            <rect key="frame" x="0.0" y="85.5" width="240" height="0.5"/>
+                            <rect key="frame" x="0.0" y="132.5" width="270" height="0.5"/>
                             <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="Xsu-0b-zZF"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Csy-iP-pvY">
-                            <rect key="frame" x="0.0" y="86" width="240" height="42"/>
-                            <state key="normal" title="取消"/>
+                            <rect key="frame" x="0.0" y="133" width="270" height="45"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="amL-Rf-EOu"/>
+                            </constraints>
+                            <state key="normal" title="Cancle">
+                                <color key="titleColor" red="0.57413536310195923" green="0.25690892338752747" blue="0.23534283041954041" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
                             <connections>
                                 <action selector="cancelScan:" destination="iN0-l3-epB" eventType="touchUpInside" id="NRI-0B-nPU"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="searching for new lock..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1xp-6a-RR8">
+                            <rect key="frame" x="56" y="105.5" width="158" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleGray" translatesAutoresizingMaskIntoConstraints="NO" id="1DQ-4U-pdM">
+                            <rect key="frame" x="97.5" y="18" width="74" height="74"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="74" id="1sh-Ts-rDW"/>
+                                <constraint firstAttribute="width" secondItem="1DQ-4U-pdM" secondAttribute="height" id="s3P-uI-bS0"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circleRed" translatesAutoresizingMaskIntoConstraints="NO" id="JVg-L5-uh7">
+                            <rect key="frame" x="97.5" y="18" width="74" height="74"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="JVg-L5-uh7" secondAttribute="height" id="Inw-Wv-l9V"/>
+                                <constraint firstAttribute="width" constant="74" id="WPX-oI-lfL"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="178" id="0wr-5J-OT4"/>
+                        <constraint firstItem="1DQ-4U-pdM" firstAttribute="centerX" secondItem="JVg-L5-uh7" secondAttribute="centerX" id="71Y-kk-oTl"/>
                         <constraint firstItem="JVg-L5-uh7" firstAttribute="centerX" secondItem="9Iw-x9-kTO" secondAttribute="centerX" id="BWl-5z-DDg"/>
                         <constraint firstAttribute="trailing" secondItem="fA5-Iq-j7R" secondAttribute="trailing" id="Cdh-Nd-xgZ"/>
-                        <constraint firstAttribute="width" secondItem="9Iw-x9-kTO" secondAttribute="height" multiplier="15:8" id="Cec-ii-YCd"/>
                         <constraint firstAttribute="trailing" secondItem="Csy-iP-pvY" secondAttribute="trailing" id="DJI-MG-QBX"/>
-                        <constraint firstItem="JVg-L5-uh7" firstAttribute="top" secondItem="9Iw-x9-kTO" secondAttribute="top" id="FP0-M2-Rl2"/>
                         <constraint firstItem="Csy-iP-pvY" firstAttribute="top" secondItem="fA5-Iq-j7R" secondAttribute="bottom" id="Hm0-2C-Oq2"/>
-                        <constraint firstAttribute="width" constant="240" id="Sgh-ij-QJ5"/>
+                        <constraint firstItem="JVg-L5-uh7" firstAttribute="top" secondItem="9Iw-x9-kTO" secondAttribute="top" constant="18" id="Hm3-3j-J49"/>
+                        <constraint firstItem="1DQ-4U-pdM" firstAttribute="centerY" secondItem="JVg-L5-uh7" secondAttribute="centerY" id="KR5-nK-gyl"/>
+                        <constraint firstAttribute="width" constant="270" id="Sgh-ij-QJ5"/>
                         <constraint firstAttribute="bottom" secondItem="Csy-iP-pvY" secondAttribute="bottom" id="T64-2r-XsT"/>
-                        <constraint firstItem="fA5-Iq-j7R" firstAttribute="top" secondItem="JVg-L5-uh7" secondAttribute="bottom" id="hNH-MW-2WL"/>
+                        <constraint firstItem="fA5-Iq-j7R" firstAttribute="top" secondItem="1xp-6a-RR8" secondAttribute="bottom" constant="10" id="bbz-d5-ydV"/>
                         <constraint firstItem="Csy-iP-pvY" firstAttribute="leading" secondItem="9Iw-x9-kTO" secondAttribute="leading" id="kzf-Ji-uV3"/>
-                        <constraint firstItem="JVg-L5-uh7" firstAttribute="height" secondItem="9Iw-x9-kTO" secondAttribute="height" multiplier="2:3" id="rGu-AN-59D"/>
                         <constraint firstItem="fA5-Iq-j7R" firstAttribute="leading" secondItem="9Iw-x9-kTO" secondAttribute="leading" id="uEB-oD-3ll"/>
+                        <constraint firstItem="1xp-6a-RR8" firstAttribute="centerX" secondItem="9Iw-x9-kTO" secondAttribute="centerX" id="xS5-5s-wnl"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="9Iw-x9-kTO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-60" id="J8L-US-9xt"/>
+                <constraint firstItem="9Iw-x9-kTO" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-80" id="J8L-US-9xt"/>
                 <constraint firstItem="pOR-SK-klE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JeH-90-BQW"/>
                 <constraint firstAttribute="trailing" secondItem="pOR-SK-klE" secondAttribute="trailing" id="L1j-DD-oJk"/>
                 <constraint firstItem="pOR-SK-klE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QEY-gO-5UX"/>
@@ -81,6 +102,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ellipse_11" width="38" height="38"/>
+        <image name="circleGray" width="75" height="75"/>
+        <image name="circleRed" width="75" height="75"/>
     </resources>
 </document>

@@ -41,8 +41,8 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Locked Quick Safe 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ImM-C0-OEH">
-                        <rect key="frame" x="69" y="20" width="187.5" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="59" y="22" width="168" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -64,8 +64,9 @@
                     <constraint firstItem="3ov-82-NFc" firstAttribute="leading" secondItem="P0e-HF-zd5" secondAttribute="trailing" id="E9i-kW-BJc"/>
                     <constraint firstItem="3ov-82-NFc" firstAttribute="centerY" secondItem="QwJ-74-VPh" secondAttribute="centerY" id="EbM-tC-TYc"/>
                     <constraint firstItem="QwJ-74-VPh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="F87-Be-f0N"/>
-                    <constraint firstItem="ImM-C0-OEH" firstAttribute="leading" secondItem="a6M-iK-TRW" secondAttribute="trailing" constant="10" id="IaC-t5-jRu"/>
+                    <constraint firstItem="ImM-C0-OEH" firstAttribute="leading" secondItem="a6M-iK-TRW" secondAttribute="trailing" id="IaC-t5-jRu"/>
                     <constraint firstItem="1La-is-fQ2" firstAttribute="centerX" secondItem="P0e-HF-zd5" secondAttribute="centerX" id="IxH-Uk-vPT"/>
+                    <constraint firstItem="1La-is-fQ2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ImM-C0-OEH" secondAttribute="trailing" constant="5" id="LOe-ar-8aX"/>
                     <constraint firstItem="3ov-82-NFc" firstAttribute="width" secondItem="QwJ-74-VPh" secondAttribute="width" id="S0W-Ri-WMQ"/>
                     <constraint firstItem="1La-is-fQ2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-7" id="TNF-G0-LTH"/>
                     <constraint firstItem="P0e-HF-zd5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="7" id="cU4-kL-Y1L"/>

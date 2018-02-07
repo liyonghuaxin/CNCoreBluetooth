@@ -12,7 +12,7 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
-    _containerView.layer.cornerRadius = 4.0;
+    _containerView.layer.cornerRadius = 8.0;
     _containerView.layer.masksToBounds = YES;
 }
 
@@ -39,7 +39,9 @@
 }
 
 - (IBAction)cancelScan:(id)sender {
+    [self stopAnimation];
     self.hidden = YES;
+    return;
     if (_alertBlock) {
         _alertBlock();
     }

@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,12 +22,76 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dd2-Kx-gyM">
+                                <rect key="frame" x="182" y="20" width="10" height="160"/>
+                                <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="uXe-L1-Hin"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoLoading" translatesAutoresizingMaskIntoConstraints="NO" id="s34-by-2ct">
+                                <rect key="frame" x="106" y="180" width="162" height="127"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="s34-by-2ct" secondAttribute="height" multiplier="159:125" id="e5O-Aa-tbY"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="description" translatesAutoresizingMaskIntoConstraints="NO" id="N0T-vM-ISr" userLabel="Image View2">
+                                <rect key="frame" x="67.5" y="390" width="240" height="22"/>
+                            </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezK-Wf-hKq">
+                                <rect key="frame" x="182" y="367.5" width="10" height="22.5"/>
+                                <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="Xr2-iq-XvC"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1nh-qG-ZcK">
+                                <rect key="frame" x="182" y="307" width="10" height="22.5"/>
+                                <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="10" id="H6s-ZG-pP0"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textLoading" translatesAutoresizingMaskIntoConstraints="NO" id="C7n-8x-OgO" userLabel="Image View1">
+                                <rect key="frame" x="69" y="329.5" width="236" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="C7n-8x-OgO" secondAttribute="height" multiplier="211/34" id="N3g-oR-rpB"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="N0T-vM-ISr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="08l-Wz-hGv"/>
+                            <constraint firstItem="s34-by-2ct" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0cO-Nh-5Hb"/>
+                            <constraint firstItem="1nh-qG-ZcK" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="6lP-Kc-Rxp"/>
+                            <constraint firstItem="1nh-qG-ZcK" firstAttribute="top" secondItem="s34-by-2ct" secondAttribute="bottom" id="EYn-vF-tp9"/>
+                            <constraint firstItem="C7n-8x-OgO" firstAttribute="height" secondItem="s34-by-2ct" secondAttribute="height" multiplier="38 /127" id="HVa-X1-0O0"/>
+                            <constraint firstItem="N0T-vM-ISr" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="240/375" id="Owp-qg-bav"/>
+                            <constraint firstItem="ezK-Wf-hKq" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TNU-mo-IGh"/>
+                            <constraint firstItem="s34-by-2ct" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="127/667" id="Vxz-Hj-vyz"/>
+                            <constraint firstItem="ezK-Wf-hKq" firstAttribute="top" secondItem="C7n-8x-OgO" secondAttribute="bottom" id="W1j-on-j5v"/>
+                            <constraint firstItem="Dd2-Kx-gyM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="XzO-Ym-k72"/>
+                            <constraint firstItem="N0T-vM-ISr" firstAttribute="height" secondItem="ezK-Wf-hKq" secondAttribute="height" id="d4g-e3-Gfa"/>
+                            <constraint firstItem="C7n-8x-OgO" firstAttribute="top" secondItem="1nh-qG-ZcK" secondAttribute="bottom" id="fcv-SI-TGv"/>
+                            <constraint firstItem="1nh-qG-ZcK" firstAttribute="height" secondItem="ezK-Wf-hKq" secondAttribute="height" id="jdZ-IN-KJe"/>
+                            <constraint firstItem="C7n-8x-OgO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qJ8-0s-lsW"/>
+                            <constraint firstItem="s34-by-2ct" firstAttribute="top" secondItem="Dd2-Kx-gyM" secondAttribute="bottom" id="rw3-mu-iuJ"/>
+                            <constraint firstItem="Dd2-Kx-gyM" firstAttribute="top" secondItem="fk9-5z-3Aq" secondAttribute="bottom" id="rzP-6r-DNu"/>
+                            <constraint firstItem="Dd2-Kx-gyM" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="160/667" id="s6b-D8-i1J"/>
+                            <constraint firstItem="N0T-vM-ISr" firstAttribute="height" secondItem="C7n-8x-OgO" secondAttribute="height" multiplier="20/34" id="sIH-od-dnP"/>
+                            <constraint firstItem="N0T-vM-ISr" firstAttribute="top" secondItem="ezK-Wf-hKq" secondAttribute="bottom" id="vXd-U0-7sz"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="description" width="236" height="15"/>
+        <image name="logoLoading" width="159" height="125"/>
+        <image name="textLoading" width="210" height="33"/>
+    </resources>
 </document>
