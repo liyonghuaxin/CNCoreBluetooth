@@ -34,6 +34,14 @@
 		18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A1920297BB6004DE2B2 /* SetDetailCell.xib */; };
 		18262A1F20298A2C004DE2B2 /* SetLockMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A1D20298A2C004DE2B2 /* SetLockMethod.m */; };
 		18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */; };
+		18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A22202A9287004DE2B2 /* ModifyPwdVC.m */; };
+		18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */; };
+		18262A29202A93D8004DE2B2 /* modifyPwdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A27202A93D8004DE2B2 /* modifyPwdCell.m */; };
+		18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */; };
+		18262A2E202AA2D6004DE2B2 /* OpenhistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */; };
+		18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */; };
+		18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A31202AA399004DE2B2 /* OpenHistoryCell.m */; };
+		18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -120,6 +128,18 @@
 		18262A1C20298A2C004DE2B2 /* SetLockMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetLockMethod.h; sourceTree = "<group>"; };
 		18262A1D20298A2C004DE2B2 /* SetLockMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetLockMethod.m; sourceTree = "<group>"; };
 		18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetLockMethod.xib; sourceTree = "<group>"; };
+		18262A21202A9287004DE2B2 /* ModifyPwdVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyPwdVC.h; sourceTree = "<group>"; };
+		18262A22202A9287004DE2B2 /* ModifyPwdVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyPwdVC.m; sourceTree = "<group>"; };
+		18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModifyPwdVC.xib; sourceTree = "<group>"; };
+		18262A26202A93D8004DE2B2 /* modifyPwdCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modifyPwdCell.h; sourceTree = "<group>"; };
+		18262A27202A93D8004DE2B2 /* modifyPwdCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = modifyPwdCell.m; sourceTree = "<group>"; };
+		18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = modifyPwdCell.xib; sourceTree = "<group>"; };
+		18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenhistoryVC.h; sourceTree = "<group>"; };
+		18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenhistoryVC.m; sourceTree = "<group>"; };
+		18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenhistoryVC.xib; sourceTree = "<group>"; };
+		18262A30202AA399004DE2B2 /* OpenHistoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenHistoryCell.h; sourceTree = "<group>"; };
+		18262A31202AA399004DE2B2 /* OpenHistoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenHistoryCell.m; sourceTree = "<group>"; };
+		18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenHistoryCell.xib; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -239,6 +259,15 @@
 				18262A1220297B63004DE2B2 /* SetDetailViewController.h */,
 				18262A1320297B63004DE2B2 /* SetDetailViewController.m */,
 				18262A1420297B63004DE2B2 /* SetDetailViewController.xib */,
+				18262A21202A9287004DE2B2 /* ModifyPwdVC.h */,
+				18262A22202A9287004DE2B2 /* ModifyPwdVC.m */,
+				18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */,
+				18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */,
+				18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */,
+				18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */,
+				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
+				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
+				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
 				1810A6C82021591F001487B0 /* SetLockCell.h */,
 				1810A6C92021591F001487B0 /* SetLockCell.m */,
 				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
@@ -251,6 +280,9 @@
 				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
 				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
 				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
+				18262A26202A93D8004DE2B2 /* modifyPwdCell.h */,
+				18262A27202A93D8004DE2B2 /* modifyPwdCell.m */,
+				18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -517,10 +549,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */,
+				18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */,
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
 				18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */,
 				182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */,
 				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
+				18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
 				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
@@ -530,6 +565,7 @@
 				186E839B201EE3EC008D08B1 /* CNAlertView.xib in Resources */,
 				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,
 				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
+				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
 				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
 				18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */,
 				186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */,
@@ -608,13 +644,16 @@
 				18262A01202855CB004DE2B2 /* BaseCell.m in Sources */,
 				18997CF620268A1300C4F03A /* RespondModel.m in Sources */,
 				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
+				18262A29202A93D8004DE2B2 /* modifyPwdCell.m in Sources */,
 				182629EB20274E43004DE2B2 /* CNNavController.m in Sources */,
 				18262A0A202931BA004DE2B2 /* HelpConCell.m in Sources */,
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
 				18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */,
+				18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */,
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				186E8399201EE3C5008D08B1 /* CNAlertView.m in Sources */,
+				18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */,
 				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
 				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
 				186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */,
@@ -622,6 +661,7 @@
 				18C3A683201AB10600999678 /* main.m in Sources */,
 				1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */,
 				1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */,
+				18262A2E202AA2D6004DE2B2 /* OpenhistoryVC.m in Sources */,
 				18A717832026062300F25626 /* CommonData.m in Sources */,
 				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,

@@ -18,6 +18,8 @@
 #import "CommonData.h"
 #import "CNNavController.h"
 
+extern float lyh;
+
 @interface AppDelegate ()
 
 @end

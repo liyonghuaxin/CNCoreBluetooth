@@ -23,6 +23,10 @@
 
 #define TEXT_BLACK_COLOR UIColorFromRGBH(0x373737)
 #define TEXT_GRAY_COLOR UIColorFromRGBH(0x959595)
+//head title color
+#define TEXT_HEAD_COLOR UIColorFromRGBH(0x323232)
+#define TEXT_HEAD_FONT [UIFont systemFontOfSize:16]
+
 
 #define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 

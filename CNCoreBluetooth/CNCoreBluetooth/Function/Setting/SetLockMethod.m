@@ -30,12 +30,12 @@
         _imageV1.image = [UIImage imageNamed:@"ellipseRed"];
         _imageV11.image = [UIImage imageNamed:@"ellipseWhite"];
         _imageV2.image = [UIImage imageNamed:@"ellipseGray"];
-        _imageV22.image = [UIImage imageNamed:@""];
+        _imageV22.image = nil;
     }else{
         if (_isPwd == NO) {
             _isPwd = YES;
             _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
-            _imageV11.image = [UIImage imageNamed:@""];
+            _imageV11.image = nil;
             _imageV2.image = [UIImage imageNamed:@"ellipseRed"];
             _imageV22.image = [UIImage imageNamed:@"ellipseWhite"];
         }

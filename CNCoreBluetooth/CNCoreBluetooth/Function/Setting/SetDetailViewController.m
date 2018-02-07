@@ -9,6 +9,8 @@
 #import "SetDetailViewController.h"
 #import "SetDetailCell.h"
 #import "SetLockMethod.h"
+#import "ModifyPwdVC.h"
+#import "OpenhistoryVC.h"
 
 static NSString *setDetailCell = @"SetDetailCell";
 
@@ -41,7 +43,7 @@ static NSString *setLockMethod = @"SetLockMethod";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    dataArray = @[@"Name",@"Password",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
+    dataArray = @[@"Name",@"Password",@"Open History",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
     
     [_myTableView registerNib:[UINib nibWithNibName:@"SetDetailCell" bundle:nil] forCellReuseIdentifier:setDetailCell];
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockMethod" bundle:nil] forCellReuseIdentifier:setLockMethod];
@@ -56,7 +58,6 @@ static NSString *setLockMethod = @"SetLockMethod";
     }];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [bgView addGestureRecognizer:tap];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillHide) name:UIKeyboardWillHideNotification object:nil];
 
@@ -74,10 +75,6 @@ static NSString *setLockMethod = @"SetLockMethod";
     bgView.hidden = YES;
 }
 
-- (void)backAction{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -93,21 +90,28 @@ static NSString *setLockMethod = @"SetLockMethod";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 1) {
+        ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
+        [self.navigationController pushViewController:pwd animated:YES];
+    }else if (indexPath.row == 2){
+        OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
+        [self.navigationController pushViewController:history animated:YES];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return dataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 2) {
+    if (indexPath.row == 3) {
         return 100;
     }
     return 50;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 2) {
+    if (indexPath.row == 3) {
         SetLockMethod *detailCell2 = [tableView dequeueReusableCellWithIdentifier:setLockMethod forIndexPath:indexPath];
         detailCell2.nameLab.text = dataArray[1];
         return detailCell2;
@@ -126,12 +130,17 @@ static NSString *setLockMethod = @"SetLockMethod";
             detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
             break;
         }
-        case 3:{
+        case 2:{
+            detailCell.imageV.hidden = NO;
+            detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
+            break;
+        }
+        case 4:{
             detailCell.mySwitch.hidden = NO;
 
             break;
         }
-        case 4:{
+        case 5:{
             detailCell.imageV.hidden = NO;
             detailCell.imageV.image = [UIImage imageNamed:@"delete"];
             break;
