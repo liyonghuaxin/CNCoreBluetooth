@@ -38,7 +38,7 @@
                         <color key="backgroundColor" red="0.99722725150000002" green="0.50996500249999999" blue="0.2170775831" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="0.5" id="6S7-6p-N0X"/>
-                            <constraint firstAttribute="height" constant="0.5" id="AdS-Ir-pUf"/>
+                            <constraint firstAttribute="height" constant="0.69999999999999996" id="AdS-Ir-pUf"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD2-3A-CTV">

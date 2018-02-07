@@ -18,34 +18,61 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+  
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"取消", nil) style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    leftButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.leftBarButtonItem = leftButton;
     
-    UIView *headView = [[UIView alloc] init];
-    [self.view addSubview:headView];
-    [headView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _headView = [[UIView alloc] init];
+    [self.view addSubview:_headView];
+    [_headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.view);
         make.height.mas_equalTo(50);
     }];
     _headImageV = [[UIImageView alloc] init];
-    [headView addSubview:_headImageV];
+    [_headView addSubview:_headImageV];
     _headImageV.contentMode = UIViewContentModeLeft;
     [_headImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headView).with.offset(edgeDistancePage);
-        make.right.top.bottom.equalTo(headView);
+        make.left.equalTo(_headView).with.offset(edgeDistancePage);
+        make.right.top.bottom.equalTo(_headView);
     }];
     UIView *lineView = [[UIView alloc] init];
-    [headView addSubview:lineView];
+    [_headView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(headView);
+        make.left.right.bottom.equalTo(_headView);
         make.height.mas_equalTo(1);
     }];
     lineView.backgroundColor = LINE_COLOR;
+    
+    _headView.hidden = YES;
 }
+
+- (void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setBackBtnHiden:(BOOL)isHiden{
+    CNNavController *nav = (CNNavController *)self.navigationController;
+    [nav setBackBtnHiden:isHiden];
+}
+
 -(void)setRightBtn:(UIButton *)btn{
-    [btn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage);
+    if (btn) {
+        [btn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage);
+    }
     CNNavController *nav = (CNNavController *)self.navigationController;
     [nav setRightBtn:btn];
+}
+
+-(void)setLeftBtn:(UIButton *)btn{
+    if (btn) {
+        [btn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        btn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage, 0, 0);
+    }
+    CNNavController *nav = (CNNavController *)self.navigationController;
+    [nav setLeftBtn:btn];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,7 +10,7 @@
 
 @interface HelpCell : BaseCell
 
-@property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, assign) BOOL isLook;
 @property (weak, nonatomic) IBOutlet UILabel *questionLab;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
 @property (weak, nonatomic) IBOutlet UIView *lineView;

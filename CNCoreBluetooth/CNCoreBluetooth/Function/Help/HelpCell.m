@@ -21,22 +21,21 @@
     }
 }
 
+-(void)setIsLook:(BOOL)isLook{
+    _isLook = isLook;
+    CGAffineTransform angle;
+    if (isLook) {
+        angle = CGAffineTransformMakeRotation(M_PI /2);
+        _lineView.hidden = YES;
+    }else{
+        angle = CGAffineTransformMakeRotation(0);
+        _lineView.hidden = NO;
+    }
+    self.imageV.transform = angle;
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
-    if (selected) {
-        CGAffineTransform angle;
-        if (_isSelected) {
-            angle = CGAffineTransformMakeRotation(0);
-            _isSelected = NO;
-            _lineView.hidden = NO;
-        }else{
-            angle = CGAffineTransformMakeRotation(M_PI /2);
-            _isSelected = YES;
-            _lineView.hidden = YES;
-        }
-        self.imageV.transform = angle;
-    }
     // Configure the view for the selected state
 }
 

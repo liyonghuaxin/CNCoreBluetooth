@@ -11,6 +11,9 @@
 
 @interface CNNavController (){
     UIView *bgBiew;
+    UIButton *leftBtn;
+    UIButton *rightBtn;
+    UIButton *backBtn;
 }
 
 @end
@@ -20,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationBar.translucent = NO;
+    self.navigationBar.translucent = NO;    
     
     bgBiew = [[UIView alloc] init];
     [self.navigationBar addSubview:bgBiew];
@@ -64,6 +67,28 @@
         make.top.equalTo(imageV1);
         make.right.height.equalTo(titleView);
     }];
+    //返回按钮
+    backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [bgBiew addSubview:backBtn];
+    [backBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    backBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage, 0, 0);
+    [backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(bgBiew);
+        make.width.mas_equalTo(80);
+        //因为 bgView 高48
+        make.bottom.equalTo(bgBiew).with.offset(-4);
+    }];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    backBtn.hidden = YES;
+}
+
+- (void)backAction{
+    [self popViewControllerAnimated:YES];
+}
+
+-(void)setBackBtnHiden:(BOOL)isHiden{
+    backBtn.hidden = isHiden;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,15 +96,40 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setRightBtn:(UIButton *)btn{
-    [bgBiew addSubview:btn];
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.equalTo(bgBiew);
-        make.width.mas_equalTo(80);
-        //因为 bgView 高48
-        make.bottom.equalTo(bgBiew).with.offset(-4);
-    }];
+-(void)setLeftBtn:(UIButton *)btn{
+    if (btn) {
+        leftBtn = btn;
+        [bgBiew addSubview:btn];
+        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.equalTo(bgBiew);
+            make.width.mas_equalTo(80);
+            //因为 bgView 高48
+            make.bottom.equalTo(bgBiew).with.offset(-4);
+        }];
+    }else{
+        if (leftBtn) {
+            [leftBtn removeFromSuperview];
+        }
+    }
 }
+
+-(void)setRightBtn:(UIButton *)btn{
+    if (btn) {
+        rightBtn = btn;
+        [bgBiew addSubview:btn];
+        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.equalTo(bgBiew);
+            make.width.mas_equalTo(80);
+            //因为 bgView 高48
+            make.bottom.equalTo(bgBiew).with.offset(-4);
+        }];
+    }else{
+        if (rightBtn) {
+            [rightBtn removeFromSuperview];
+        }
+    }
+}
+
 
 /*
 #pragma mark - Navigation

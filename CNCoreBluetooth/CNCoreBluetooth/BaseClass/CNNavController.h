@@ -11,5 +11,7 @@
 @interface CNNavController : UINavigationController
 
 -(void)setRightBtn:(UIButton *)btn;
+-(void)setLeftBtn:(UIButton *)btn;
+- (void)setBackBtnHiden:(BOOL)isHiden;
 
 @end

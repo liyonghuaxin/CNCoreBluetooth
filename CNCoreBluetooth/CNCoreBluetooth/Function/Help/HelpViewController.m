@@ -27,7 +27,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self initDataArray];
+    self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"HELP"];
+    
     _myTableView.tableFooterView = [[UIView alloc] init];
     [_myTableView registerNib:[UINib nibWithNibName:@"HelpCell" bundle:nil] forCellReuseIdentifier:@"HelpCell"];
     [_myTableView registerNib:[UINib nibWithNibName:@"HelpConCell" bundle:nil] forCellReuseIdentifier:@"HelpConCell"];
@@ -36,6 +38,18 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
+    }
+    
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return dataArray.count*2;
 }
@@ -44,6 +58,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row%2 == 0) {
         SetModel *setModel = (SetModel *)dataArray[indexPath.row/2];
+        
+        HelpCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        cell.isLook = !setModel.isSelect;
+        
         setModel.isSelect = !setModel.isSelect;
         NSIndexPath *indexP = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:0];
         [tableView reloadRowsAtIndexPaths:@[indexP] withRowAnimation:UITableViewRowAnimationAutomatic];

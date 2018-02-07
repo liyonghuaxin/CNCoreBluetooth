@@ -12,6 +12,10 @@
 @interface BaseViewController : UIViewController
 
 @property (nonatomic, strong) UIImageView *headImageV;
+@property (nonatomic, strong) UIView *headView;
+
 - (void)setRightBtn:(UIButton *)btn;
+- (void)setLeftBtn: (UIButton *)btn;
+- (void)setBackBtnHiden:(BOOL)isHiden;
 
 @end

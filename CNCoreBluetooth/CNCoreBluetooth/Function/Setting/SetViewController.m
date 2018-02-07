@@ -14,6 +14,7 @@
 #import "SwipeUpInteractiveTransition.h"
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
+#import "SetDetailViewController.h"
 
 @interface SetViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>{
     NSMutableArray *_dataArray;
@@ -29,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"LOCK-SETTINGS"];
 
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
@@ -45,7 +48,18 @@
     [super viewWillAppear:animated];
     [_myTableView reloadData];
 }
-
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
+    }
+    
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 7;
     return _dataArray.count;
@@ -53,6 +67,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SetDetailViewController *detail = [[SetDetailViewController alloc] init];
+    [self.navigationController pushViewController:detail animated:YES];
     return;
     if (_dataArray.count) {
         CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
