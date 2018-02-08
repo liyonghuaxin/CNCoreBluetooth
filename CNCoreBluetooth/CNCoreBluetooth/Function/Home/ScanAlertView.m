@@ -35,7 +35,6 @@
 }
 
 - (void)txchange:(UITextField *)tx{
-    
     NSString *password = tx.text;
     for (int i = 0; i < 6; i++){
         UITextField *pwdtx = [_pwdBgView viewWithTag:i+1];
@@ -67,6 +66,7 @@
         _pwd4.text = @"";
         _pwd5.text = @"";
         _pwd6.text = @"";
+        _assistTF.text = @"";
         canDismiss = NO;
         [self.assistTF becomeFirstResponder];
         _pwdBgView.hidden = NO;
@@ -87,6 +87,7 @@
 
 -(void)stopScan{
     isAnimation = NO;
+    angle = 0;
     if (canDismiss) {
         self.hidden = YES;
     }

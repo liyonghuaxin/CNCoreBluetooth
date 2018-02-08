@@ -168,6 +168,7 @@
             [self.peripheralArray addObject:peripheral];
             //更新新发现的外设列表
             if (_scanFinished) {
+                _currentperi = peripheral;
                 _scanFinished(peripheral);
             }
             //一次只扫一个

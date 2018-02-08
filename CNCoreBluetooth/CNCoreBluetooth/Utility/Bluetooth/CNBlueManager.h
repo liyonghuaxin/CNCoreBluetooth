@@ -35,7 +35,8 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
  向peripheral发送数据
  */
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
-
+//当前设备
+@property (nonatomic,strong) CBPeripheral *currentperi;
 //监听 蓝牙锁连接状态
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;
 //存放已扫到的外设

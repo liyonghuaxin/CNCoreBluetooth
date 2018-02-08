@@ -69,6 +69,12 @@
     alert.returnPasswordStringBlock = ^(NSString *pwd) {
         //发现新设备，输入密码
         //[CNBlueCommunication cbSendInstruction:(InstructionEnum) toPeripheral:<#(CBPeripheral *)#>]
+        if ([CNBlueCommunication cbIsPaire:pwd]) {
+            [CNPromptView showStatusWithString:@"Lock Paired"];
+        }else{
+            [blueManager.peripheralArray removeObject:blueManager.currentperi];
+            [CNPromptView showStatusWithString:@"Lock Unpaired"];
+        }
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
@@ -170,7 +176,17 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CNLockCell *curCell = [tableView dequeueReusableCellWithIdentifier:@"CNLockCell" forIndexPath:indexPath];
-    curCell.model = nil;
+    if (indexPath.row%3 == 0) {
+        curCell.pwdLab.hidden = YES;
+        curCell.fingerprintImagev.hidden = YES;
+    }else if (indexPath.row%3 == 1) {
+        curCell.pwdLab.hidden = NO;
+        curCell.fingerprintImagev.hidden = YES;
+    }else{
+        curCell.pwdLab.hidden = YES;
+        curCell.fingerprintImagev.hidden = NO;
+    }
+    //curCell.model = nil;
     return curCell;
     LockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LockCell" forIndexPath:indexPath];
     CNPeripheralModel *model = _dataArray[indexPath.row];

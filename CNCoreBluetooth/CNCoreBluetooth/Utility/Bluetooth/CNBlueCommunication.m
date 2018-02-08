@@ -20,6 +20,15 @@ static CBCharacteristic *blCharacteristic = nil;
     }
 }
 
++(BOOL)cbIsPaire:(NSString *)pwdStr{
+    //lyh debug
+    if([pwdStr isEqualToString:@"123456"]){
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
 #pragma mark 生成自定义mac地址
 //一个手机只调一次，此方法生成的地址将保存到钥匙串keychain
 +(NSString *)makeMyBlueMacAddress{

@@ -20,6 +20,8 @@
  5、已配对设备查询    6、解除配对    7、锁具状态上报
  */
 
++(BOOL)cbIsPaire:(NSString *)pwdStr;
+
 /**
  app->锁具
  */
