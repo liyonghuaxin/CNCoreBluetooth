@@ -20,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Iw-x9-kTO" customClass="UIImageView">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Iw-x9-kTO">
                     <rect key="frame" x="52.5" y="164.5" width="270" height="178"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fA5-Iq-j7R">
@@ -98,8 +98,9 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="RPE-WX-fPD"/>
                             </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="Cancle">
-                                <color key="titleColor" red="0.57413536310000002" green="0.25690892339999999" blue="0.23534283040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleColor" red="0.793195188" green="0.1206425205" blue="0.15662530059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="cancelScan:" destination="iN0-l3-epB" eventType="touchUpInside" id="bTF-GF-f1h"/>

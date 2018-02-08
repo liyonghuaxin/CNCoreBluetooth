@@ -76,7 +76,7 @@
         if (!setModel.isSelect) {
             return 0;
         }else{
-            CGRect rect = [setModel.content stringHeightWithConstraintWidth:SCREENWIDTH- scalePage*60 fontsize:14];
+            CGRect rect = [setModel.content stringHeightWithConstraintWidth:SCREENWIDTH- scalePage*60 fontsize:15];
             return rect.size.height+20+6;
         }
     }

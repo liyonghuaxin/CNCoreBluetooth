@@ -12,5 +12,8 @@
 @interface SetDetailViewController : BaseViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (strong, nonatomic) IBOutlet UIView *footView;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
+- (IBAction)save:(id)sender;
 
 @end

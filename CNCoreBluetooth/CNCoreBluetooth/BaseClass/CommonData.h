@@ -17,6 +17,7 @@ extern float scalePage;
 
 +(instancetype)sharedCommonData;
 
++ (BOOL)deviceIsIpad;
 @property (nonatomic, copy)NSString *macAddress;
 
 @end

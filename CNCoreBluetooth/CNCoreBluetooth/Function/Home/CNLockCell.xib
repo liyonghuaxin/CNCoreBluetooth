@@ -21,8 +21,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quick Safe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDd-Kh-hfe">
-                        <rect key="frame" x="29" y="30" width="83" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="29" y="30" width="112.5" height="29"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -43,7 +43,7 @@
                         <rect key="frame" x="84" y="82.5" width="192" height="31"/>
                     </slider>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="by4-ar-OeJ">
-                        <rect key="frame" x="0.0" y="35" width="29" height="10"/>
+                        <rect key="frame" x="0.0" y="39.5" width="29" height="10"/>
                         <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="fC8-yu-4TT"/>
@@ -64,20 +64,20 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IdT-Ff-4i3">
-                        <rect key="frame" x="333" y="35" width="29" height="10"/>
+                        <rect key="frame" x="333" y="39.5" width="29" height="10"/>
                         <color key="backgroundColor" red="0.75686274509999996" green="0.75686274509999996" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="D8K-De-oKZ"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOK-1j-ynH">
-                        <rect key="frame" x="286.5" y="37" width="46.5" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <rect key="frame" x="270.5" y="40" width="62.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fingerprint" translatesAutoresizingMaskIntoConstraints="NO" id="Dx2-GB-gS2">
-                        <rect key="frame" x="293" y="19" width="40" height="43"/>
+                        <rect key="frame" x="293" y="23.5" width="40" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Dx2-GB-gS2" secondAttribute="height" multiplier="62:67" id="GGM-ll-vg0"/>
                             <constraint firstAttribute="width" constant="40" id="kw5-oG-taq"/>

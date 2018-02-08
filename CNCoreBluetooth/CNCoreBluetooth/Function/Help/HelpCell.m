@@ -13,6 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    _questionLab.font = [UIFont systemFontOfSize:18+FontSizeAdjust];
     _lineView.backgroundColor = LINE_COLOR;
     if (@available(iOS 8.2, *)) {
         _questionLab.font = [UIFont systemFontOfSize:15 weight:UIFontWeightBold];

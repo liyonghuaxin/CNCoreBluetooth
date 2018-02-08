@@ -42,9 +42,9 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD2-3A-CTV">
-                        <rect key="frame" x="25.5" y="0.0" width="269" height="134"/>
-                        <mutableString key="text">My father is the best person in the world. He cares about me so much. No matter how busy he is, he always makes out some time to play with me. Now Father’s Day is coming soon. I want to give him a surprise. So from now on, I need to save some money. When the time is coming, I can surprise him. </mutableString>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="25.5" y="0.0" width="269" height="161.5"/>
+                        <string key="text">My father is the best person in the world. He cares about me so much. No matter how busy he is, he always makes out some time to play with me. Now Father’s Day is coming soon. I want to give him a surprise. So from now on, I need to save some money. When the time is coming, I can surprise him. </string>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>

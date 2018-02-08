@@ -58,6 +58,12 @@
 		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
 		186FCD732020603500A16E87 /* CNBlueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD722020603500A16E87 /* CNBlueManager.m */; };
 		18997CF620268A1300C4F03A /* RespondModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18997CF520268A1300C4F03A /* RespondModel.m */; };
+		18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B499202C3BF300725545 /* ChangePwdAlert.m */; };
+		18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */; };
+		18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */; };
+		18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */; };
+		18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A7202C52D000725545 /* SaveSettingAlert.m */; };
+		18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A9202C531400725545 /* SaveSettingAlert.xib */; };
 		18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7177C2026008B00F25626 /* CNKeychainManager.m */; };
 		18A717832026062300F25626 /* CommonData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A717822026062300F25626 /* CommonData.m */; };
 		18C3A675201AB10600999678 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A674201AB10600999678 /* AppDelegate.m */; };
@@ -167,6 +173,15 @@
 		186FCD722020603500A16E87 /* CNBlueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBlueManager.m; sourceTree = "<group>"; };
 		18997CF420268A1300C4F03A /* RespondModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondModel.h; sourceTree = "<group>"; };
 		18997CF520268A1300C4F03A /* RespondModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RespondModel.m; sourceTree = "<group>"; };
+		18A4B498202C3BF300725545 /* ChangePwdAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePwdAlert.h; sourceTree = "<group>"; };
+		18A4B499202C3BF300725545 /* ChangePwdAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePwdAlert.m; sourceTree = "<group>"; };
+		18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangePwdAlert.xib; sourceTree = "<group>"; };
+		18A4B4A0202C4B5F00725545 /* DeleteUnpairAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteUnpairAlert.h; sourceTree = "<group>"; };
+		18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteUnpairAlert.m; sourceTree = "<group>"; };
+		18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeleteUnpairAlert.xib; sourceTree = "<group>"; };
+		18A4B4A6202C52D000725545 /* SaveSettingAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveSettingAlert.h; sourceTree = "<group>"; };
+		18A4B4A7202C52D000725545 /* SaveSettingAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SaveSettingAlert.m; sourceTree = "<group>"; };
+		18A4B4A9202C531400725545 /* SaveSettingAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveSettingAlert.xib; sourceTree = "<group>"; };
 		18A7177B2026008B00F25626 /* CNKeychainManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNKeychainManager.h; sourceTree = "<group>"; };
 		18A7177C2026008B00F25626 /* CNKeychainManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNKeychainManager.m; sourceTree = "<group>"; };
 		18A717812026062300F25626 /* CommonData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonData.h; sourceTree = "<group>"; };
@@ -256,36 +271,10 @@
 		18262A1020297AA6004DE2B2 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				186E838D201EBFC3008D08B1 /* SetViewController.h */,
-				186E838E201EBFC3008D08B1 /* SetViewController.m */,
-				186E838F201EBFC3008D08B1 /* SetViewController.xib */,
-				18262A1220297B63004DE2B2 /* SetDetailViewController.h */,
-				18262A1320297B63004DE2B2 /* SetDetailViewController.m */,
-				18262A1420297B63004DE2B2 /* SetDetailViewController.xib */,
-				18262A21202A9287004DE2B2 /* ModifyPwdVC.h */,
-				18262A22202A9287004DE2B2 /* ModifyPwdVC.m */,
-				18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */,
-				18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */,
-				18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */,
-				18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */,
-				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
-				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
-				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
-				1810A6C82021591F001487B0 /* SetLockCell.h */,
-				1810A6C92021591F001487B0 /* SetLockCell.m */,
-				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
-				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
-				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
-				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
-				18262A1C20298A2C004DE2B2 /* SetLockMethod.h */,
-				18262A1D20298A2C004DE2B2 /* SetLockMethod.m */,
-				18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */,
-				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
-				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
-				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
-				18262A26202A93D8004DE2B2 /* modifyPwdCell.h */,
-				18262A27202A93D8004DE2B2 /* modifyPwdCell.m */,
-				18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */,
+				18A4B4A5202C4B9100725545 /* AlertView */,
+				18A4B49F202C459400725545 /* ModifyPwd */,
+				18A4B49E202C458200725545 /* SetDetail */,
+				18A4B49D202C456A00725545 /* Set */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -327,6 +316,73 @@
 				18997CF520268A1300C4F03A /* RespondModel.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		18A4B49D202C456A00725545 /* Set */ = {
+			isa = PBXGroup;
+			children = (
+				186E838D201EBFC3008D08B1 /* SetViewController.h */,
+				186E838E201EBFC3008D08B1 /* SetViewController.m */,
+				186E838F201EBFC3008D08B1 /* SetViewController.xib */,
+				1810A6C82021591F001487B0 /* SetLockCell.h */,
+				1810A6C92021591F001487B0 /* SetLockCell.m */,
+				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
+				18262A1C20298A2C004DE2B2 /* SetLockMethod.h */,
+				18262A1D20298A2C004DE2B2 /* SetLockMethod.m */,
+				18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */,
+			);
+			name = Set;
+			sourceTree = "<group>";
+		};
+		18A4B49E202C458200725545 /* SetDetail */ = {
+			isa = PBXGroup;
+			children = (
+				18262A1220297B63004DE2B2 /* SetDetailViewController.h */,
+				18262A1320297B63004DE2B2 /* SetDetailViewController.m */,
+				18262A1420297B63004DE2B2 /* SetDetailViewController.xib */,
+				18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */,
+				18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */,
+				18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */,
+				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
+				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
+				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
+				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
+				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
+				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
+				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
+				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
+				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
+			);
+			name = SetDetail;
+			sourceTree = "<group>";
+		};
+		18A4B49F202C459400725545 /* ModifyPwd */ = {
+			isa = PBXGroup;
+			children = (
+				18262A21202A9287004DE2B2 /* ModifyPwdVC.h */,
+				18262A22202A9287004DE2B2 /* ModifyPwdVC.m */,
+				18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */,
+				18262A26202A93D8004DE2B2 /* modifyPwdCell.h */,
+				18262A27202A93D8004DE2B2 /* modifyPwdCell.m */,
+				18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */,
+			);
+			name = ModifyPwd;
+			sourceTree = "<group>";
+		};
+		18A4B4A5202C4B9100725545 /* AlertView */ = {
+			isa = PBXGroup;
+			children = (
+				18A4B498202C3BF300725545 /* ChangePwdAlert.h */,
+				18A4B499202C3BF300725545 /* ChangePwdAlert.m */,
+				18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */,
+				18A4B4A0202C4B5F00725545 /* DeleteUnpairAlert.h */,
+				18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */,
+				18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */,
+				18A4B4A6202C52D000725545 /* SaveSettingAlert.h */,
+				18A4B4A7202C52D000725545 /* SaveSettingAlert.m */,
+				18A4B4A9202C531400725545 /* SaveSettingAlert.xib */,
+			);
+			name = AlertView;
 			sourceTree = "<group>";
 		};
 		18A717842026081E00F25626 /* Bluetooth */ = {
@@ -549,12 +605,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */,
 				18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */,
 				18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */,
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
 				18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */,
 				182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */,
 				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
+				18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */,
 				18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
@@ -565,6 +623,7 @@
 				186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */,
 				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,
 				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
+				18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */,
 				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
 				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
 				18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */,
@@ -653,6 +712,7 @@
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */,
+				18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */,
 				18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */,
 				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
 				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
@@ -666,7 +726,9 @@
 				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
 				18262A1F20298A2C004DE2B2 /* SetLockMethod.m in Sources */,
+				18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */,
 				186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */,
+				18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */,
 				182629F82028284E004DE2B2 /* CNSlider.m in Sources */,
 				186FCD732020603500A16E87 /* CNBlueManager.m in Sources */,
 				182629F42028236F004DE2B2 /* CNLockCell.m in Sources */,

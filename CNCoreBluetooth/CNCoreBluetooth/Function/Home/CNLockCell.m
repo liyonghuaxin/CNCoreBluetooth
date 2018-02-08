@@ -14,6 +14,12 @@
     [super awakeFromNib];
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    _lockNameLab.textColor = TEXT_LIST_COLOR;
+    _lockNameLab.font = [UIFont systemFontOfSize:23+FontSizeAdjust];
+    _pwdLab.textColor = TEXT_LIST_COLOR;
+    _pwdLab.font = [UIFont systemFontOfSize:14+FontSizeAdjust];
+
+    
     _slider.minimumTrackTintColor = THEME_BLACK_COLOR;
     _slider.maximumTrackTintColor = THEME_BLACK_COLOR;
     _slider.continuous = YES;

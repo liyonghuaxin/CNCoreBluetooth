@@ -29,7 +29,6 @@ extern float lyh;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
     if (kDevice_Is_iPhoneX) {
         iPhoneXTopPara = 24;
         iPhoneXBottomPara = 34;
@@ -59,6 +58,9 @@ extern float lyh;
     
     //初始化tabbar
     CGFloat offset = 5.0;
+    if ([CommonData deviceIsIpad]){
+        offset = 0.0;
+    }
     NSArray *normalImageArr = @[@"tab_bar_mall1",@"tab_bar_refresh1",@"tab_bar_user1"];
     NSArray *selectImageArr = @[@"tab_bar_mall2",@"tab_bar_refresh2",@"tab_bar_user2"];
     
