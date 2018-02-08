@@ -41,6 +41,7 @@
         //dispatch_queue_t centralQueue = dispatch_queue_create("no.nordicsemi.ios.nrftoolbox", DISPATCH_QUEUE_SERIAL);
         
         //扫描设备时,不扫描到相同设备,这样可以节约电量,提高app性能.如果需求是需要实时获取设备最新信息的,那就需要设置为YES.
+        //CBCentralManagerScanOptionAllowDuplicatesKey,key值是NSNumber,默认值为NO表示不会重复扫描已经发现的设备,如需要不断获取最新的信号强度RSSI所以一般设为YES了
         //manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue() options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
         manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
         manager.peripheralArray = [NSMutableArray array];
@@ -158,18 +159,19 @@
      );
      */
     
-//    过滤操作
-//    if ([peripheral.name hasPrefix:@"OBand"]) {
-//
-//    }
-    
-    //3、记录扫描到的外围设备
-    NSLog(@"=======发现外围设备=======");
-    if (![self.peripheralArray containsObject:peripheral]) {
-        [self.peripheralArray addObject:peripheral];
-        //更新新发现的外设列表
-        if (_scanFinished) {
-            _scanFinished(peripheral);
+    //过滤操作
+    //lyh debug
+    if ([peripheral.name hasPrefix:@"Quick"] || 1) {
+        //3、记录扫描到的外围设备
+        NSLog(@"=======发现外围设备=======%@",peripheral);
+        if (![self.peripheralArray containsObject:peripheral]) {
+            [self.peripheralArray addObject:peripheral];
+            //更新新发现的外设列表
+            if (_scanFinished) {
+                _scanFinished(peripheral);
+            }
+            //一次只扫一个
+            [self cus_stopScan];
         }
     }
 }

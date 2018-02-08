@@ -29,14 +29,12 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 /**
  app发送指令
  */
-- (void)cus_sendInstruction:(InstructionEnum)instruction;
+//- (void)cus_sendInstruction:(InstructionEnum)instruction;
 
 /**
  向peripheral发送数据
  */
 - (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
-//传入解锁锁指令
-- (void)sendUnlockInstruction:(NSString*)lockInstruction toPeripheral:(CBPeripheral *)peri;
 
 //监听 蓝牙锁连接状态
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;

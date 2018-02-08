@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CNAlertView : UIView{
+@interface ScanAlertView : UIView{
     CGFloat angle;
     BOOL isAnimation;
 }

@@ -7,21 +7,21 @@
 //
 
 #import "HomeViewController.h"
-#import "CNAlertView.h"
-
+#import "ScanAlertView.h"
 #import "CNBlueManager.h"
 #import "LockCell.h"
 #import "CNLockCell.h"
-
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
 #import "CNBlueCommunication.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
-    CNAlertView *alert;
+    ScanAlertView *alert;
+    NSDate *beginDate;
 }
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
+@property (nonatomic,strong) NSTimer *myTimer;
 
 @end
 
@@ -30,22 +30,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _dataArray = [NSMutableArray array];
+    
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn addTarget:self action:@selector(scanPeri:) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
     [self setRightBtn:rightBtn];
     [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-    
-    _dataArray = [NSMutableArray array];
 
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"开始扫描" style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri:)];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"scanPeripheral"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(scanPeri)];
     [_myTableView registerNib:[UINib nibWithNibName:@"LockCell" bundle:nil] forCellReuseIdentifier:@"LockCell"];
-    
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
-
     _myTableView.tableFooterView = [[UIView alloc] init];
+    
     CNBlueManager *blueManager = [CNBlueManager sharedBlueManager];
     //外设连接状态发生变化
     blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect) {
@@ -58,12 +55,20 @@
         }
     };
     
-    //警告框
-    alert = [[NSBundle mainBundle] loadNibNamed:@"CNAlertView" owner:self options:nil][0];
+    //搜索外设框
+    alert = [[NSBundle mainBundle] loadNibNamed:@"ScanAlertView" owner:self options:nil][0];
     alert.hidden = YES;
     __weak typeof(self) weakSelf = self;
     alert.alertBlock = ^{
-        [weakSelf stopScanPeri];
+        if ([weakSelf.myTimer isValid]) {
+            [weakSelf.myTimer invalidate];
+        }
+        weakSelf.myTimer = nil;
+        [[CNBlueManager sharedBlueManager] cus_stopScan];
+    };
+    alert.returnPasswordStringBlock = ^(NSString *pwd) {
+        //发现新设备，输入密码
+        //[CNBlueCommunication cbSendInstruction:(InstructionEnum) toPeripheral:<#(CBPeripheral *)#>]
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
@@ -80,36 +85,62 @@
     return i;
 }
 
+//开始/停止扫描
 - (void)scanPeri{
+//    dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 6.0 * NSEC_PER_SEC);
+//    NSLog(@"=======%@",dateString);
+//    dispatch_after(timer, dispatch_get_main_queue(), ^(void){
+//        [self stopScanPeri];
+//    });
     
+//    if (@available(iOS 10.0, *)) {
+//        [NSTimer scheduledTimerWithTimeInterval:6 repeats:NO block:^(NSTimer * _Nonnull timer) {
+//            [self stopScanPeri];
+//        }];
+//    } else {
+//
+//        NSTimer *timer = [NSTimer timerWithTimeInterval:6 target:self selector:@selector(stopScanPeri) userInfo:nil repeats:NO];
+//        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+//    }
+    
+    //6秒内未搜到外设，停止搜索
+    _myTimer = [NSTimer timerWithTimeInterval:6 target:self selector:@selector(stopScanPeri) userInfo:nil repeats:NO];
+    /*
+     UIScrollView 拖动时也不影响的话，有两种解决方法
+     1、[[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+     [[NSRunLoop mainRunLoop] addTimer:timer forMode: UITrackingRunLoopMode];
+     2、[[NSRunLoop mainRunLoop] addTimer:timer forMode: NSRunLoopCommonModes];
+     */
+    [[NSRunLoop mainRunLoop] addTimer:_myTimer forMode:NSDefaultRunLoopMode];
+    beginDate = [NSDate date];
+    [alert beginScan];
+    //开始搜索外设
+    __weak typeof(self) weakself = self;
+    [[CNBlueManager sharedBlueManager] cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
+        if (per) {
+            [self findPeri];
+            [alert setShowType:AlertEnterPwd];
+            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+            model.peripheral = per;
+            [weakself.dataArray addObject:model];
+            [weakself.myTableView reloadData];
+        }
+    }];
 }
 
-//开始/停止扫描
-- (void)scanPeri:(id)sender{
-    alert.hidden = NO;
-    [alert startAnimation];
-    return;
-    UIBarButtonItem *item = (UIBarButtonItem *)sender;
-    if ([item.title  isEqualToString:@"开始扫描"]) {
-        __weak typeof(self) weakself = self;
-        [[CNBlueManager sharedBlueManager] cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
-            if (per) {
-                CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-                model.peripheral = per;
-                [weakself.dataArray addObject:model];
-                [weakself.myTableView reloadData];
-            }
-        }];
-        [item setTitle:@"停止扫描"];
-    }else{
-        [item setTitle:@"开始扫描"];
-        [self stopScanPeri];
-    }
+- (void)findPeri{
+    NSLog(@"%@",[CNBlueManager sharedBlueManager].peripheralArray);
+    [alert setShowType:AlertEnterPwd];
+
 }
 
 - (void)stopScanPeri{
-    //[alert stopAnimation];
-    [[CNBlueManager sharedBlueManager] cus_stopScan];
+    NSDate *curDate = [NSDate date];
+    NSTimeInterval secondsBetweenDates = [curDate timeIntervalSinceDate:beginDate];
+    if (secondsBetweenDates>6) {
+        [alert stopScan];
+        [[CNBlueManager sharedBlueManager] cus_stopScan];
+    }
 }
 
 #pragma mark tableviewDelegate

@@ -51,8 +51,8 @@
 		186E8391201EBFC3008D08B1 /* SetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E838F201EBFC3008D08B1 /* SetViewController.xib */; };
 		186E8395201EBFDA008D08B1 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8393201EBFDA008D08B1 /* HelpViewController.m */; };
 		186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E8394201EBFDA008D08B1 /* HelpViewController.xib */; };
-		186E8399201EE3C5008D08B1 /* CNAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8398201EE3C5008D08B1 /* CNAlertView.m */; };
-		186E839B201EE3EC008D08B1 /* CNAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E839A201EE3EC008D08B1 /* CNAlertView.xib */; };
+		186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8398201EE3C5008D08B1 /* ScanAlertView.m */; };
+		186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E839A201EE3EC008D08B1 /* ScanAlertView.xib */; };
 		186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD69201FF4E400A16E87 /* LockCell.m */; };
 		186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186FCD6A201FF4E400A16E87 /* LockCell.xib */; };
 		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
@@ -154,9 +154,9 @@
 		186E8392201EBFDA008D08B1 /* HelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		186E8393201EBFDA008D08B1 /* HelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		186E8394201EBFDA008D08B1 /* HelpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
-		186E8397201EE3C5008D08B1 /* CNAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNAlertView.h; sourceTree = "<group>"; };
-		186E8398201EE3C5008D08B1 /* CNAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNAlertView.m; sourceTree = "<group>"; };
-		186E839A201EE3EC008D08B1 /* CNAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CNAlertView.xib; sourceTree = "<group>"; };
+		186E8397201EE3C5008D08B1 /* ScanAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanAlertView.h; sourceTree = "<group>"; };
+		186E8398201EE3C5008D08B1 /* ScanAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanAlertView.m; sourceTree = "<group>"; };
+		186E839A201EE3EC008D08B1 /* ScanAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanAlertView.xib; sourceTree = "<group>"; };
 		186E839C201EEB16008D08B1 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		186FCD68201FF4E400A16E87 /* LockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockCell.h; sourceTree = "<group>"; };
 		186FCD69201FF4E400A16E87 /* LockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockCell.m; sourceTree = "<group>"; };
@@ -240,6 +240,9 @@
 				186E8388201EBFAF008D08B1 /* HomeViewController.h */,
 				186E8389201EBFAF008D08B1 /* HomeViewController.m */,
 				186E838A201EBFAF008D08B1 /* HomeViewController.xib */,
+				186E8397201EE3C5008D08B1 /* ScanAlertView.h */,
+				186E8398201EE3C5008D08B1 /* ScanAlertView.m */,
+				186E839A201EE3EC008D08B1 /* ScanAlertView.xib */,
 				182629F12028236F004DE2B2 /* CNLockCell.h */,
 				182629F22028236F004DE2B2 /* CNLockCell.m */,
 				182629F32028236F004DE2B2 /* CNLockCell.xib */,
@@ -376,9 +379,6 @@
 		18A7178A2026099C00F25626 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				186E8397201EE3C5008D08B1 /* CNAlertView.h */,
-				186E8398201EE3C5008D08B1 /* CNAlertView.m */,
-				186E839A201EE3EC008D08B1 /* CNAlertView.xib */,
 				182629F62028284E004DE2B2 /* CNSlider.h */,
 				182629F72028284E004DE2B2 /* CNSlider.m */,
 			);
@@ -562,7 +562,7 @@
 				18262A0620285772004DE2B2 /* HelpCell.xib in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
 				18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */,
-				186E839B201EE3EC008D08B1 /* CNAlertView.xib in Resources */,
+				186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */,
 				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,
 				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
 				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
@@ -652,7 +652,7 @@
 				18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */,
 				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
-				186E8399201EE3C5008D08B1 /* CNAlertView.m in Sources */,
+				186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */,
 				18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */,
 				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
 				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
