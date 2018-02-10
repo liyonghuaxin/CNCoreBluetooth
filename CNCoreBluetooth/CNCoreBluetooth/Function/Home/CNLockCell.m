@@ -7,6 +7,8 @@
 //
 
 #import "CNLockCell.h"
+#import "CNBlueCommunication.h"
+#import "CNBlueManager.h"
 
 @implementation CNLockCell
 
@@ -35,25 +37,51 @@
 }
 -(void)setModel:(CNPeripheralModel *)model{
     _model = model;
-    _pwdLab.hidden = YES;
-    _fingerprintImagev.hidden = YES;
+    if (model.isPwd) {
+        _pwdLab.hidden = NO;
+    }else{
+        _pwdLab.hidden = YES;
+    }
+    if (model.isTouchUnlock) {
+        _fingerprintImagev.hidden = NO;
+    }else{
+        _fingerprintImagev.hidden = YES;
+    }
 }
+
 - (void)sliderValueChanged2:(id)sender{
     UISlider *slider = (UISlider *)sender;
     if (slider.value > 0.92) {
         slider.value = 1;
+        _lockRight.image = [UIImage imageNamed:@"unlockRight"];
+        _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
+        //滑动开锁
+        if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
+            [self.delegate slideSuccess:_model.peripheral];
+        }
         [CNPromptView showStatusWithString:@"Lock is Open"];
     }else{
         slider.value = 0;
+        _lockRight.image = [UIImage imageNamed:@"lockRight"];
+        _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
     }
 }
+
 - (void)sliderValueChanged:(id)sender{
     UISlider *slider = (UISlider *)sender;
     if (slider.value > 0.92) {
         slider.value = 1;
+        _lockRight.image = [UIImage imageNamed:@"unlockRight"];
+        _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
+        //滑动开锁
+        if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
+            [self.delegate slideSuccess:_model.peripheral];
+        }
         [CNPromptView showStatusWithString:@"Lock is Open"];
     }else{
         slider.value = 0;
+        _lockRight.image = [UIImage imageNamed:@"lockRight"];
+        _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
     }
 }
 

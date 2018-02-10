@@ -26,6 +26,7 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 - (void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
 
 - (BOOL)checkPeripheralState;
+
 /**
  app发送指令
  */
@@ -34,7 +35,7 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 /**
  向peripheral发送数据
  */
-- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
+//- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
 //当前设备
 @property (nonatomic,strong) CBPeripheral *currentperi;
 //监听 蓝牙锁连接状态

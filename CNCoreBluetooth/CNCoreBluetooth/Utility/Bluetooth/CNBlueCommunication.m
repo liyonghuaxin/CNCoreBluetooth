@@ -9,6 +9,7 @@
 #import "CNBlueCommunication.h"
 #import "CommonData.h"
 #import "RespondModel.h"
+#import "BlueHelp.h"
 
 static CBCharacteristic *blCharacteristic = nil;
 
@@ -53,7 +54,13 @@ static CBCharacteristic *blCharacteristic = nil;
     switch (instruction) {
         case ENAutoSynchro:{
             //自动同步
-            
+            //指令吗00 时间YYMMDDHHMMSS(BCD编码) 锁状态1启用 0禁用
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"00"];
+            [dataStr appendString:[BlueHelp getCurDateByBCDEncode]];
+            [dataStr appendString:@"1"];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         case ENLock:{
@@ -90,11 +97,19 @@ static CBCharacteristic *blCharacteristic = nil;
             break;
     }
 }
++ (void)cbSendData:(NSData *)data toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
+    CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
+    if (characteristic.properties & CBCharacteristicPropertyWrite){
+        type = CBCharacteristicWriteWithoutResponse;
+    }
+    [peripheral readValueForCharacteristic:characteristic];
+    [peripheral writeValue:data forCharacteristic:characteristic  type:type];
+}
 /*
  关于写数据
  CBCharacteristicWriteWithResponse方法给外围设备写数据时，会回调 其代理的peripheral:didWriteValueForCharacteristic:error:方法。
  */
-+ (void)cbSendData:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
++ (void)cbSendStringCon:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     if (characteristic){
         CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
         if (characteristic.properties & CBCharacteristicPropertyWrite){

@@ -9,9 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "CNPeripheralModel.h"
 
+@protocol LockCellActionDelegate <NSObject>
+
+- (void)slideSuccess:(CBPeripheral *)peri;
+
+@end
+
 @interface CNLockCell : UITableViewCell
 
 @property (nonatomic,strong)CNPeripheralModel *model;
+
+@property (nonatomic,weak) id<LockCellActionDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UILabel *lockNameLab;
 @property (weak, nonatomic) IBOutlet UIImageView *lockLeft;

@@ -9,7 +9,6 @@
 #import "HomeViewController.h"
 #import "ScanAlertView.h"
 #import "CNBlueManager.h"
-#import "LockCell.h"
 #import "CNLockCell.h"
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
@@ -32,6 +31,24 @@
     // Do any additional setup after loading the view from its nib.
     _dataArray = [NSMutableArray array];
     
+    //lyh test data
+    for (int i = 0; i < 7; i++) {
+        CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+        model.periname = @"Quick Safe";
+        model.periID = [NSString stringWithFormat:@"AABBCCDDEEF%d",i];
+        if (i%3 == 0) {
+            model.isPwd = NO;
+            model.isTouchUnlock = NO;
+        }else if (i%3 == 1) {
+            model.isPwd = YES;
+            model.isTouchUnlock = NO;
+        }else{
+            model.isPwd = NO;
+            model.isTouchUnlock = YES;
+        }
+        [_dataArray addObject:model];
+    }
+    
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -39,7 +56,6 @@
     [self setRightBtn:rightBtn];
     [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
 
-    [_myTableView registerNib:[UINib nibWithNibName:@"LockCell" bundle:nil] forCellReuseIdentifier:@"LockCell"];
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     
@@ -70,6 +86,9 @@
         //发现新设备，输入密码
         //[CNBlueCommunication cbSendInstruction:(InstructionEnum) toPeripheral:<#(CBPeripheral *)#>]
         if ([CNBlueCommunication cbIsPaire:pwd]) {
+            //lyh debug
+            //[[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].currentperi];
+
             [CNPromptView showStatusWithString:@"Lock Paired"];
         }else{
             [blueManager.peripheralArray removeObject:blueManager.currentperi];
@@ -150,8 +169,7 @@
 }
 
 #pragma mark tableviewDelegate
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
         [cell setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
@@ -167,67 +185,29 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 136;
-    return 108;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 7;
     return _dataArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CNLockCell *curCell = [tableView dequeueReusableCellWithIdentifier:@"CNLockCell" forIndexPath:indexPath];
-    if (indexPath.row%3 == 0) {
-        curCell.pwdLab.hidden = YES;
-        curCell.fingerprintImagev.hidden = YES;
-    }else if (indexPath.row%3 == 1) {
-        curCell.pwdLab.hidden = NO;
-        curCell.fingerprintImagev.hidden = YES;
-    }else{
-        curCell.pwdLab.hidden = YES;
-        curCell.fingerprintImagev.hidden = NO;
+    CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
+    curCell.model = model;
+    if ([model.periname isEqualToString:@"Quick Safe"]) {
+        curCell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
     }
-    //curCell.model = nil;
     return curCell;
-    LockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LockCell" forIndexPath:indexPath];
-    CNPeripheralModel *model = _dataArray[indexPath.row];
-    [cell setModel:model];
-    cell.delegate = self;
-    //lyh debug
-    cell.slider.value = 0;
-    cell.actionBlock = ^(BOOL isConnect) {
-        if (isConnect) {
-            [[CNBlueManager sharedBlueManager] cus_connectPeripheral:model.peripheral];
-        }else{
-            [[CNBlueManager sharedBlueManager] cus_cancelConnectPeripheral:model.peripheral];
-        }
-    };
-    return cell;
 }
 
 #pragma mark LockCellActionDelegate
 - (void)slideSuccess:(CBPeripheral *)peri{
     CNPeripheralModel *model = [[CNDataBase sharedDataBase] lookupPeripheralInfo:peri.identifier.UUIDString];
     if (model.isPwd) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入密码" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"密码";
-            textField.secureTextEntry = YES;
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"Cancel Action");
-        }];
-        UIAlertAction *loginAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //UITextField *userName = alertController.textFields.firstObject;
-        }];
-        [alertController addAction:cancelAction];
-        [alertController addAction:loginAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        //弹出输入密码框
 
     }else{
-        [SVProgressHUD showSuccessWithStatus:@"已发送开锁指令"];
         [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
-        //[[CNBlueManager sharedBlueManager] senddata:@"01" toPeripheral:peri];
-        
     }
 }
 

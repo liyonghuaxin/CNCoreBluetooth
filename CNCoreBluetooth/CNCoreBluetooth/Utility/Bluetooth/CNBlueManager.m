@@ -62,7 +62,7 @@
  //可在没必要描外设时，取消扫描
  
  */
-#pragma mark public API
+#pragma mark public API   扫描设备、停止扫描、连接设备、取消连接
 // 开始扫描❤️广播包
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
     _scanFinished = finish;
@@ -92,11 +92,11 @@
     }
 }
 
-#pragma mark 数据交互
-- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
-    
-    [CNBlueCommunication cbSendData:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
-}
+//#pragma mark 数据交互
+//- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
+//    
+//    [CNBlueCommunication cbSendStringCon:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
+//}
 
 #pragma mark private API
 //订阅特征
@@ -162,6 +162,7 @@
     //过滤操作
     //lyh debug
     if ([peripheral.name hasPrefix:@"Quick"] || 1) {
+        _currentperi = peripheral;
         //3、记录扫描到的外围设备
         NSLog(@"=======发现外围设备=======%@",peripheral);
         if (![self.peripheralArray containsObject:peripheral]) {
@@ -197,11 +198,8 @@
     if (_periConnectedState) {
         _periConnectedState(peripheral,YES);
     }
-    //lyh debug
-    if ([peripheral.name containsString:@"iPhone"]) {
-        //扫描服务
-        [peripheral discoverServices:nil];
-    }
+    
+    [peripheral discoverServices:nil];
 }
 //外设连接失败时调用
 -(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
@@ -229,8 +227,7 @@
     NSLog(@"--------设备%@报告---didDiscoverServices---",peripheral.name);
     NSLog(@"Services == %@",peripheral.services);
     for (CBService *service in peripheral.services) {
-        //lyh debug
-        if([service.UUID.UUIDString isEqualToString:@"1000"]){
+        if([service.UUID.UUIDString isEqualToString:@"FFE0"]){
             [peripheral discoverCharacteristics:nil forService:service];
         }
     }
@@ -252,17 +249,16 @@
      需确认哪个server下的哪个Characteristic是发往外设数据的
      可将两个server和Characteristic分别写为宏
      */
-
     for (CBCharacteristic *characteristic in service.characteristics) {
         //判断服务：避免不同服务下有相同特征？
-        if ([service.UUID.UUIDString isEqualToString:@"1000"]) {
+        if ([service.UUID.UUIDString isEqualToString:@"FFE0"]) {
             //[[c UUID] isEqual:[CBUUID UUIDWithString:@"0000fff6-0000-1000-8000-00805f9b34fb"]]
-            if ([characteristic.UUID.UUIDString isEqualToString:@"1002"]) {
+            if ([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]) {
                 //订阅特征 可收到广播数据
                 //设置通知,接收蓝牙实时数据
                 [self notifyCharacteristic:peripheral characteristic:characteristic];
             }
-            if([characteristic.UUID.UUIDString isEqualToString:@"1003"]){
+            if([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]){
                 //这里可能会有刚连接蓝牙后的一些数据发送
                 self.uartRXCharacteristic = characteristic;
                 [CNBlueCommunication initCharacteristic:characteristic];

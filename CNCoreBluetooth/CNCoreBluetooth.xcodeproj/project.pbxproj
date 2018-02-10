@@ -53,8 +53,6 @@
 		186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E8394201EBFDA008D08B1 /* HelpViewController.xib */; };
 		186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8398201EE3C5008D08B1 /* ScanAlertView.m */; };
 		186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E839A201EE3EC008D08B1 /* ScanAlertView.xib */; };
-		186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD69201FF4E400A16E87 /* LockCell.m */; };
-		186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186FCD6A201FF4E400A16E87 /* LockCell.xib */; };
 		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
 		186FCD732020603500A16E87 /* CNBlueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD722020603500A16E87 /* CNBlueManager.m */; };
 		18997CF620268A1300C4F03A /* RespondModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18997CF520268A1300C4F03A /* RespondModel.m */; };
@@ -64,6 +62,7 @@
 		18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */; };
 		18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A7202C52D000725545 /* SaveSettingAlert.m */; };
 		18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A9202C531400725545 /* SaveSettingAlert.xib */; };
+		18A4B4B6202D5FA500725545 /* BlueHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4B5202D5FA500725545 /* BlueHelp.m */; };
 		18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7177C2026008B00F25626 /* CNKeychainManager.m */; };
 		18A717832026062300F25626 /* CommonData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A717822026062300F25626 /* CommonData.m */; };
 		18C3A675201AB10600999678 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A674201AB10600999678 /* AppDelegate.m */; };
@@ -164,9 +163,6 @@
 		186E8398201EE3C5008D08B1 /* ScanAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanAlertView.m; sourceTree = "<group>"; };
 		186E839A201EE3EC008D08B1 /* ScanAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanAlertView.xib; sourceTree = "<group>"; };
 		186E839C201EEB16008D08B1 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		186FCD68201FF4E400A16E87 /* LockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockCell.h; sourceTree = "<group>"; };
-		186FCD69201FF4E400A16E87 /* LockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockCell.m; sourceTree = "<group>"; };
-		186FCD6A201FF4E400A16E87 /* LockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockCell.xib; sourceTree = "<group>"; };
 		186FCD6E2020577300A16E87 /* CNPeripheralModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNPeripheralModel.h; sourceTree = "<group>"; };
 		186FCD6F2020577300A16E87 /* CNPeripheralModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNPeripheralModel.m; sourceTree = "<group>"; };
 		186FCD712020603500A16E87 /* CNBlueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBlueManager.h; sourceTree = "<group>"; };
@@ -182,6 +178,8 @@
 		18A4B4A6202C52D000725545 /* SaveSettingAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveSettingAlert.h; sourceTree = "<group>"; };
 		18A4B4A7202C52D000725545 /* SaveSettingAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SaveSettingAlert.m; sourceTree = "<group>"; };
 		18A4B4A9202C531400725545 /* SaveSettingAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveSettingAlert.xib; sourceTree = "<group>"; };
+		18A4B4B4202D5FA500725545 /* BlueHelp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueHelp.h; sourceTree = "<group>"; };
+		18A4B4B5202D5FA500725545 /* BlueHelp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlueHelp.m; sourceTree = "<group>"; };
 		18A7177B2026008B00F25626 /* CNKeychainManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNKeychainManager.h; sourceTree = "<group>"; };
 		18A7177C2026008B00F25626 /* CNKeychainManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNKeychainManager.m; sourceTree = "<group>"; };
 		18A717812026062300F25626 /* CommonData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonData.h; sourceTree = "<group>"; };
@@ -261,9 +259,6 @@
 				182629F12028236F004DE2B2 /* CNLockCell.h */,
 				182629F22028236F004DE2B2 /* CNLockCell.m */,
 				182629F32028236F004DE2B2 /* CNLockCell.xib */,
-				186FCD68201FF4E400A16E87 /* LockCell.h */,
-				186FCD69201FF4E400A16E87 /* LockCell.m */,
-				186FCD6A201FF4E400A16E87 /* LockCell.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -393,6 +388,8 @@
 				186FCD722020603500A16E87 /* CNBlueManager.m */,
 				1810A6E820229841001487B0 /* CNBlueCommunication.h */,
 				1810A6E920229841001487B0 /* CNBlueCommunication.m */,
+				18A4B4B4202D5FA500725545 /* BlueHelp.h */,
+				18A4B4B5202D5FA500725545 /* BlueHelp.m */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -622,7 +619,6 @@
 				18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */,
 				186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */,
 				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,
-				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
 				18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */,
 				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
 				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
@@ -714,9 +710,9 @@
 				186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */,
 				18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */,
 				18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */,
+				18A4B4B6202D5FA500725545 /* BlueHelp.m in Sources */,
 				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
 				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
-				186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */,
 				18262A1520297B63004DE2B2 /* SetDetailViewController.m in Sources */,
 				18C3A683201AB10600999678 /* main.m in Sources */,
 				1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */,

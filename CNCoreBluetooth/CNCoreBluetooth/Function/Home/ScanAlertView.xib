@@ -35,8 +35,9 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="amL-Rf-EOu"/>
                             </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="Cancle">
-                                <color key="titleColor" red="0.57413536310195923" green="0.25690892338752747" blue="0.23534283041954041" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleColor" red="0.793195188" green="0.1206425205" blue="0.15662530059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="cancelScan:" destination="iN0-l3-epB" eventType="touchUpInside" id="NRI-0B-nPU"/>
