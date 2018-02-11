@@ -87,7 +87,7 @@
     }];
 }
 
-- (CNPeripheralModel *)lookupPeripheralInfo:(NSString *)lockID{
+- (CNPeripheralModel *)searchPeripheralInfo:(NSString *)lockID{
     CNPeripheralModel *model;
     [_db open];
     FMResultSet *rs = [_db executeQuery:@"Select * FROM peripheral WHERE peri_id = ?",lockID];
@@ -100,6 +100,18 @@
     }
     [_db close];
     return model;
+}
+
+-(NSArray *)searchAllPariedPeriID{
+    [_db open];
+    FMResultSet *rs = [_db executeQuery:@"Select peri_id FROM peripheral"];
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        NSString *string = [rs stringForColumn:@"peri_id"];
+        [array addObject:string];
+    }
+    [_db close];
+    return array;
 }
 
 @end

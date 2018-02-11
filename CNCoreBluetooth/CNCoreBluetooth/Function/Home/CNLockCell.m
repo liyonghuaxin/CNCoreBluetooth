@@ -26,8 +26,9 @@
     _slider.maximumTrackTintColor = THEME_BLACK_COLOR;
     _slider.continuous = YES;
     [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventTouchUpInside];
-    [_slider addTarget:self action:@selector(sliderValueChanged2:) forControlEvents:UIControlEventTouchUpOutside];
-
+    [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventTouchUpOutside];
+    _slider.minimumTrackTintColor = THEME_RED_COLOR;
+    _slider.maximumTrackTintColor = THEME_BLACK_COLOR;
     //给滑动按钮设置图片
     [_slider setThumbImage:[UIImage imageNamed:@"ellipse"] forState:UIControlStateNormal];
     //给滑道左侧设置图片
@@ -49,27 +50,9 @@
     }
 }
 
-- (void)sliderValueChanged2:(id)sender{
-    UISlider *slider = (UISlider *)sender;
-    if (slider.value > 0.92) {
-        slider.value = 1;
-        _lockRight.image = [UIImage imageNamed:@"unlockRight"];
-        _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
-        //滑动开锁
-        if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
-            [self.delegate slideSuccess:_model.peripheral];
-        }
-        [CNPromptView showStatusWithString:@"Lock is Open"];
-    }else{
-        slider.value = 0;
-        _lockRight.image = [UIImage imageNamed:@"lockRight"];
-        _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
-    }
-}
-
 - (void)sliderValueChanged:(id)sender{
     UISlider *slider = (UISlider *)sender;
-    if (slider.value > 0.92) {
+    if (slider.value > 0.7) {
         slider.value = 1;
         _lockRight.image = [UIImage imageNamed:@"unlockRight"];
         _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
@@ -77,6 +60,14 @@
         if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
             [self.delegate slideSuccess:_model.peripheral];
         }
+        //3秒后滑块自动返回
+        dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC);
+        dispatch_after(timer, dispatch_get_main_queue(), ^(void){
+            slider.value = 0;
+            _lockRight.image = [UIImage imageNamed:@"lockRight"];
+            _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
+        });
+
         [CNPromptView showStatusWithString:@"Lock is Open"];
     }else{
         slider.value = 0;

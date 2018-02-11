@@ -39,7 +39,7 @@
 
     _saveBtn.layer.cornerRadius = 8;
     
-    periInfoModel = [[CNDataBase sharedDataBase] lookupPeripheralInfo:_periID];
+    periInfoModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_periID];
     _lockNameTf.text = periInfoModel.periname;
     if (periInfoModel.isPwd) {
         _pawBtn.selected = YES;

@@ -10,6 +10,7 @@
 #import "CommonData.h"
 #import "RespondModel.h"
 #import "BlueHelp.h"
+#import "CNDataBase.h"
 
 static CBCharacteristic *blCharacteristic = nil;
 

@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view from its nib.
     _dataArray = [NSMutableArray array];
     
-    //lyh test data
+    //lyh test
     for (int i = 0; i < 7; i++) {
         CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
         model.periname = @"Quick Safe";
@@ -62,13 +62,13 @@
     CNBlueManager *blueManager = [CNBlueManager sharedBlueManager];
     //外设连接状态发生变化
     blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect) {
-        if (self.dataArray.count) {
-            NSInteger index = [self getIndexOfPeripheral:peripherial];
-            CNPeripheralModel *model = self.dataArray[index];
-            model.peripheral = peripherial;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-            [self.myTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }
+//        if (self.dataArray.count) {
+//            NSInteger index = [self getIndexOfPeripheral:peripherial];
+//            CNPeripheralModel *model = self.dataArray[index];
+//            model.peripheral = peripherial;
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+//            [self.myTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        }
     };
     
     //搜索外设框
@@ -202,7 +202,7 @@
 
 #pragma mark LockCellActionDelegate
 - (void)slideSuccess:(CBPeripheral *)peri{
-    CNPeripheralModel *model = [[CNDataBase sharedDataBase] lookupPeripheralInfo:peri.identifier.UUIDString];
+    CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
     if (model.isPwd) {
         //弹出输入密码框
 

@@ -23,6 +23,10 @@
 /**
  查询
  */
-- (CNPeripheralModel *)lookupPeripheralInfo:(NSString *)lockID;
-
+- (CNPeripheralModel *)searchPeripheralInfo:(NSString *)lockID;
+/**
+ 查询所有已连接设备id
+ */
+- (NSArray *)searchAllPariedPeriID;
 @end
+

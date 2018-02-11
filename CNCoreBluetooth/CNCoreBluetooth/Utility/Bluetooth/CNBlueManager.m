@@ -62,6 +62,24 @@
  //可在没必要描外设时，取消扫描
  
  */
+
+- (BOOL)isConnectedAllPairedPeripheral{
+    //查看是否将所有已配对设备连接
+    NSMutableArray *lockIDArr = [NSMutableArray arrayWithArray:[[CNDataBase sharedDataBase] searchAllPariedPeriID]];
+    if (lockIDArr.count == _connectedPeripheralArray.count) {
+        return YES;
+    }else{
+        for (CBPeripheral *peri in _connectedPeripheralArray) {
+            [lockIDArr removeObject:peri.identifier];
+        }
+        if (lockIDArr.count == 0) {
+            return YES;
+        }else{
+            return NO;
+        }
+    }
+}
+
 #pragma mark public API   扫描设备、停止扫描、连接设备、取消连接
 // 开始扫描❤️广播包
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
@@ -75,9 +93,13 @@
 
 -(void)cus_connectPeripheral:(CBPeripheral *)peri{
     //lyh  warning
-    if (self.mgr.state != CBManagerStatePoweredOn) {
-        [SVProgressHUD showErrorWithStatus:@"请打开蓝牙"];
-        return;
+    if (@available(iOS 10.0, *)) {
+        if (self.mgr.state != CBManagerStatePoweredOn) {
+            [SVProgressHUD showErrorWithStatus:@"请打开蓝牙"];
+            return;
+        }
+    } else {
+        // Fallback on earlier versions
     }
     if (peri.state == CBPeripheralStateDisconnected) {
         NSLog(@"🔑🔑🔑🔑🔑🔑🔑正在连接设备 ： %@",peri.name);
@@ -133,11 +155,35 @@
         case CBCentralManagerStatePoweredOff:
             NSLog(@">>>蓝牙关闭");
             break;
-        case CBCentralManagerStatePoweredOn:
+        case CBCentralManagerStatePoweredOn:{
             NSLog(@">>>蓝牙打开");
+            /*
+             自动连接方案一：扫描周围设备，根据本地本地配对记录，连接
+             自动连接方案二：根据本地记录已配对设备id，retrievePeripheralsWithIdentifiers返回peripheral，逐一连接
+             自动连接方案二：前两种结合
+             第一种比较稳定，会慢？
+             第二种retrievePeripheralsWithIdentifiers方法是否可靠
+             */
+            
+            //扫描已配对的设备（从后台唤醒会自动走该方法）
+            NSArray *periIDArr = [[CNDataBase sharedDataBase] searchAllPariedPeriID];
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSString *periID in periIDArr) {
+                NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:periID];
+                [array addObject:uuid];
+            }
+            NSArray *retrieveArr = [_mgr retrievePeripheralsWithIdentifiers:array];
+            for (CBPeripheral *peripheral in retrieveArr) {
+                if (![self.peripheralArray containsObject:peripheral]) {
+                    [self.peripheralArray addObject:peripheral];
+                }
+                [self cus_connectPeripheral:peripheral];
+            }
+            
             //蓝牙打开时,再去扫描设备
             //[_mgr scanForPeripheralsWithServices:nil options:nil];
             break;
+        }
         default:
             break;
     }
@@ -149,7 +195,6 @@
  RSSI：信号强度
  */
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
-
     /*
      查看❤️广播包❤️数据，advertisementData数据：
      kCBAdvDataIsConnectable = 1;
@@ -158,6 +203,9 @@
         1000
      );
      */
+    
+    //过滤操作根据什么属性过滤？广播包uuid，还是锁名字？锁名字会变
+    //scanForPeripheralsWithServices可以扫描的时候直接过滤？
     
     //过滤操作
     //lyh debug
@@ -259,12 +307,11 @@
                 [self notifyCharacteristic:peripheral characteristic:characteristic];
             }
             if([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]){
-                //这里可能会有刚连接蓝牙后的一些数据发送
+                //数据发送
                 self.uartRXCharacteristic = characteristic;
                 [CNBlueCommunication initCharacteristic:characteristic];
             }
         }
-        
         //描述相关的方法,代理实际项目中没有涉及到,只做了解
         //[peripheral discoverDescriptorsForCharacteristic:characteristic];
     }
@@ -277,7 +324,7 @@
     }
     if (characteristic.isNotifying) {
         //lyh
-        //蓝牙不断，失去连接，重新连上可以记录上次接受广播的数据characteristic.value
+        //蓝牙不断开，失去连接，重新连上可以记录上次接受广播的数据characteristic.value
         //NSLog(@"notification====%@",characteristic.value);
         //[peripheral readValueForCharacteristic:characteristic];
     } else {
