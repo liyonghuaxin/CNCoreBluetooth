@@ -21,6 +21,8 @@ Boolean isopen = false;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         data = [[CommonData alloc] init];
+        data.listPeriArr = [NSMutableArray array];
+        data.reportIDArr = [NSMutableArray array];
     });
     return data;
 }

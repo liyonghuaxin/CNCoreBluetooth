@@ -22,6 +22,7 @@ typedef enum : NSUInteger {
 - (void)stopScan;
 
 @property (nonatomic,assign) AlertType showType;
+-(void)setShowType:(AlertType)showType WithTitle:(NSString *)title;
 @property (nonatomic,strong) void (^alertBlock)(void);
 @property (nonatomic,strong) void (^returnPasswordStringBlock)(NSString *pwd);
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;

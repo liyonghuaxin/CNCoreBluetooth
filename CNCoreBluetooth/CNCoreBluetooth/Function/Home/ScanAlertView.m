@@ -57,6 +57,16 @@
     }
 }
 
+-(void)setShowType:(AlertType)showType WithTitle:(NSString *)title{
+    [self setShowType:showType];
+    if (title.length) {
+        _lockNameLab.text = title;
+    }else{
+        _lockNameLab.text = @"Unknown Device";
+    }
+    
+}
+
 -(void)setShowType:(AlertType)showType{
     _showType = showType;
     if (showType == AlertEnterPwd) {

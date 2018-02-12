@@ -18,6 +18,11 @@ extern float scalePage;
 +(instancetype)sharedCommonData;
 
 + (BOOL)deviceIsIpad;
+
 @property (nonatomic, copy)NSString *macAddress;
+//存放 home set列表数据
+@property (nonatomic,strong) NSMutableArray *listPeriArr;
+//存放需要自动同步锁具ID
+@property (nonatomic,strong) NSMutableArray *reportIDArr;
 
 @end

@@ -17,20 +17,32 @@
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
     ScanAlertView *alert;
     NSDate *beginDate;
+    CNBlueManager *blueManager;
+    NSTimer *reportTimer;
 }
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
+@property (nonatomic,strong) NSMutableArray *lockIDArray;
+
 @property (nonatomic,strong) NSTimer *myTimer;
 
 @end
 
 @implementation HomeViewController
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (blueManager.unConnectedLockIDArray.count) {
+        [blueManager connectAllPairedLock];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     _dataArray = [NSMutableArray array];
-    
+    _lockIDArray = [NSMutableArray array];
+
     //lyh test
     for (int i = 0; i < 7; i++) {
         CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
@@ -46,9 +58,12 @@
             model.isPwd = NO;
             model.isTouchUnlock = YES;
         }
-        [_dataArray addObject:model];
+        //[_dataArray addObject:model];
     }
     
+    [self addTimer];
+    
+    blueManager = [CNBlueManager sharedBlueManager];
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -58,23 +73,29 @@
 
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    
-    CNBlueManager *blueManager = [CNBlueManager sharedBlueManager];
+    __weak typeof(self) weakSelf = self;
+
     //外设连接状态发生变化
     blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect) {
-//        if (self.dataArray.count) {
-//            NSInteger index = [self getIndexOfPeripheral:peripherial];
-//            CNPeripheralModel *model = self.dataArray[index];
-//            model.peripheral = peripherial;
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-//            [self.myTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        }
+        if (isConnect) {
+            //更新列表
+            if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+                CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+                model.peripheral = peripherial;
+                model.periname = peripherial.name;
+                model.periID = peripherial.identifier.UUIDString;
+                [weakSelf.dataArray addObject:model];
+                [[CommonData sharedCommonData].listPeriArr addObject:model];
+                [weakSelf.myTableView reloadData];
+                [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+            }
+        }
+
     };
     
     //搜索外设框
     alert = [[NSBundle mainBundle] loadNibNamed:@"ScanAlertView" owner:self options:nil][0];
     alert.hidden = YES;
-    __weak typeof(self) weakSelf = self;
     alert.alertBlock = ^{
         if ([weakSelf.myTimer isValid]) {
             [weakSelf.myTimer invalidate];
@@ -82,27 +103,62 @@
         weakSelf.myTimer = nil;
         [[CNBlueManager sharedBlueManager] cus_stopScan];
     };
+    __weak typeof(self) weakself = self;
     alert.returnPasswordStringBlock = ^(NSString *pwd) {
-        //发现新设备，输入密码
-        //[CNBlueCommunication cbSendInstruction:(InstructionEnum) toPeripheral:<#(CBPeripheral *)#>]
         if ([CNBlueCommunication cbIsPaire:pwd]) {
             //lyh debug
-            //[[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].currentperi];
-
             [CNPromptView showStatusWithString:@"Lock Paired"];
+        
+            [[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].curPeri];
+
+            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+            model.peripheral = [CNBlueManager sharedBlueManager].curPeri;
+            [weakself.dataArray addObject:model];
+            [[CommonData sharedCommonData].listPeriArr addObject:model];
+            [weakself.myTableView reloadData];
         }else{
-            [blueManager.peripheralArray removeObject:blueManager.currentperi];
             [CNPromptView showStatusWithString:@"Lock Unpaired"];
         }
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
+    
+}
+#pragma mark Private 定时器
+
+- (void)addTimer
+{
+    if (@available(iOS 10.0, *)) {
+        reportTimer = [NSTimer scheduledTimerWithTimeInterval:10 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            [self reportToLock];
+        }];
+    } else {
+        reportTimer = [NSTimer timerWithTimeInterval:10 target:self selector:@selector(reportToLock) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:reportTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)removeTimer
+{
+    [reportTimer invalidate];
+    reportTimer = nil;
 }
 #pragma mark Private API
+//自动同步，自动循环上报，直到收到锁具回复，时间待定
+- (void)reportToLock{
+    for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
+        for (CBPeripheral *peri in blueManager.connectedLockIDArray) {
+            if ([peri.identifier.UUIDString isEqualToString:idStr]) {
+                [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peri];
+            }
+        }
+    }
+}
+
 - (NSInteger)getIndexOfPeripheral:(CBPeripheral *)peripheral{
     int i = 0;
     for (CNPeripheralModel *model in _dataArray) {
-        if ([model.peripheral.identifier isEqual:peripheral.identifier]) {
+        if ([model.peripheral.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
             break;
         }
         i++;
@@ -140,21 +196,16 @@
     beginDate = [NSDate date];
     [alert beginScan];
     //开始搜索外设
-    __weak typeof(self) weakself = self;
-    [[CNBlueManager sharedBlueManager] cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
+    [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
         if (per) {
             [self findPeri];
-            [alert setShowType:AlertEnterPwd];
-            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-            model.peripheral = per;
-            [weakself.dataArray addObject:model];
-            [weakself.myTableView reloadData];
+            [alert setShowType:AlertEnterPwd WithTitle:per.name];
         }
     }];
 }
 
 - (void)findPeri{
-    NSLog(@"%@",[CNBlueManager sharedBlueManager].peripheralArray);
+    NSLog(@"%@",blueManager.peripheralArray);
     [alert setShowType:AlertEnterPwd];
 
 }
@@ -164,10 +215,9 @@
     NSTimeInterval secondsBetweenDates = [curDate timeIntervalSinceDate:beginDate];
     if (secondsBetweenDates>6) {
         [alert stopScan];
-        [[CNBlueManager sharedBlueManager] cus_stopScan];
+        [blueManager cus_stopScan];
     }
 }
-
 #pragma mark tableviewDelegate
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -191,13 +241,16 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CNLockCell *curCell = [tableView dequeueReusableCellWithIdentifier:@"CNLockCell" forIndexPath:indexPath];
+    CNLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CNLockCell" forIndexPath:indexPath];
+    cell.delegate = self;
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
-    curCell.model = model;
+    cell.model = model;
     if ([model.periname isEqualToString:@"Quick Safe"]) {
-        curCell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
+        cell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
+    }else{
+        cell.lockNameLab.text = model.periname;
     }
-    return curCell;
+    return cell;
 }
 
 #pragma mark LockCellActionDelegate
@@ -207,7 +260,12 @@
         //弹出输入密码框
 
     }else{
-        [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+        if(peri.state != CBPeripheralStateConnected){
+            //lyh 若已断开，重新连接。 这里要怎么提示吗？
+            [blueManager cus_connectPeripheral:peri];
+        }else{
+            [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+        }
     }
 }
 

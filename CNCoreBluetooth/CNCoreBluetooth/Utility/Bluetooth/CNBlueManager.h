@@ -26,7 +26,7 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
 - (void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
 
 - (BOOL)checkPeripheralState;
-
+- (void)connectAllPairedLock;
 /**
  app发送指令
  */
@@ -36,13 +36,18 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial,BOOL isConnect)
  向peripheral发送数据
  */
 //- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
-//当前设备
-@property (nonatomic,strong) CBPeripheral *currentperi;
+@property (nonatomic,strong) CBCentralManager *mgr;
+@property (nonatomic,strong) CBPeripheral *curPeri;
 //监听 蓝牙锁连接状态
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;
 //存放已扫到的外设
+//包括数据库存放的被retrieve的外设（可能不在周围，但之前配对过）和 刚被扫描出来的外设
 @property (nonatomic,strong) NSMutableArray *peripheralArray;
 //存放正连接的外设
 @property (nonatomic,strong) NSMutableArray *connectedPeripheralArray;
+//存放已连接的外设ID
+@property (nonatomic,strong) NSMutableArray *connectedLockIDArray;
+//存放已配对但未连接的外设ID
+@property (nonatomic,strong) NSMutableArray *unConnectedLockIDArray;
 
 @end

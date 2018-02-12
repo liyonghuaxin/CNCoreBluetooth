@@ -17,6 +17,7 @@
 #import "SetDetailViewController.h"
 #import "UIView+KGViewExtend.h"
 #import "ChangePwdAlert.h"
+#import "CNPeripheralModel.h"
 
 @interface SetViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>{
     
@@ -31,6 +32,17 @@
 
 @implementation SetViewController
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setBackBtnHiden:YES];
+    //lyh debug
+    _dataArray = [NSMutableArray arrayWithArray:[CommonData sharedCommonData].listPeriArr];
+    [_myTableView reloadData];
+    [self layoutFootView];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -40,32 +52,26 @@
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     //保证_dataArray的实时性
-    _dataArray = [CNBlueManager sharedBlueManager].connectedPeripheralArray;
-    //_dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
+    _dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
     _presentAnimation = [PresentTransformAnimation new];
     _transitionController = [SwipeUpInteractiveTransition new];
-    
 
     _changAdminPwdBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
     _changAdminPwdBtn.layer.cornerRadius = _setLanguageBtn.height/2.0;
     _setLanguageBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
     _setLanguageBtn.layer.cornerRadius = _setLanguageBtn.height/2.0;
-    //lyh debug 50*3
-    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*3;
+    [self layoutFootView];
+}
+
+- (void)layoutFootView{
+    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*_dataArray.count;
     if (footViewheight<150) {
         footViewheight = 150;
     }
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;
-    
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self setBackBtnHiden:YES];
-    //lyh debug
-    //[_myTableView reloadData];
-}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -80,8 +86,6 @@
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    //lyh debug
-    return 3;
     return _dataArray.count;
 }
 
@@ -119,8 +123,12 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SetLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLockCell" forIndexPath:indexPath];
-    //CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
-    //cell.nameLab.text =peri.name;
+    CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
+    if ([model.periname isEqualToString:@"Quick Safe"]) {
+        cell.nameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
+    }else{
+        cell.nameLab.text = model.periname;
+    }
     return cell;
 }
 

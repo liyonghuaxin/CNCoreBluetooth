@@ -14,7 +14,6 @@
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
 }
-@property (nonatomic,strong) CBCentralManager *mgr;
 /** 设备特征值*/
 @property (nonatomic, strong) CBCharacteristic *uartRXCharacteristic;
 //上锁和解锁的characteristic
@@ -46,7 +45,8 @@
         manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
         manager.peripheralArray = [NSMutableArray array];
         manager.connectedPeripheralArray = [NSMutableArray array];
-
+        manager.connectedLockIDArray = [NSMutableArray array];
+        manager.unConnectedLockIDArray = [NSMutableArray array];
     });
     return manager;
 }
@@ -65,17 +65,31 @@
 
 - (BOOL)isConnectedAllPairedPeripheral{
     //查看是否将所有已配对设备连接
+    BOOL isAllPaired = YES;
     NSMutableArray *lockIDArr = [NSMutableArray arrayWithArray:[[CNDataBase sharedDataBase] searchAllPariedPeriID]];
-    if (lockIDArr.count == _connectedPeripheralArray.count) {
-        return YES;
-    }else{
-        for (CBPeripheral *peri in _connectedPeripheralArray) {
-            [lockIDArr removeObject:peri.identifier];
+    _unConnectedLockIDArray = [NSMutableArray array];
+    for (NSString *lockID in lockIDArr) {
+        if (![_connectedLockIDArray containsObject:lockID]) {
+            isAllPaired = NO;
+            [_unConnectedLockIDArray addObject:lockID];
         }
-        if (lockIDArr.count == 0) {
-            return YES;
-        }else{
-            return NO;
+    }
+    return isAllPaired;
+}
+
+- (void)connectAllPairedLock{
+    if (![self isConnectedAllPairedPeripheral]) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSString *periID in _unConnectedLockIDArray) {
+            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:periID];
+            [array addObject:uuid];
+        }
+        NSArray *retrieveArr = [_mgr retrievePeripheralsWithIdentifiers:array];
+        for (CBPeripheral *peripheral in retrieveArr) {
+            if (![self.peripheralArray containsObject:peripheral]) {
+                [self.peripheralArray addObject:peripheral];
+            }
+            [self cus_connectPeripheral:peripheral];
         }
     }
 }
@@ -157,6 +171,8 @@
             break;
         case CBCentralManagerStatePoweredOn:{
             NSLog(@">>>蓝牙打开");
+            //扫描已配对的设备（从后台唤醒会自动走该方法）
+
             /*
              自动连接方案一：扫描周围设备，根据本地本地配对记录，连接
              自动连接方案二：根据本地记录已配对设备id，retrievePeripheralsWithIdentifiers返回peripheral，逐一连接
@@ -165,21 +181,9 @@
              第二种retrievePeripheralsWithIdentifiers方法是否可靠
              */
             
-            //扫描已配对的设备（从后台唤醒会自动走该方法）
-            NSArray *periIDArr = [[CNDataBase sharedDataBase] searchAllPariedPeriID];
-            NSMutableArray *array = [NSMutableArray array];
-            for (NSString *periID in periIDArr) {
-                NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:periID];
-                [array addObject:uuid];
-            }
-            NSArray *retrieveArr = [_mgr retrievePeripheralsWithIdentifiers:array];
-            for (CBPeripheral *peripheral in retrieveArr) {
-                if (![self.peripheralArray containsObject:peripheral]) {
-                    [self.peripheralArray addObject:peripheral];
-                }
-                [self cus_connectPeripheral:peripheral];
-            }
-            
+            //自动连接所有已配对的设备
+            [self connectAllPairedLock];
+
             //蓝牙打开时,再去扫描设备
             //[_mgr scanForPeripheralsWithServices:nil options:nil];
             break;
@@ -210,18 +214,19 @@
     //过滤操作
     //lyh debug
     if ([peripheral.name hasPrefix:@"Quick"] || 1) {
-        _currentperi = peripheral;
-        //3、记录扫描到的外围设备
+        //记录扫描到的外围设备
         NSLog(@"=======发现外围设备=======%@",peripheral);
         if (![self.peripheralArray containsObject:peripheral]) {
             [self.peripheralArray addObject:peripheral];
-            //更新新发现的外设列表
+        }
+        
+        if (![_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString] && ![_connectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
             if (_scanFinished) {
-                _currentperi = peripheral;
                 _scanFinished(peripheral);
+                _curPeri = peripheral;
+                //一次只扫一个
+                [self cus_stopScan];
             }
-            //一次只扫一个
-            [self cus_stopScan];
         }
     }
 }
@@ -233,6 +238,7 @@
     CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
     model.periID = peripheral.identifier.UUIDString;
     model.periname = peripheral.name;
+    //本地保存已配对设备
     [[CNDataBase sharedDataBase] addPeripheralInfo:model];
     
     NSLog(@"-✅✅✅✅✅✅✅✅-----和设备%@连接成功-------",peripheral.name);
@@ -241,12 +247,15 @@
     [peripheral readRSSI];
     if (![self.connectedPeripheralArray containsObject:peripheral]) {
         [self.connectedPeripheralArray addObject:peripheral];
+        [self.connectedLockIDArray addObject:peripheral.identifier.UUIDString];
+        if ([_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
+            [_unConnectedLockIDArray removeObject:peripheral.identifier.UUIDString];
+        }
         NSLog(@"扫描到的外围设备 peripheral == %@",peripheral);
     }
     if (_periConnectedState) {
         _periConnectedState(peripheral,YES);
     }
-    
     [peripheral discoverServices:nil];
 }
 //外设连接失败时调用
@@ -257,9 +266,12 @@
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     //[SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"%@失去连接",peripheral.name]];
     [self.connectedPeripheralArray removeObject:peripheral];
+    [self.connectedLockIDArray removeObject:peripheral.identifier.UUIDString];
+    [_unConnectedLockIDArray addObject:peripheral.identifier.UUIDString];
     if (_periConnectedState) {
         _periConnectedState(peripheral,NO);
     }
+    
     //[self.mgr connectPeripheral:peripheral options:nil];
     NSLog(@"-❌❌❌❌❌❌❌❌-----失去和设备%@的连接-------",peripheral.name);
 }
@@ -315,6 +327,12 @@
         //描述相关的方法,代理实际项目中没有涉及到,只做了解
         //[peripheral discoverDescriptorsForCharacteristic:characteristic];
     }
+    
+    //自动同步
+    [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peripheral];
+    //收到锁具回应后再移除
+    [[CommonData sharedCommonData].reportIDArr addObject:peripheral.identifier];
+    
 }
 
 //---------订阅后的回调----------
