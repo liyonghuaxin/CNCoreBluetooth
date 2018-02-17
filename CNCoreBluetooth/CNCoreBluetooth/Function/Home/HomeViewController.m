@@ -30,6 +30,10 @@
 
 @implementation HomeViewController
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (blueManager.unConnectedLockIDArray.count) {
@@ -42,7 +46,7 @@
     // Do any additional setup after loading the view from its nib.
     _dataArray = [NSMutableArray array];
     _lockIDArray = [NSMutableArray array];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
     //lyh test
     for (int i = 0; i < 7; i++) {
         CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
@@ -60,8 +64,8 @@
         }
         //[_dataArray addObject:model];
     }
-    
-    [self addTimer];
+    //lyh 循环自动同步
+    //[self addTimer];
     
     blueManager = [CNBlueManager sharedBlueManager];
     self.headView.hidden = NO;
@@ -80,10 +84,8 @@
         if (isConnect) {
             //更新列表
             if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
-                CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+                CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
                 model.peripheral = peripherial;
-                model.periname = peripherial.name;
-                model.periID = peripherial.identifier.UUIDString;
                 [weakSelf.dataArray addObject:model];
                 [[CommonData sharedCommonData].listPeriArr addObject:model];
                 [weakSelf.myTableView reloadData];
@@ -103,19 +105,11 @@
         weakSelf.myTimer = nil;
         [[CNBlueManager sharedBlueManager] cus_stopScan];
     };
-    __weak typeof(self) weakself = self;
     alert.returnPasswordStringBlock = ^(NSString *pwd) {
         if ([CNBlueCommunication cbIsPaire:pwd]) {
             //lyh debug
             [CNPromptView showStatusWithString:@"Lock Paired"];
-        
             [[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].curPeri];
-
-            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-            model.peripheral = [CNBlueManager sharedBlueManager].curPeri;
-            [weakself.dataArray addObject:model];
-            [[CommonData sharedCommonData].listPeriArr addObject:model];
-            [weakself.myTableView reloadData];
         }else{
             [CNPromptView showStatusWithString:@"Lock Unpaired"];
         }
@@ -124,6 +118,21 @@
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
     
 }
+
+- (void)reloadList:(NSNotification *)notification{
+    CNPeripheralModel *pModel = [notification object];
+    int i = 0;
+    for (CNPeripheralModel *model in _dataArray) {
+        if ([pModel.periID isEqualToString:model.periID]) {
+            pModel.peripheral = model.peripheral;
+            break;
+        }
+        i++;
+    }
+    [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    [_myTableView reloadData];
+}
+
 #pragma mark Private 定时器
 
 - (void)addTimer
@@ -147,7 +156,7 @@
 //自动同步，自动循环上报，直到收到锁具回复，时间待定
 - (void)reportToLock{
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
-        for (CBPeripheral *peri in blueManager.connectedLockIDArray) {
+        for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
                 [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peri];
             }
@@ -248,7 +257,11 @@
     if ([model.periname isEqualToString:@"Quick Safe"]) {
         cell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
     }else{
-        cell.lockNameLab.text = model.periname;
+        if (model.periname) {
+            cell.lockNameLab.text = model.periname;
+        }else{
+            cell.lockNameLab.text = @"Unknown Device";
+        }
     }
     return cell;
 }

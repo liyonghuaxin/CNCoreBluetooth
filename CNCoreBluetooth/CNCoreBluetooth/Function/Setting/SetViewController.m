@@ -43,16 +43,21 @@
     
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
+    _dataArray = [NSMutableArray array];
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"LOCK-SETTINGS"];
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    //保证_dataArray的实时性
-    _dataArray = [NSMutableArray arrayWithArray:[CNBlueManager sharedBlueManager].connectedPeripheralArray];
+
+    
     _presentAnimation = [PresentTransformAnimation new];
     _transitionController = [SwipeUpInteractiveTransition new];
 
@@ -72,6 +77,18 @@
     _myTableView.tableFooterView = _footView;
 }
 
+- (void)reloadList:(NSNotification *)notification{
+    CNPeripheralModel *pModel = [notification object];
+    int i = 0;
+    for (CNPeripheralModel *model in _dataArray) {
+        if ([pModel.periID isEqualToString:model.periID]) {
+            break;
+        }
+        i++;
+    }
+    [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    [_myTableView reloadData];
+}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -92,29 +109,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     SetDetailViewController *detail = [[SetDetailViewController alloc] init];
+    CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
+    detail.lockID = model.periID;
     [self.navigationController pushViewController:detail animated:YES];
-    return;
-    if (_dataArray.count) {
-        CBPeripheral *peri = (CBPeripheral *)_dataArray[indexPath.row];
-        if (peri.state != CBPeripheralStateConnected) {
-            [SVProgressHUD showErrorWithStatus:@"已断开连接"];
-            return;
-        }
-        SetDetailVC *setDetail = [[SetDetailVC alloc] init];
-        setDetail.periID = peri.identifier.UUIDString;
-        setDetail.tabbarBlock = ^{
-            self.tabBarController.tabBar.hidden = NO;
-        };
-        self.tabBarController.tabBar.hidden = YES;
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:setDetail];
-        setDetail.navigationController.navigationBar.hidden = YES;
-        nav.transitioningDelegate = self;
-        nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        [_transitionController wireToViewController:nav];
-        [self presentViewController:nav animated:YES completion:nil];
-    }else{
-        [SVProgressHUD showErrorWithStatus:@"已断开连接"];
-    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -127,7 +124,11 @@
     if ([model.periname isEqualToString:@"Quick Safe"]) {
         cell.nameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
     }else{
-        cell.nameLab.text = model.periname;
+        if (model.periname) {
+            cell.nameLab.text = model.periname;
+        }else{
+            cell.nameLab.text = @"Unknown Device";
+        }
     }
     return cell;
 }

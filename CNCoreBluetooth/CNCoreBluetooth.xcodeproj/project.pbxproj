@@ -322,9 +322,6 @@
 				1810A6C82021591F001487B0 /* SetLockCell.h */,
 				1810A6C92021591F001487B0 /* SetLockCell.m */,
 				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
-				18262A1C20298A2C004DE2B2 /* SetLockMethod.h */,
-				18262A1D20298A2C004DE2B2 /* SetLockMethod.m */,
-				18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */,
 			);
 			name = Set;
 			sourceTree = "<group>";
@@ -347,6 +344,9 @@
 				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
 				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
 				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
+				18262A1C20298A2C004DE2B2 /* SetLockMethod.h */,
+				18262A1D20298A2C004DE2B2 /* SetLockMethod.m */,
+				18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */,
 			);
 			name = SetDetail;
 			sourceTree = "<group>";
@@ -881,6 +881,7 @@
 			baseConfigurationReference = C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58R7H452RZ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -890,6 +891,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -899,6 +901,7 @@
 			baseConfigurationReference = 552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 58R7H452RZ;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -908,6 +911,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

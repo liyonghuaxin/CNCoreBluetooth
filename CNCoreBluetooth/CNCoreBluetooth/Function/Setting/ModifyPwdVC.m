@@ -10,9 +10,12 @@
 #import "modifyPwdCell.h"
 #import "UIView+KGViewExtend.h"
 
-@interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource>{
+@interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>{
     NSArray *dataArray;
     UIView *bgView;
+    NSString *pwd1;
+    NSString *pwd2;
+
 }
 
 @end
@@ -85,6 +88,21 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return dataArray.count;
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSMutableString *newtxt = [NSMutableString stringWithString:textField.text];
+    [newtxt replaceCharactersInRange:range withString:string];
+    if (newtxt.length > 6) return NO;
+    return YES;
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    if (textField.tag == 1) {
+        pwd1 = textField.text;
+    }else{
+        pwd2 = textField.text;
+    }
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50;
@@ -95,6 +113,7 @@
     cell.nameLab.text = dataArray[indexPath.row];
     switch (indexPath.row) {
         case 0:{
+            cell.conTF.secureTextEntry = YES;
             cell.conTF.enabled = NO;
             break;
         }
@@ -103,13 +122,19 @@
             break;
         }
         case 2:{
+            cell.conTF.secureTextEntry = NO;
             cell.conTF.enabled = YES;
             cell.conTF.text = @"";
+            cell.conTF.delegate = self;
+            cell.conTF.tag = 1;
             break;
         }
         case 3:{
+            cell.conTF.secureTextEntry = NO;
             cell.conTF.enabled = YES;
             cell.conTF.text = @"";
+            cell.conTF.delegate = self;
+            cell.conTF.tag = 2;
             break;
         }
         default:
@@ -134,5 +159,11 @@
 */
 
 - (IBAction)updatePwd:(id)sender {
+    if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
+        if (_pwdBlock) {
+            _pwdBlock(pwd1);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 @end

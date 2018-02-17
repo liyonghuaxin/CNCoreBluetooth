@@ -25,6 +25,10 @@
 
 }
 - (IBAction)save:(id)sender {
+    //lyh debug 管理员密码
+    if (_saveBlock) {
+        _saveBlock();
+    }
     [self removeFromSuperview];
 }
 

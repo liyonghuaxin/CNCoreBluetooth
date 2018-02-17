@@ -14,16 +14,19 @@
 #import "UIView+KGViewExtend.h"
 #import "DeleteUnpairAlert.h"
 #import "SaveSettingAlert.h"
+#import "CNPeripheralModel.h"
+#import "CNDataBase.h"
 
 static NSString *setDetailCell = @"SetDetailCell";
 
 static NSString *setLockMethod = @"SetLockMethod";
 
-@interface SetDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface SetDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>{
     UIView *bgView;
     NSArray *dataArray;
     DeleteUnpairAlert *alert;
     SaveSettingAlert *saveAlert;
+    CNPeripheralModel *periModel;
 }
 
 @end
@@ -48,6 +51,9 @@ static NSString *setLockMethod = @"SetLockMethod";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
+    
     dataArray = @[@"Name",@"Password",@"Open History",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
     
     [_myTableView registerNib:[UINib nibWithNibName:@"SetDetailCell" bundle:nil] forCellReuseIdentifier:setDetailCell];
@@ -89,6 +95,10 @@ static NSString *setLockMethod = @"SetLockMethod";
     bgView.hidden = YES;
 }
 
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    periModel.periname = textField.text;
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -106,6 +116,10 @@ static NSString *setLockMethod = @"SetLockMethod";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {
         ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
+        pwd.pwdBlock = ^(NSString *str) {
+            periModel.periPwd = str;
+            [tableView reloadData];
+        };
         [self.navigationController pushViewController:pwd animated:YES];
     }else if (indexPath.row == 2){
         OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
@@ -139,19 +153,33 @@ static NSString *setLockMethod = @"SetLockMethod";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 3) {
         SetLockMethod *detailCell2 = [tableView dequeueReusableCellWithIdentifier:setLockMethod forIndexPath:indexPath];
-        detailCell2.nameLab.text = dataArray[1];
+        detailCell2.pwdBlock = ^(BOOL isPwd) {
+            periModel.isPwd = isPwd;
+        };
+        detailCell2.nameLab.text = dataArray[3];
+        [detailCell2 selectPwd:periModel.isPwd];
         return detailCell2;
     }
     SetDetailCell *detailCell = [tableView dequeueReusableCellWithIdentifier:setDetailCell forIndexPath:indexPath];
     detailCell.imageV.hidden = YES;
     detailCell.mySwitch.hidden = YES;
     detailCell.textF.hidden = YES;
+    detailCell.swichBlock = ^(BOOL isTouch) {
+        periModel.isTouchUnlock = isTouch;
+    };
+    detailCell.nameBlock = ^(NSString *name) {
+        periModel.periname = name;
+    };
     switch (indexPath.row) {
         case 0:{
+            detailCell.textF.delegate = self;
+            detailCell.textF.text = periModel.periname;
             detailCell.textF.hidden = NO;
             break;
         }
         case 1:{
+            detailCell.textF.hidden = NO;
+            detailCell.textF.text = periModel.periPwd;
             detailCell.imageV.hidden = NO;
             detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
             break;
@@ -162,8 +190,12 @@ static NSString *setLockMethod = @"SetLockMethod";
             break;
         }
         case 4:{
+            if (periModel.isTouchUnlock) {
+                detailCell.mySwitch.on = YES;
+            }else{
+                detailCell.mySwitch.on = NO;
+            }
             detailCell.mySwitch.hidden = NO;
-
             break;
         }
         case 5:{
@@ -196,8 +228,23 @@ static NSString *setLockMethod = @"SetLockMethod";
 */
 
 - (IBAction)save:(id)sender {
-    alert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
-    alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-    [[UIApplication sharedApplication].keyWindow addSubview:alert];
+    
+    
+    saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
+    __weak typeof(periModel) pModel = periModel;
+    saveAlert.saveBlock = ^{
+        [[CNDataBase sharedDataBase] updatePeripheralInfo:pModel];
+        int i = 0;
+        for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
+            if ([model.periID isEqualToString:pModel.periID]) {
+                break;
+            }
+            i++;
+        }
+        [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:pModel];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:pModel];
+    };
+    saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
 }
 @end

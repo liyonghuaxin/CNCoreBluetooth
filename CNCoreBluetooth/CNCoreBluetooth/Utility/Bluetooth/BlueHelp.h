@@ -12,7 +12,7 @@
 
 // 由于时间是按bcd编码，的先将时间每两个数字转为一个字节对应的int值，然后找到这个int值对应ascii字符，然后整个包的编码方式就一样了，
 + (NSString *)getCurDateByBCDEncode;
-
++ (NSString *)getDateWith:(NSString *)str;
 + (NSData *)getCurDateBytes;
 
 @end

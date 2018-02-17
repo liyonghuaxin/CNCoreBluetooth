@@ -39,6 +39,18 @@
     return num1+num2;
 }
 
++(NSString *)getDateWith:(NSString *)str{
+    NSMutableString *string = [[NSMutableString alloc] init];
+    const char *date = [str UTF8String];
+    for (int i = 0; i < strlen(date); i++) {
+        int number = date[i];
+        int a = number/16;
+        int b = number%16;
+        [string appendFormat:@"%d%d",a,b];
+    }
+    return string;
+}
+
 + (NSData *)getCurDateBytes{
     NSDate *date = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

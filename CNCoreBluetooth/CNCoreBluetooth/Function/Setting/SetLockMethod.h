@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SetLockMethod : UITableViewCell
+@property (nonatomic, copy) void (^pwdBlock)(BOOL isPwd);
 @property (nonatomic,assign) BOOL isPwd;
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @property (weak, nonatomic) IBOutlet UILabel *conLab1;
@@ -18,4 +19,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageV2;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV22;
 - (IBAction)selectAction:(id)sender;
+- (void)selectPwd:(BOOL)isPwd;
 @end

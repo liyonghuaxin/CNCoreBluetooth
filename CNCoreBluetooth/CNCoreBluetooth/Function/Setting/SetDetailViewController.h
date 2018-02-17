@@ -10,7 +10,7 @@
 #import "BaseViewController.h"
 
 @interface SetDetailViewController : BaseViewController
-
+@property (nonatomic,copy) NSString *lockID;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) IBOutlet UIView *footView;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetDetailCell : UITableViewCell
+@interface SetDetailCell : UITableViewCell<UITextFieldDelegate>
+@property (nonatomic, copy) void (^swichBlock)(BOOL isTouch);
+@property (nonatomic, copy) void (^nameBlock)(NSString *name);
+
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
 @property (weak, nonatomic) IBOutlet UITextField *textF;

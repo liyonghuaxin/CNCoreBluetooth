@@ -24,21 +24,32 @@
     // Configure the view for the selected state
 }
 
-- (IBAction)selectAction:(id)sender {
-    UIButton *btn = (UIButton *)sender;
-    if (btn.tag == 1 && _isPwd) {
+- (void)selectPwd:(BOOL)isPwd{
+    if (isPwd) {
+        _isPwd = YES;
+        _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV11.image = nil;
+        _imageV2.image = [UIImage imageNamed:@"ellipseRed"];
+        _imageV22.image = [UIImage imageNamed:@"ellipseWhite"];
+    }else{
         _isPwd = NO;
         _imageV1.image = [UIImage imageNamed:@"ellipseRed"];
         _imageV11.image = [UIImage imageNamed:@"ellipseWhite"];
         _imageV2.image = [UIImage imageNamed:@"ellipseGray"];
         _imageV22.image = nil;
+    }
+    if (_pwdBlock) {
+        _pwdBlock(_isPwd);
+    }
+}
+
+- (IBAction)selectAction:(id)sender {
+    UIButton *btn = (UIButton *)sender;
+    if (btn.tag == 1 && _isPwd) {
+        [self selectPwd:NO];
     }else{
         if (_isPwd == NO) {
-            _isPwd = YES;
-            _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
-            _imageV11.image = nil;
-            _imageV2.image = [UIImage imageNamed:@"ellipseRed"];
-            _imageV22.image = [UIImage imageNamed:@"ellipseWhite"];
+            [self selectPwd:YES];
         }
     }
 }

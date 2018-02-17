@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface SaveSettingAlert : UIView
+
+@property (nonatomic, copy) void(^saveBlock)(void);
 @property (weak, nonatomic) IBOutlet UITextField *pwdTF;
 - (IBAction)save:(id)sender;
 - (IBAction)cancel:(id)sender;
