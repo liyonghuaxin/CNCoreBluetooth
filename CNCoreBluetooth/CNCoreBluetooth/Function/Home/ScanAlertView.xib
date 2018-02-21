@@ -84,7 +84,7 @@
                         <constraint firstItem="1xp-6a-RR8" firstAttribute="centerX" secondItem="9Iw-x9-kTO" secondAttribute="centerX" id="xS5-5s-wnl"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSp-dl-cCs" customClass="UIImageView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSp-dl-cCs">
                     <rect key="frame" x="52" y="164" width="270" height="178"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CfN-Zr-YVB">

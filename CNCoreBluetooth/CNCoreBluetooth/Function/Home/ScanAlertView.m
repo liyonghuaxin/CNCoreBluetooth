@@ -64,7 +64,6 @@
     }else{
         _lockNameLab.text = @"Unknown Device";
     }
-    
 }
 
 -(void)setShowType:(AlertType)showType{
@@ -81,6 +80,9 @@
         [self.assistTF becomeFirstResponder];
         _pwdBgView.hidden = NO;
         _containerView.hidden = YES;
+        if (self.hidden) {
+            self.hidden = NO;
+        }
     }else{
         canDismiss = YES;
         _pwdBgView.hidden = YES;

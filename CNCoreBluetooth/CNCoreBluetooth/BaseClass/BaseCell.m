@@ -13,14 +13,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    if (isOpen) {
-        UIView *selectView = [[UIView alloc] init];
-        //selectView.backgroundColor = [UIColor colorWithRed:248/255.f green:248/255.f blue:248/255.f alpha:1.0];;
-        self.selectedBackgroundView = selectView;
-    }else{
-        UIView *selectView = [[UIView alloc] init];
-        self.selectedBackgroundView = selectView;
-    }
+    UIView *selectView = [[UIView alloc] init];
+    //selectView.backgroundColor = [UIColor colorWithRed:248/255.f green:248/255.f blue:248/255.f alpha:1.0];;
+    self.selectedBackgroundView = selectView;
 
 }
 

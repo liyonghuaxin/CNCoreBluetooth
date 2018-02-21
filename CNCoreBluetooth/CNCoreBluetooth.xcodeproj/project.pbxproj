@@ -56,6 +56,8 @@
 		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
 		186FCD732020603500A16E87 /* CNBlueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD722020603500A16E87 /* CNBlueManager.m */; };
 		18997CF620268A1300C4F03A /* RespondModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18997CF520268A1300C4F03A /* RespondModel.m */; };
+		189FC257203844F1000412B9 /* EnterPwdAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 189FC256203844F1000412B9 /* EnterPwdAlert.m */; };
+		189FC25920384508000412B9 /* EnterPwdAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 189FC25820384508000412B9 /* EnterPwdAlert.xib */; };
 		18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B499202C3BF300725545 /* ChangePwdAlert.m */; };
 		18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */; };
 		18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */; };
@@ -169,6 +171,9 @@
 		186FCD722020603500A16E87 /* CNBlueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBlueManager.m; sourceTree = "<group>"; };
 		18997CF420268A1300C4F03A /* RespondModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondModel.h; sourceTree = "<group>"; };
 		18997CF520268A1300C4F03A /* RespondModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RespondModel.m; sourceTree = "<group>"; };
+		189FC255203844F1000412B9 /* EnterPwdAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnterPwdAlert.h; sourceTree = "<group>"; };
+		189FC256203844F1000412B9 /* EnterPwdAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnterPwdAlert.m; sourceTree = "<group>"; };
+		189FC25820384508000412B9 /* EnterPwdAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterPwdAlert.xib; sourceTree = "<group>"; };
 		18A4B498202C3BF300725545 /* ChangePwdAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePwdAlert.h; sourceTree = "<group>"; };
 		18A4B499202C3BF300725545 /* ChangePwdAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePwdAlert.m; sourceTree = "<group>"; };
 		18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangePwdAlert.xib; sourceTree = "<group>"; };
@@ -259,6 +264,9 @@
 				182629F12028236F004DE2B2 /* CNLockCell.h */,
 				182629F22028236F004DE2B2 /* CNLockCell.m */,
 				182629F32028236F004DE2B2 /* CNLockCell.xib */,
+				189FC255203844F1000412B9 /* EnterPwdAlert.h */,
+				189FC256203844F1000412B9 /* EnterPwdAlert.m */,
+				189FC25820384508000412B9 /* EnterPwdAlert.xib */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -613,6 +621,7 @@
 				18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
 				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
+				189FC25920384508000412B9 /* EnterPwdAlert.xib in Resources */,
 				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
 				18262A0620285772004DE2B2 /* HelpCell.xib in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
@@ -723,6 +732,7 @@
 				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
 				18262A1F20298A2C004DE2B2 /* SetLockMethod.m in Sources */,
 				18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */,
+				189FC257203844F1000412B9 /* EnterPwdAlert.m in Sources */,
 				186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */,
 				18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */,
 				182629F82028284E004DE2B2 /* CNSlider.m in Sources */,

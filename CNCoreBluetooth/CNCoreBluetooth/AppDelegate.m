@@ -34,6 +34,7 @@ extern float lyh;
     char a = 'B';
     char b = '1';
     int c = 0x18;
+    
     int num = a+b+c;//66 49  24
     
     Byte byte[] = {a, b, c};

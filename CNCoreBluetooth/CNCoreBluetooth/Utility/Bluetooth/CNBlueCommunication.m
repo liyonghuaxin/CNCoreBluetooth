@@ -52,6 +52,9 @@ static CBCharacteristic *blCharacteristic = nil;
 }
 #pragma mark ----------发送数据-------------
 + (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral{
+    if (blCharacteristic == nil) {
+        return;
+    }
     switch (instruction) {
         case ENAutoSynchro:{
             //自动同步

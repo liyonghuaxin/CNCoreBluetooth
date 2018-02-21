@@ -20,8 +20,9 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
+    NSString *str = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (_nameBlock) {
-        _nameBlock(textField.text);
+        _nameBlock(str);
     }
 }
 

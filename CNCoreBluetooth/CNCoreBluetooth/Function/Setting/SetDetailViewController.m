@@ -21,7 +21,7 @@ static NSString *setDetailCell = @"SetDetailCell";
 
 static NSString *setLockMethod = @"SetLockMethod";
 
-@interface SetDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>{
+@interface SetDetailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView *bgView;
     NSArray *dataArray;
     DeleteUnpairAlert *alert;
@@ -172,7 +172,6 @@ static NSString *setLockMethod = @"SetLockMethod";
     };
     switch (indexPath.row) {
         case 0:{
-            detailCell.textF.delegate = self;
             detailCell.textF.text = periModel.periname;
             detailCell.textF.hidden = NO;
             break;
@@ -228,10 +227,9 @@ static NSString *setLockMethod = @"SetLockMethod";
 */
 
 - (IBAction)save:(id)sender {
-    
-    
     saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
     __weak typeof(periModel) pModel = periModel;
+    __weak typeof(self) weakself = self;
     saveAlert.saveBlock = ^{
         [[CNDataBase sharedDataBase] updatePeripheralInfo:pModel];
         int i = 0;
@@ -243,6 +241,7 @@ static NSString *setLockMethod = @"SetLockMethod";
         }
         [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:pModel];
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:pModel];
+        [weakself.navigationController popViewControllerAnimated:YES];
     };
     saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];

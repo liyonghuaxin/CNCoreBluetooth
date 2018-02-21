@@ -13,6 +13,7 @@
 #import "CNDataBase.h"
 #import "SVProgressHUD.h"
 #import "CNBlueCommunication.h"
+#import "EnterPwdAlert.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
     ScanAlertView *alert;
@@ -271,7 +272,21 @@
     CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
     if (model.isPwd) {
         //弹出输入密码框
-
+        EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
+        enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
+            if (model.periPwd) {
+                if ([pwd isEqualToString:model.periPwd]) {
+                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+                }
+            }else{
+                //密码开锁 默认密码123456 ？
+                if ([pwd isEqualToString:@"123456"]) {
+                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+                }
+            }
+        };
+        [enterAlert showWithName:model.periname];
     }else{
         if(peri.state != CBPeripheralStateConnected){
             //lyh 若已断开，重新连接。 这里要怎么提示吗？
