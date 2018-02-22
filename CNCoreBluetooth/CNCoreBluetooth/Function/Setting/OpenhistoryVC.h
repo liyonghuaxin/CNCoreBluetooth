@@ -9,6 +9,8 @@
 #import "BaseViewController.h"
 
 @interface OpenhistoryVC : BaseViewController
+
+@property (nonatomic, copy) NSString *lockID;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
 @end

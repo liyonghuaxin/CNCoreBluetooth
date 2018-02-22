@@ -331,7 +331,7 @@
     }
     
     //自动同步
-    [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peripheral];
+    [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peripheral finish:nil];
     //收到锁具回应后再移除
     [[CommonData sharedCommonData].reportIDArr addObject:peripheral.identifier.UUIDString];
     

@@ -20,7 +20,7 @@ typedef enum : NSUInteger {
 } InstructionEnum;
 
 typedef enum : NSUInteger {
-    ENSlideMethod,
+    ENSlideMethod = 1,
     ENTouchMethod,
     ENPwdMethod,
 } ENLockMethod;

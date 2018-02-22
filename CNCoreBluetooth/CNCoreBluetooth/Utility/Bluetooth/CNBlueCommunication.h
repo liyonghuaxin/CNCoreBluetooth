@@ -10,6 +10,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "RespondModel.h"
 
+typedef void(^respondBlock)(RespondModel *model);
+
 @interface CNBlueCommunication : NSObject
 /*
  一、广播包格式
@@ -25,7 +27,7 @@
 /**
  app->锁具
  */
-+ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral;
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral finish:(respondBlock)finish;
 /**
  app->锁具
  */

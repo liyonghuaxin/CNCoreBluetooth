@@ -8,8 +8,12 @@
 
 #import "OpenhistoryVC.h"
 #import "OpenHistoryCell.h"
+#import "CNBlueCommunication.h"
+#import "CNBlueManager.h"
 
-@interface OpenhistoryVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface OpenhistoryVC ()<UITableViewDelegate,UITableViewDataSource>{
+    NSMutableArray *dataArray;
+}
 
 @end
 
@@ -28,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    dataArray = [NSMutableArray array];
+    
     self.headView.hidden = NO;
     UILabel *label = [[UILabel alloc] init];
     [self.headView addSubview:label];
@@ -41,10 +47,20 @@
     [_myTableView registerNib:[UINib nibWithNibName:@"OpenHistoryCell" bundle:nil] forCellReuseIdentifier:@"OpenHistoryCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     
+    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+        if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
+            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri finish:^(RespondModel *model) {
+                [dataArray addObject:model];
+                [self.myTableView reloadData];
+            }];
+            break;
+        }
+    }
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return dataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

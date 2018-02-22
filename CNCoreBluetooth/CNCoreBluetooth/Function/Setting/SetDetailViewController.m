@@ -16,6 +16,8 @@
 #import "SaveSettingAlert.h"
 #import "CNPeripheralModel.h"
 #import "CNDataBase.h"
+#import "CNBlueCommunication.h"
+#import "CNBlueManager.h"
 
 static NSString *setDetailCell = @"SetDetailCell";
 
@@ -123,19 +125,15 @@ static NSString *setLockMethod = @"SetLockMethod";
         [self.navigationController pushViewController:pwd animated:YES];
     }else if (indexPath.row == 2){
         OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
+        history.lockID = periModel.periID;
         [self.navigationController pushViewController:history animated:YES];
     }else if (indexPath.row == 5){
         alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
+        alert.unpairedBlock = ^{
+            [self unPaired];
+        };
         alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
         [[UIApplication sharedApplication].keyWindow addSubview:alert];
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"Are You Sure You Want to Unpair Device?" preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDestructive handler:nil];
-//        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Unpair" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-//
-//        }];
-//        [alertController addAction:cancelAction];
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
@@ -228,22 +226,48 @@ static NSString *setLockMethod = @"SetLockMethod";
 
 - (IBAction)save:(id)sender {
     saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
-    __weak typeof(periModel) pModel = periModel;
     __weak typeof(self) weakself = self;
     saveAlert.saveBlock = ^{
-        [[CNDataBase sharedDataBase] updatePeripheralInfo:pModel];
-        int i = 0;
-        for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
-            if ([model.periID isEqualToString:pModel.periID]) {
-                break;
-            }
-            i++;
-        }
-        [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:pModel];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:pModel];
-        [weakself.navigationController popViewControllerAnimated:YES];
+        [weakself updateNameAndPwd];
+        
     };
     saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
 }
+//保存锁具名称和密码
+- (void)updateNameAndPwd{
+    CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
+    if ([originalModel.periname isEqualToString:periModel.periname] && [originalModel.periPwd isEqualToString:periModel.periPwd]) {
+        return;
+    }
+    [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
+    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+        if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
+            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:nil];
+            break;
+        }
+    }
+    
+    int i = 0;
+    for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
+        if ([model.periID isEqualToString:periModel.periID]) {
+            break;
+        }
+        i++;
+    }
+    [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:periModel];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)unPaired{
+    //解除配对
+    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+        if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
+            [CNBlueCommunication cbSendInstruction:ENUnpair toPeripheral:peri finish:nil];
+            break;
+        }
+    }
+}
+
 @end

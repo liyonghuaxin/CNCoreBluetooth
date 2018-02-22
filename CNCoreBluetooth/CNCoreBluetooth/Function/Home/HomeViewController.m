@@ -159,7 +159,7 @@
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
         for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
-                [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peri];
+                [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peri finish:nil];
             }
         }
     }
@@ -277,12 +277,12 @@
         enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
             if (model.periPwd) {
                 if ([pwd isEqualToString:model.periPwd]) {
-                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
                 }
             }else{
                 //密码开锁 默认密码123456 ？
                 if ([pwd isEqualToString:@"123456"]) {
-                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
                 }
             }
         };
@@ -292,7 +292,7 @@
             //lyh 若已断开，重新连接。 这里要怎么提示吗？
             [blueManager cus_connectPeripheral:peri];
         }else{
-            [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri];
+            [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
         }
     }
 }

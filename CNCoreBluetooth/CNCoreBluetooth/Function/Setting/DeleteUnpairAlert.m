@@ -29,6 +29,9 @@
 }
 
 - (IBAction)unpair:(id)sender {
+    if (_unpairedBlock) {
+        _unpairedBlock();
+    }
     [self removeFromSuperview];
 }
 @end

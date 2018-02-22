@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNCoreBluetooth/Function/Setting/SetDetailViewController.m"
-            timestampString = "540608035.8059911"
+            timestampString = "540975308.3036751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-textFieldDidEndEditing:"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-unPaired"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

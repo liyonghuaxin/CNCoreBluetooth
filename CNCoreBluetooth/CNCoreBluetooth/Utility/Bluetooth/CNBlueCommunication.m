@@ -13,6 +13,7 @@
 #import "CNDataBase.h"
 
 static CBCharacteristic *blCharacteristic = nil;
+static respondBlock myRespondBlock;
 
 @implementation CNBlueCommunication
 
@@ -51,8 +52,9 @@ static CBCharacteristic *blCharacteristic = nil;
     return uidStr;
 }
 #pragma mark ----------发送数据-------------
-+ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral{
-    if (blCharacteristic == nil) {
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral finish:(respondBlock)finish{
+    myRespondBlock = finish;
+    if (blCharacteristic == nil || peripheral == nil) {
         return;
     }
     switch (instruction) {
@@ -77,12 +79,22 @@ static CBCharacteristic *blCharacteristic = nil;
         }
         case ENChangeNameAndPwd:{
             //广播名称及配对密码修改
-            
+            CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"05"];
+            [dataStr appendString:model.periname];
+            [dataStr appendString:model.periPwd];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         case ENLookLockLog:{
             //开锁记录查询
-            
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"06"];
+            [dataStr appendString:[BlueHelp getCurDateByBCDEncode]];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         case ENLookHasPair:{
@@ -181,9 +193,15 @@ static CBCharacteristic *blCharacteristic = nil;
 +(void)cbReadData:(NSData *)data fromPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     
     //lyh test
-    [self testReadData];
+    RespondModel *model = [self testReadData];
     
-    RespondModel *model = [CNBlueCommunication parseResponseDataWithParameter:data];
+    //得到回执
+    //RespondModel *model = [CNBlueCommunication parseResponseDataWithParameter:data];
+    
+    if (myRespondBlock) {
+        myRespondBlock(model);
+    }
+    
     if (model) {
         switch (model.type) {
             case ENAutoSynchro:{
@@ -251,12 +269,14 @@ static CBCharacteristic *blCharacteristic = nil;
      锁具状态上报
      BL D2B14CBB2ED7 003 401 (
      */
+    
     //debug 计算校验位
-    NSArray *array = @[@"0048010", @"003811", @"003851", @"033861118/02/04/09/35/40AABBCCDDEEFF", @"025 871AABBCCDDEEFFLOCKNAME  ", @"003881", @"003401"];
-    for (NSString *string in array) {
+    //NSArray *array = @[@"0048010", @"003811", @"003851", @"033861118/02/04/09/35/40AABBCCDDEEFF", @"025 871AABBCCDDEEFFLOCKNAME  ", @"003881", @"003401"];
+    //for (NSString *string in array) {
         //NSString *stringTemp = [CNBlueCommunication getCheckCode:string];
         //NSLog(@"===%@===",stringTemp);
-    }
+    //}
+    
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     NSString *str = @"BLD2B14CBB2ED70048010]";
@@ -277,19 +297,19 @@ static CBCharacteristic *blCharacteristic = nil;
     //数据域长度
     int dataDlen = [lengthDStr intValue];
     //数据域
-    NSString *dataDataStr = [responseString substringWithRange:NSMakeRange(3, responseString.length-3)];
-    if (dataDataStr.length != dataDlen) {
+    NSString *dataDomainStr = [responseString substringWithRange:NSMakeRange(3, responseString.length-3)];
+    if (dataDomainStr.length != dataDlen) {
         return nil;
     }
     //指令码
-    NSString *instructionStr = [dataDataStr substringWithRange:NSMakeRange(0, 2)];
+    NSString *instructionStr = [dataDomainStr substringWithRange:NSMakeRange(0, 2)];
     if ([instructionStr isEqualToString:@"80"]) {
         //自动同步
         resModel.type = ENAutoSynchro;
         //1 成功
-        resModel.state = [dataDataStr substringWithRange:NSMakeRange(2, 1)];
+        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         //1 锁开 0锁闭
-        resModel.lockState = [dataDataStr substringWithRange:NSMakeRange(3, 1)];
+        resModel.lockState = [dataDomainStr substringWithRange:NSMakeRange(3, 1)];
     }else if ([instructionStr isEqualToString:@"81"]){
         //开锁
         resModel.type = ENLock;
@@ -301,7 +321,14 @@ static CBCharacteristic *blCharacteristic = nil;
     }else if ([instructionStr isEqualToString:@"86"]){
         //开锁记录查询
         resModel.type = ENLookLockLog;
-
+        //状态码上传为0则上传完毕
+        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+        //开锁方式 1滑动2触摸3密码
+        resModel.lockMethod = [[dataDomainStr substringWithRange:NSMakeRange(3, 1)] intValue];
+        //时间bcd编码
+        NSString *openTimeStr = [dataDomainStr substringWithRange:NSMakeRange(4, 6)];
+        resModel.date = [BlueHelp getDateWith:openTimeStr];
+        resModel.IDAddress = [dataDomainStr substringWithRange:NSMakeRange(10, 12)];
     }else if ([instructionStr isEqualToString:@"87"]){
         //已配对设备查询
         resModel.type = ENLookHasPair;
@@ -336,22 +363,24 @@ static CBCharacteristic *blCharacteristic = nil;
     return verifyStr;
 }
 #pragma mark ----------测试读取数据-------------
-+ (void)testReadData{
++ (RespondModel *)testReadData{
+    RespondModel *model = [[RespondModel alloc] init];
+    
     //假数据
     NSString *str1 = @"8010";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
-    NSString *str4 = [NSString stringWithFormat:@"8613%@aabbccddeeff",curTime];//修改回执
+    NSString *str4 = [NSString stringWithFormat:@"8613%@aabbccddeeff",curTime];//开锁记录查询
     NSString *str5 = @"871aabbccddeeff000000name";//已配对设备查询上传
     NSString *str6 = @"881";//解除配对关系回执
     NSString *str7 = @"401";//上报锁具状态
-    NSData *data = [self getDataPacketWith:str5];
+    NSData *data = [self getDataPacketWith:str4];
     
     //解析返回数据
     NSString *string  = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     if (string.length<19) {
-        return;
+        return nil;
     }
     //指令码
     NSString *commandStr = [string substringWithRange:NSMakeRange(17, 2)];
@@ -362,8 +391,8 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-            NSString *lockStatus = [dataDomainStr substringWithRange:NSMakeRange(3, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.lockState = [dataDomainStr substringWithRange:NSMakeRange(3, 1)];
         }
     }else if ([commandStr isEqualToString:@"81"]){
         //开锁请求回执
@@ -372,7 +401,7 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         }
     }else if ([commandStr isEqualToString:@"85"]){
         //广播名称及配对密码修改
@@ -380,7 +409,7 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         }
     }else if ([commandStr isEqualToString:@"86"]){
         //开锁记录上传
@@ -389,13 +418,13 @@ static CBCharacteristic *blCharacteristic = nil;
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
             //状态码上传为0则上传完毕
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
             //开锁方式 1滑动2触摸3密码
-            NSString *openModeStr = [dataDomainStr substringWithRange:NSMakeRange(3, 1)];
+            model.lockMethod = [[dataDomainStr substringWithRange:NSMakeRange(3, 1)] intValue];
             //时间bcd编码
             NSString *openTimeStr = [dataDomainStr substringWithRange:NSMakeRange(4, 6)];
-            openTimeStr = [BlueHelp getDateWith:openTimeStr];
-            NSString *macAddressStr = [dataDomainStr substringWithRange:NSMakeRange(10, 12)];
+            model.date = [BlueHelp getDateWith:openTimeStr];
+            model.IDAddress = [dataDomainStr substringWithRange:NSMakeRange(10, 12)];
         }
     }else if ([commandStr isEqualToString:@"87"]){
         //已配对设备查询上传
@@ -403,10 +432,10 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-            NSString *macAddressStr = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.macAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
             //锁具名称
-            NSString *lockNameStr = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
+            model.lockName = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
         }
     }else if ([commandStr isEqualToString:@"88"]){
         //解除配对关系回执
@@ -414,7 +443,7 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         }
     }else if ([commandStr isEqualToString:@"40"]){
         //上报锁具状态
@@ -422,9 +451,10 @@ static CBCharacteristic *blCharacteristic = nil;
             NSString *lengthDomainStr = [string substringWithRange:NSMakeRange(14, 3)];
             int length = [lengthDomainStr intValue];
             NSString *dataDomainStr = [string substringWithRange:NSMakeRange(17, length)];
-            NSString *statusStr = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+            model.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         }
     }
+    return model;
 }
 
 #pragma mark ----------数据转换-------------

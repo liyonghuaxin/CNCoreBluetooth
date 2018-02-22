@@ -17,7 +17,7 @@
 //锁状态
 @property (nonatomic, copy) NSString *lockState;
 //开锁方式
-@property (nonatomic, assign) ENLockMethod *lockMethod;
+@property (nonatomic, assign) ENLockMethod lockMethod;
 //时间
 @property (nonatomic, copy) NSString *date;
 //app端mac地址 或 RFID卡ID卡号
