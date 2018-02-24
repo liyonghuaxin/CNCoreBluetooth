@@ -10,6 +10,8 @@
 #import "CNBlueCommon.h"
 
 @interface RespondModel : NSObject
+//蓝牙锁id
+@property (nonatomic, copy) NSString *lockID;
 //指令码
 @property (nonatomic, assign) InstructionEnum type;
 //状态码

@@ -20,5 +20,4 @@
 @property (nonatomic,assign)BOOL isPwd;
 @property (nonatomic,assign)BOOL isTouchUnlock;
 
-
 @end

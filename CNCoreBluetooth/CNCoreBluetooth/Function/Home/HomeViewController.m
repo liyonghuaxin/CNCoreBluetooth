@@ -23,6 +23,7 @@
 }
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
+//在列表中已显示的锁具id
 @property (nonatomic,strong) NSMutableArray *lockIDArray;
 
 @property (nonatomic,strong) NSTimer *myTimer;
@@ -48,25 +49,9 @@
     _dataArray = [NSMutableArray array];
     _lockIDArray = [NSMutableArray array];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
-    //lyh test
-    for (int i = 0; i < 7; i++) {
-        CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-        model.periname = @"Quick Safe";
-        model.periID = [NSString stringWithFormat:@"AABBCCDDEEF%d",i];
-        if (i%3 == 0) {
-            model.isPwd = NO;
-            model.isTouchUnlock = NO;
-        }else if (i%3 == 1) {
-            model.isPwd = YES;
-            model.isTouchUnlock = NO;
-        }else{
-            model.isPwd = NO;
-            model.isTouchUnlock = YES;
-        }
-        //[_dataArray addObject:model];
-    }
-    //lyh 循环自动同步
-    //[self addTimer];
+    
+    //循环自动同步
+    [self addTimer];
     
     blueManager = [CNBlueManager sharedBlueManager];
     self.headView.hidden = NO;
@@ -85,6 +70,7 @@
         if (isConnect) {
             //更新列表
             if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+                [weakSelf reportToLock];
                 CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
                 model.peripheral = peripherial;
                 [weakSelf.dataArray addObject:model];
@@ -156,6 +142,7 @@
 #pragma mark Private API
 //自动同步，自动循环上报，直到收到锁具回复，时间待定
 - (void)reportToLock{
+    return;
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
         for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
@@ -269,30 +256,26 @@
 
 #pragma mark LockCellActionDelegate
 - (void)slideSuccess:(CBPeripheral *)peri{
-    CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
-    if (model.isPwd) {
-        //弹出输入密码框
-        EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
-        enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
-            if (model.periPwd) {
-                if ([pwd isEqualToString:model.periPwd]) {
-                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
-                }
-            }else{
-                //密码开锁 默认密码123456 ？
-                if ([pwd isEqualToString:@"123456"]) {
-                    [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
-                }
-            }
-        };
-        [enterAlert showWithName:model.periname];
+    if(peri.state != CBPeripheralStateConnected){
+        //lyh 若已断开，重新连接。 这里要怎么提示吗？
+        [blueManager cus_connectPeripheral:peri];
     }else{
-        if(peri.state != CBPeripheralStateConnected){
-            //lyh 若已断开，重新连接。 这里要怎么提示吗？
-            [blueManager cus_connectPeripheral:peri];
+        CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
+        if (model.isPwd) {
+            //弹出输入密码框
+            EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
+            enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+            enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
+                if ([pwd isEqualToString:model.periPwd]) {
+                    [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri finish:nil];
+                }else{
+                    //密码输错提示
+                    [SVProgressHUD showErrorWithStatus:@"Password Error"];
+                }
+            };
+            [enterAlert showWithName:model.periname];
         }else{
-            [CNBlueCommunication cbSendInstruction:ENLock toPeripheral:peri finish:nil];
+            [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri finish:nil];
         }
     }
 }

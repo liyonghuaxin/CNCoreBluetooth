@@ -11,7 +11,7 @@
 
 typedef enum : NSUInteger {
     ENAutoSynchro,//自动同步
-    ENLock,//开锁
+    ENOpenLock,//开锁
     ENChangeNameAndPwd,//广播名称及配对密码修改
     ENLookLockLog,//开锁记录查询
     ENLookHasPair,//已配对设备查询

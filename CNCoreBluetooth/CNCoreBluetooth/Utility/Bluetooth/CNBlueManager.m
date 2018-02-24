@@ -238,6 +238,7 @@
     CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
     model.periID = peripheral.identifier.UUIDString;
     model.periname = peripheral.name;
+    model.periPwd = @"123456";
     //本地保存已配对设备
     [[CNDataBase sharedDataBase] addPeripheralInfo:model];
     
@@ -253,9 +254,10 @@
         }
         NSLog(@"扫描到的外围设备 peripheral == %@",peripheral);
     }
-    if (_periConnectedState) {
-        _periConnectedState(peripheral,YES);
-    }
+//放到 didDiscoverCharacteristicsForService 中了
+//    if (_periConnectedState) {
+//        _periConnectedState(peripheral,YES);
+//    }
     [peripheral discoverServices:nil];
 }
 //外设连接失败时调用
@@ -330,8 +332,9 @@
         //[peripheral discoverDescriptorsForCharacteristic:characteristic];
     }
     
-    //自动同步
-    [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peripheral finish:nil];
+    if (_periConnectedState) {
+        _periConnectedState(peripheral,YES);
+    }
     //收到锁具回应后再移除
     [[CommonData sharedCommonData].reportIDArr addObject:peripheral.identifier.UUIDString];
     

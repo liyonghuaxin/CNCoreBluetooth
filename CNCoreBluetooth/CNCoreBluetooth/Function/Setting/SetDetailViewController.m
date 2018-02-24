@@ -229,7 +229,6 @@ static NSString *setLockMethod = @"SetLockMethod";
     __weak typeof(self) weakself = self;
     saveAlert.saveBlock = ^{
         [weakself updateNameAndPwd];
-        
     };
     saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
@@ -237,14 +236,13 @@ static NSString *setLockMethod = @"SetLockMethod";
 //保存锁具名称和密码
 - (void)updateNameAndPwd{
     CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
-    if ([originalModel.periname isEqualToString:periModel.periname] && [originalModel.periPwd isEqualToString:periModel.periPwd]) {
-        return;
-    }
     [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
-    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
-        if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
-            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:nil];
-            break;
+    if (![originalModel.periname isEqualToString:periModel.periname] || ![originalModel.periPwd isEqualToString:periModel.periPwd]) {
+        for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+            if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
+                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:nil];
+                break;
+            }
         }
     }
     

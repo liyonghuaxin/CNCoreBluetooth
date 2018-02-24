@@ -67,8 +67,6 @@
             _lockRight.image = [UIImage imageNamed:@"lockRight"];
             _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
         });
-
-        [CNPromptView showStatusWithString:@"Lock is Open"];
     }else{
         slider.value = 0;
         _lockRight.image = [UIImage imageNamed:@"lockRight"];
