@@ -146,33 +146,49 @@ static respondBlock myRespondBlock;
     NSString *lengthDomainStr = [NSString stringWithFormat:@"%lu",(unsigned long)str.length];
     lengthDomainStr = [CNBlueCommunication addZero:lengthDomainStr withLength:3];
     
+    //涉及到汉子放弃这种办法
     //校验位计算
-    NSString *verifyStr;
-    const char *lengthD = [lengthDomainStr UTF8String];//定义一个指向字符常量的指针
-    const char *dataD = [str UTF8String];//定义一个指向字符常量的指针
-    int sumChar = 0;
-    for (int i = 0; i<strlen(lengthD); i++) {
-        sumChar += lengthD[i];
-    }
-    for (int i = 0; i<strlen(dataD); i++) {
-        sumChar += dataD[i];
-    }
-    sumChar = sumChar % 128;//ascii码一共128个
-    if (sumChar < 32) {
-        //0x20 避开控制符
-        sumChar = sumChar + 32;
-    }
-    //十进制转ascii 或者说char
-    verifyStr = [NSString stringWithFormat:@"%c",sumChar];
+//    NSString *verifyStr;
+//    const char *lengthD = [lengthDomainStr UTF8String];//定义一个指向字符常量的指针
+//    const char *dataD = [str UTF8String];//定义一个指向字符常量的指针
+//    int sumChar = 0;
+//    for (int i = 0; i<strlen(lengthD); i++) {
+//        sumChar += lengthD[i];
+//    }
+//    for (int i = 0; i<strlen(dataD); i++) {
+//        NSLog(@">>>>%d",dataD[i]);
+//        sumChar += dataD[i];
+//    }
+//    sumChar = sumChar % 128;//ascii码一共128个
+//    if (sumChar < 32) {
+//        //0x20 避开控制符
+//        sumChar = sumChar + 32;
+//    }
+//
+//    //十进制转ascii 或者说char
+//    verifyStr = [NSString stringWithFormat:@"%c",sumChar];
     
     //mac地址
     NSString *macAddress = [CommonData sharedCommonData].macAddress;
     
     //拼接数据包
     NSString *packetName = @"BL";
-    NSString *dataPacketStr = [NSString stringWithFormat:@"%@%@%@%@%@",packetName,macAddress,lengthDomainStr,str,verifyStr];
+    //转化为data、再计算校验位
+    //NSString *dataPacketStr = [NSString stringWithFormat:@"%@%@%@%@%@",packetName,macAddress,lengthDomainStr,str,verifyStr];
+    NSString *dataPacketStr = [NSString stringWithFormat:@"%@%@%@%@",packetName,macAddress,lengthDomainStr,str];
+    
+    //拼接校验位
     NSData *data = [dataPacketStr dataUsingEncoding:NSUTF8StringEncoding];
-    return data;
+    NSMutableData *mData = [[NSMutableData alloc] initWithData:data];
+    Byte *bytes = (Byte *)[data bytes];
+    int checkNum = 0;
+    for(int i=14;i<[data length];i++){
+        checkNum += bytes[i];
+    }
+    checkNum = checkNum % 128;//ascii码一共128个
+    Byte checkBytes[] = {checkNum};
+    [mData appendBytes:checkBytes length:1];
+    return mData;
 }
 
 //字符串补零操作

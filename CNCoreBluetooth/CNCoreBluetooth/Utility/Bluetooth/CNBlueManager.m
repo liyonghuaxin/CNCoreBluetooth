@@ -207,6 +207,9 @@
         1000
      );
      */
+    NSData *data = [advertisementData objectForKey:@"kCBAdvDataManufacturerData"];
+    NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
     
     //过滤操作根据什么属性过滤？广播包uuid，还是锁名字？锁名字会变
     //scanForPeripheralsWithServices可以扫描的时候直接过滤？
@@ -290,7 +293,7 @@
     NSLog(@"Services == %@",peripheral.services);
     //FFE0
     for (CBService *service in peripheral.services) {
-        if([service.UUID.UUIDString isEqualToString:@"1000"]){
+        if([service.UUID.UUIDString isEqualToString:@"FFE0"]){
             [peripheral discoverCharacteristics:nil forService:service];
         }
     }
@@ -315,14 +318,14 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         //判断服务：避免不同服务下有相同特征？
         //FFE0    FFE1
-        if ([service.UUID.UUIDString isEqualToString:@"1000"]) {
+        if ([service.UUID.UUIDString isEqualToString:@"FFE0"]) {
             //[[c UUID] isEqual:[CBUUID UUIDWithString:@"0000fff6-0000-1000-8000-00805f9b34fb"]]
-            if ([characteristic.UUID.UUIDString isEqualToString:@"1002"]) {
+            if ([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]) {
                 //订阅特征 可收到广播数据
                 //设置通知,接收蓝牙实时数据
                 [self notifyCharacteristic:peripheral characteristic:characteristic];
             }
-            if([characteristic.UUID.UUIDString isEqualToString:@"1003"]){
+            if([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]){
                 //数据发送
                 self.uartRXCharacteristic = characteristic;
                 [CNBlueCommunication initCharacteristic:characteristic];

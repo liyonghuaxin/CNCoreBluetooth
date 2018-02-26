@@ -116,11 +116,13 @@ static NSString *setLockMethod = @"SetLockMethod";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    __weak typeof(self) weakself = self;
     if (indexPath.row == 1) {
         ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
+        pwd.periModel = periModel;
         pwd.pwdBlock = ^(NSString *str) {
             periModel.periPwd = str;
-            [tableView reloadData];
+            [self updateNameAndPwd:NO];
         };
         [self.navigationController pushViewController:pwd animated:YES];
     }else if (indexPath.row == 2){
@@ -130,7 +132,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     }else if (indexPath.row == 5){
         alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
         alert.unpairedBlock = ^{
-            [self unPaired];
+            [weakself unPaired];
         };
         alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
         [[UIApplication sharedApplication].keyWindow addSubview:alert];
@@ -176,6 +178,7 @@ static NSString *setLockMethod = @"SetLockMethod";
         }
         case 1:{
             detailCell.textF.hidden = NO;
+            detailCell.textF.secureTextEntry = YES;
             detailCell.textF.text = periModel.periPwd;
             detailCell.imageV.hidden = NO;
             detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
@@ -228,15 +231,18 @@ static NSString *setLockMethod = @"SetLockMethod";
     saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
     __weak typeof(self) weakself = self;
     saveAlert.saveBlock = ^{
-        [weakself updateNameAndPwd];
+        [weakself updateNameAndPwd:YES];
     };
     saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
 }
 //保存锁具名称和密码
-- (void)updateNameAndPwd{
+- (void)updateNameAndPwd:(BOOL)isBack{
     CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
+    
+    //更新本地数据
     [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
+
     if (![originalModel.periname isEqualToString:periModel.periname] || ![originalModel.periPwd isEqualToString:periModel.periPwd]) {
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
@@ -246,16 +252,22 @@ static NSString *setLockMethod = @"SetLockMethod";
         }
     }
     
-    int i = 0;
-    for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
-        if ([model.periID isEqualToString:periModel.periID]) {
-            break;
+    if (![originalModel.periname isEqualToString:periModel.periname]){
+        //当蓝牙名字修改后相关数据的变动
+        int i = 0;
+        for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
+            if ([model.periID isEqualToString:periModel.periID]) {
+                break;
+            }
+            i++;
         }
-        i++;
+        [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:periModel];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
     }
-    [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:periModel];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (isBack) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)unPaired{

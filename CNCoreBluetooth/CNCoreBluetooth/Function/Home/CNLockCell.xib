@@ -76,7 +76,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fingerprint" translatesAutoresizingMaskIntoConstraints="NO" id="Dx2-GB-gS2">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fingerprint" translatesAutoresizingMaskIntoConstraints="NO" id="Dx2-GB-gS2">
                         <rect key="frame" x="293" y="23.5" width="40" height="43"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Dx2-GB-gS2" secondAttribute="height" multiplier="62:67" id="GGM-ll-vg0"/>

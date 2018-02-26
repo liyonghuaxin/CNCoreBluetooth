@@ -13,6 +13,7 @@
 @interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>{
     NSArray *dataArray;
     UIView *bgView;
+    NSString *curPwd;
     NSString *pwd1;
     NSString *pwd2;
 
@@ -98,6 +99,8 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField.tag == 1) {
+        curPwd = textField.text;
+    }else if(textField.tag == 2){
         pwd1 = textField.text;
     }else{
         pwd2 = textField.text;
@@ -113,8 +116,9 @@
     cell.nameLab.text = dataArray[indexPath.row];
     switch (indexPath.row) {
         case 0:{
-            cell.conTF.secureTextEntry = YES;
-            cell.conTF.enabled = NO;
+            cell.conTF.text = @"";
+            cell.conTF.delegate = self;
+            cell.conTF.tag = 1;
             break;
         }
         case 1:{
@@ -122,19 +126,15 @@
             break;
         }
         case 2:{
-            cell.conTF.secureTextEntry = NO;
-            cell.conTF.enabled = YES;
-            cell.conTF.text = @"";
-            cell.conTF.delegate = self;
-            cell.conTF.tag = 1;
-            break;
-        }
-        case 3:{
-            cell.conTF.secureTextEntry = NO;
-            cell.conTF.enabled = YES;
             cell.conTF.text = @"";
             cell.conTF.delegate = self;
             cell.conTF.tag = 2;
+            break;
+        }
+        case 3:{
+            cell.conTF.text = @"";
+            cell.conTF.delegate = self;
+            cell.conTF.tag = 3;
             break;
         }
         default:
@@ -159,11 +159,22 @@
 */
 
 - (IBAction)updatePwd:(id)sender {
-    if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
-        if (_pwdBlock) {
-            _pwdBlock(pwd1);
+    //先判断当前密码
+    if (curPwd.length == 6 && [curPwd isEqualToString:_periModel.periPwd]) {
+        if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
+            if (_pwdBlock) {
+                _pwdBlock(pwd1);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            //两次密码不一致 或 密码位数错误
+            //lyh debug
         }
-        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        //原始密码错误
+        //lyh debug
+        [CNPromptView showStatusWithString:@"原始密码错误"];
     }
+    
 }
 @end

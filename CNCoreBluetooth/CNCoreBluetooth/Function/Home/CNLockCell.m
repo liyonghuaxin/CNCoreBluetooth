@@ -43,11 +43,11 @@
     }else{
         _pwdLab.hidden = YES;
     }
-    if (model.isTouchUnlock) {
-        _fingerprintImagev.hidden = NO;
-    }else{
-        _fingerprintImagev.hidden = YES;
-    }
+//    if (model.isTouchUnlock) {
+//        _fingerprintImagev.hidden = NO;
+//    }else{
+//        _fingerprintImagev.hidden = YES;
+//    }
 }
 
 - (void)sliderValueChanged:(id)sender{
