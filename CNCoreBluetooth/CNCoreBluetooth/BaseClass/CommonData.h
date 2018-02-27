@@ -19,6 +19,9 @@ extern float scalePage;
 
 + (BOOL)deviceIsIpad;
 
+//扫描新设备，用户手动输入的新密码
+@property (nonatomic, copy)NSString *pairedPwd;
+
 @property (nonatomic, copy)NSString *macAddress;
 //存放 home set列表数据
 @property (nonatomic,strong) NSMutableArray *listPeriArr;

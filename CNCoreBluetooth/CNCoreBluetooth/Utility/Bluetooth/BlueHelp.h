@@ -14,5 +14,5 @@
 + (NSString *)getCurDateByBCDEncode;
 + (NSString *)getDateWith:(NSString *)str;
 + (NSData *)getCurDateBytes;
-
++ (NSString *)getCurDeviceName;
 @end

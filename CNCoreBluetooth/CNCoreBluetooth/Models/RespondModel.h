@@ -18,6 +18,8 @@
 @property (nonatomic, copy) NSString *state;
 //锁状态
 @property (nonatomic, copy) NSString *lockState;
+//是否是管理员
+@property (nonatomic, copy) NSString *isadmin;
 //开锁方式
 @property (nonatomic, assign) ENLockMethod lockMethod;
 //时间

@@ -7,6 +7,7 @@
 //
 
 #import "BlueHelp.h"
+#import "NSString+Utils.h"
 
 @implementation BlueHelp
 +(NSString *)getCurDateByBCDEncode{
@@ -68,6 +69,21 @@
     }
     return nil;
     
+}
+
++(NSString *)getCurDeviceName{
+    NSString *deviceName = [UIDevice currentDevice].name;
+    NSData *data = [deviceName dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableString *resultStr = [[NSMutableString alloc] init];
+    if (data.length<=10) {
+        for (int i = 0; i<10-data.length; i++) {
+            [resultStr appendString:@"0"];
+        }
+        [resultStr appendString:deviceName];
+        return resultStr;
+    }else{
+        return [deviceName subStringByByteLength:10];
+    }
 }
 
 @end

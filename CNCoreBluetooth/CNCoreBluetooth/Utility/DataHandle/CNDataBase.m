@@ -44,7 +44,7 @@
     _dbQueue = [FMDatabaseQueue databaseQueueWithPath:filePath];
     [_db open];
     // 初始化数据表
-    NSString *periSql = @"Create table if not exists peripheral (id INTEGER primary key autoincrement  not null , peri_id VARCHAR(255), peri_name VARCHAR(255), peri_pwd VARCHAR(255), peri_isPwd INTEGER, peri_isTouchUnlock INTEGER)";
+    NSString *periSql = @"Create table if not exists peripheral (id INTEGER primary key autoincrement  not null , peri_id VARCHAR(255), peri_name VARCHAR(255), peri_pwd VARCHAR(255), peri_isAdmin INTEGER, peri_isPwd INTEGER, peri_isTouchUnlock INTEGER)";
     [_db executeUpdate:periSql];
     [_db close];
 }
@@ -68,7 +68,7 @@
         NSUInteger totalCount = [db intForQuery:@"SELECT COUNT (peri_id) FROM peripheral WHERE peri_id = ?",model.periID];
         if (totalCount==0) {
             //插入
-            [db executeUpdate:@"INSERT INTO peripheral (peri_id, peri_name, peri_pwd, peri_isPwd, peri_isTouchUnlock) VALUES (?, ?, ?, ?, ?)",model.periID, model.periname, model.periPwd, @(model.isPwd), @(model.isTouchUnlock)];
+            [db executeUpdate:@"INSERT INTO peripheral (peri_id, peri_name, peri_pwd, peri_isAdmin, peri_isPwd, peri_isTouchUnlock) VALUES (?, ?, ?, ?, ?, ?)",model.periID, model.periname, model.periPwd, @(model.isAdmin), @(model.isPwd), @(model.isTouchUnlock)];
         }
     }];
 }
@@ -78,11 +78,11 @@
         NSUInteger totalCount = [db intForQuery:@"SELECT COUNT (peri_id) FROM peripheral WHERE peri_id = ?",model.periID];
         if (totalCount > 0) {
             //更新
-            [db executeUpdate:@"UPDATE peripheral SET peri_id = ?, peri_name = ?, peri_pwd = ?, peri_pwd = ?, peri_isPwd = ?, peri_isTouchUnlock = ? WHERE peri_id = ?",model.periID, model.periname, model.periPwd, model.periPwd, @(model.isPwd), @(model.isTouchUnlock), model.periID];
+            [db executeUpdate:@"UPDATE peripheral SET peri_id = ?, peri_name = ?, peri_pwd = ?, peri_pwd = ?, peri_isAdmin = ?, peri_isPwd = ?, peri_isTouchUnlock = ? WHERE peri_id = ?",model.periID, model.periname, model.periPwd, model.periPwd, @(model.isAdmin), @(model.isPwd), @(model.isTouchUnlock), model.periID];
 
         }else{
             //插入
-            [db executeUpdate:@"INSERT INTO peripheral (peri_id, peri_name, peri_pwd, peri_isPwd, peri_isTouchUnlock) VALUES (?, ?, ?, ?, ?)",model.periID, model.periname, model.periPwd, @(model.isPwd), @(model.isTouchUnlock)];
+            [db executeUpdate:@"INSERT INTO peripheral (peri_id, peri_name, peri_pwd, peri_isAdmin, peri_isPwd, peri_isTouchUnlock) VALUES (?, ?, ?, ?, ?, ?)",model.periID, model.periname, model.periPwd, @(model.isAdmin), @(model.isPwd), @(model.isTouchUnlock)];
         }
     }];
 }
@@ -96,6 +96,7 @@
         model.periID = [rs stringForColumn:@"peri_id"];
         model.periname = [rs stringForColumn:@"peri_name"];
         model.periPwd = [rs stringForColumn:@"peri_pwd"];
+        model.isAdmin = [rs boolForColumn:@"peri_isAdmin"];
         model.isPwd = [rs boolForColumn:@"peri_isPwd"];
         model.isTouchUnlock = [rs boolForColumn:@"peri_isTouchUnlock"];
     }

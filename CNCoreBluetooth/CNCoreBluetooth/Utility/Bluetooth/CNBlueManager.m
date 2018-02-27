@@ -98,7 +98,9 @@
 // 开始扫描❤️广播包
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
     _scanFinished = finish;
-    [self.mgr scanForPeripheralsWithServices:nil options:nil];
+    CBUUID *lockService = [CBUUID UUIDWithString:@"FFE0"];
+    //过滤
+    [self.mgr scanForPeripheralsWithServices:@[lockService] options:nil];
 }
 
 - (void)cus_stopScan{
@@ -183,9 +185,7 @@
             
             //自动连接所有已配对的设备
             [self connectAllPairedLock];
-
-            //蓝牙打开时,再去扫描设备
-            //[_mgr scanForPeripheralsWithServices:nil options:nil];
+            
             break;
         }
         default:
@@ -207,44 +207,26 @@
         1000
      );
      */
-    NSData *data = [advertisementData objectForKey:@"kCBAdvDataManufacturerData"];
-    NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
+    //scanForPeripheralsWithServices扫描的时候已经进行过滤操作过滤
+    NSLog(@"=======发现外围设备=======%@",peripheral);
+    if (![self.peripheralArray containsObject:peripheral]) {
+        [self.peripheralArray addObject:peripheral];
+    }
     
-    //过滤操作根据什么属性过滤？广播包uuid，还是锁名字？锁名字会变
-    //scanForPeripheralsWithServices可以扫描的时候直接过滤？
-    
-    //过滤操作
-    //lyh debug
-    if ([peripheral.name hasPrefix:@"Quick"] || 1) {
-        //记录扫描到的外围设备
-        NSLog(@"=======发现外围设备=======%@",peripheral);
-        if (![self.peripheralArray containsObject:peripheral]) {
-            [self.peripheralArray addObject:peripheral];
-        }
-        
-        if (![_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString] && ![_connectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
-            if (_scanFinished) {
-                _scanFinished(peripheral);
-                _curPeri = peripheral;
-                //一次只扫一个
-                [self cus_stopScan];
-            }
+    if (![_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString] && ![_connectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
+        if (_scanFinished) {
+            _scanFinished(peripheral);
+            _curPeri = peripheral;
+            //一次只扫一个
+            [self cus_stopScan];
         }
     }
+
 }
 
 //6、扫描服务 可传服务uuid代表指定服务，传nil代表所有服务
 -(void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
-    
-    //连接上设备，数据本地保存
-    CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-    model.periID = peripheral.identifier.UUIDString;
-    model.periname = peripheral.name;
-    model.periPwd = @"123456";
-    //本地保存已配对设备
-    [[CNDataBase sharedDataBase] addPeripheralInfo:model];
-    
     NSLog(@"-✅✅✅✅✅✅✅✅-----和设备%@连接成功-------",peripheral.name);
     NSLog(@"设备%@报告： didConnect ->  discoverServices:nil",peripheral.name);
     peripheral.delegate = self;
@@ -273,8 +255,9 @@
     [self.connectedPeripheralArray removeObject:peripheral];
     [self.connectedLockIDArray removeObject:peripheral.identifier.UUIDString];
     [_unConnectedLockIDArray addObject:peripheral.identifier.UUIDString];
+    
     if (_periConnectedState) {
-        _periConnectedState(peripheral,NO);
+        _periConnectedState(peripheral,NO,NO);
     }
     
     //[self.mgr connectPeripheral:peripheral options:nil];
@@ -334,10 +317,26 @@
         //描述相关的方法,代理实际项目中没有涉及到,只做了解
         //[peripheral discoverDescriptorsForCharacteristic:characteristic];
     }
+
+    //app端自动登录成功才认为真正连接上
+//    if (_periConnectedState) {
+//        _periConnectedState(peripheral,YES);
+//    }
     
-    if (_periConnectedState) {
-        _periConnectedState(peripheral,YES);
-    }
+    //自动登录
+    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral finish:nil];
+    
+    //app端自动登录成功才认为真正连接上
+    [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
+        if (isConnect) {
+            if (_periConnectedState) {
+                _periConnectedState(peripherial,isConnect,isOpenTimer);
+            }
+        }else{
+            [self.mgr cancelPeripheralConnection:peripherial];
+        }
+    }];
+    
     //收到锁具回应后再移除
     [[CommonData sharedCommonData].reportIDArr addObject:peripheral.identifier.UUIDString];
     

@@ -49,10 +49,7 @@
     _dataArray = [NSMutableArray array];
     _lockIDArray = [NSMutableArray array];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
-    
-    //循环自动同步
-    [self addTimer];
-    
+
     blueManager = [CNBlueManager sharedBlueManager];
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
@@ -63,23 +60,27 @@
 
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    __weak typeof(self) weakSelf = self;
 
     //外设连接状态发生变化
-    blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect) {
-        if (isConnect) {
-            //更新列表
-            if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
-                [weakSelf reportToLock];
-                CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
-                model.peripheral = peripherial;
-                [weakSelf.dataArray addObject:model];
-                [[CommonData sharedCommonData].listPeriArr addObject:model];
-                [weakSelf.myTableView reloadData];
-                [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+    __weak typeof(self) weakSelf = self;
+    blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
+        if (isOpenTimer) {
+            
+            //循环自动同步
+            [weakSelf addTimer];
+        }else{
+            if (isConnect) {
+                //更新列表
+                if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+                    CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
+                    model.peripheral = peripherial;
+                    [weakSelf.dataArray addObject:model];
+                    [[CommonData sharedCommonData].listPeriArr addObject:model];
+                    [weakSelf.myTableView reloadData];
+                    [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+                }
             }
         }
-
     };
     
     //搜索外设框
@@ -93,13 +94,8 @@
         [[CNBlueManager sharedBlueManager] cus_stopScan];
     };
     alert.returnPasswordStringBlock = ^(NSString *pwd) {
-        if ([CNBlueCommunication cbIsPaire:pwd]) {
-            //lyh debug
-            [CNPromptView showStatusWithString:@"Lock Paired"];
-            [[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].curPeri];
-        }else{
-            [CNPromptView showStatusWithString:@"Lock Unpaired"];
-        }
+        [CommonData sharedCommonData].pairedPwd = pwd;
+        [[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].curPeri];
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
@@ -142,11 +138,13 @@
 #pragma mark Private API
 //自动同步，自动循环上报，直到收到锁具回复，时间待定
 - (void)reportToLock{
-    return;
+    if ([CommonData sharedCommonData].reportIDArr.count) {
+        NSLog(@"==已连接但未自动登录成功=== %@",[CommonData sharedCommonData].reportIDArr);
+    }
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
         for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
-                [CNBlueCommunication cbSendInstruction:ENAutoSynchro toPeripheral:peri finish:nil];
+                [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri finish:nil];
             }
         }
     }

@@ -10,7 +10,7 @@
 #define CNBlueCommon_h
 
 typedef enum : NSUInteger {
-    ENAutoSynchro,//自动同步
+    ENAutoLogin,//自动登录
     ENOpenLock,//开锁
     ENChangeNameAndPwd,//广播名称及配对密码修改
     ENLookLockLog,//开锁记录查询

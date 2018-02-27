@@ -12,6 +12,47 @@
 
 @implementation NSString (Utils)
 
+- (int)getByteNum{
+    int strlength = 0;
+    char* p = (char*)[self cStringUsingEncoding:NSUTF8StringEncoding];
+    for (int i=0 ; i<[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding] ;i++) {
+        if (*p) {
+            p++;
+            strlength++;
+        }
+        else {
+            p++;
+        }
+    }
+    return strlength;
+}
+- (NSString *)subStringByByteLength:(NSInteger)Len{
+    
+    NSString *tempStr = [[NSString alloc] init];
+    if ([self getByteNum] <= Len) {
+        tempStr = self;
+    }else{
+        NSInteger sum = 0;
+        for(int i = 0; i<[self length]; i++){
+            NSString *subStr = [self substringWithRange:NSMakeRange(i, 1)];
+            int byteLen = [subStr getByteNum];
+            sum += byteLen;
+            if (sum > Len) {
+                tempStr = [self substringWithRange:NSMakeRange(0, i)];
+                break;
+            }
+        }
+    }
+    
+    //左补0
+    NSMutableString *resultStr = [[NSMutableString alloc] init];
+    for (int i = 0; i <Len-[tempStr getByteNum]; i++) {
+        [resultStr appendString:@"0"];
+    }
+    [resultStr appendString:tempStr];
+    return resultStr;
+}
+
 - (NSString *)stringValue;
 {
     if ([self isKindOfClass:[NSString class]]) {

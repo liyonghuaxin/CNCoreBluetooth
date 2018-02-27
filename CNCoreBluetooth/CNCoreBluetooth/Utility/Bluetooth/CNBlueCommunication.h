@@ -10,19 +10,15 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "RespondModel.h"
 
+typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer);
+
 typedef void(^respondBlock)(RespondModel *model);
 
 @interface CNBlueCommunication : NSObject
-/*
- 一、广播包格式
- 蓝牙名称：Quick Safe  默认密码：123456
- 蓝牙服务UUID: FFE0 蓝牙特征UUID：FFE1
- 二、数据包格式
- 1、自动同步    2、开锁    3、广播名称及配对密码修改    4、开锁记录查询
- 5、已配对设备查询    6、解除配对    7、锁具状态上报
- */
 
-+(BOOL)cbIsPaire:(NSString *)pwdStr;
+//监听 蓝牙锁连接状态
+
++ (void)monitorPeriConnectedState:(periConnectedStateBlock)periConnectedState;
 
 /**
  app->锁具

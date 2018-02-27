@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Utils)
+
+//计算字符串的字节数(汉字占两个)
+- (int)getByteNum;
+
+//从字符串中截取指定字节数
+- (NSString *)subStringByByteLength:(NSInteger)Len;
+
 /**
  *  去除字符串两边的空格
  *

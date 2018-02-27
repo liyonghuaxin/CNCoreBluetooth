@@ -17,6 +17,7 @@
 @property (nonatomic,copy)NSString *periID;
 @property (nonatomic,copy)NSString *periname;
 @property (nonatomic,copy)NSString *periPwd;
+@property (nonatomic,assign)BOOL isAdmin;
 @property (nonatomic,assign)BOOL isPwd;
 @property (nonatomic,assign)BOOL isTouchUnlock;
 
