@@ -117,4 +117,11 @@
     return array;
 }
 
+-(void)deletePairedWithIdentifier:(NSString *)identifier{
+    [_db open];
+    NSString *sqlStr = [NSString stringWithFormat:@"delete from peripheral where peri_id = '%@';",identifier];
+    [_db executeUpdate:sqlStr];
+    [_db close];
+}
+
 @end

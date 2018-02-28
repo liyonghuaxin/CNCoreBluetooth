@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+typedef enum : NSUInteger {
+    ENDefault,
+    ENUpdate,
+    ENDelete,
+} ENActionType;
+
 @interface CNPeripheralModel : NSObject
 
 @property (nonatomic,strong)CBPeripheral *peripheral;
@@ -21,5 +27,6 @@
 @property (nonatomic,assign)BOOL isPwd;
 @property (nonatomic,assign)BOOL isTouchUnlock;
 @property (nonatomic,copy)NSString *lockState;
+@property (nonatomic,assign) ENActionType actionType;
 
 @end

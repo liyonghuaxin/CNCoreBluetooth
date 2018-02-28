@@ -32,15 +32,13 @@
 
 @implementation SetViewController
 
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self setBackBtnHiden:YES];
-    //lyh debug
+    //lyh  这里简单处理，首页随时可能增加新设备
     _dataArray = [NSMutableArray arrayWithArray:[CommonData sharedCommonData].listPeriArr];
     [_myTableView reloadData];
     [self layoutFootView];
-    
 }
 
 -(void)dealloc{
@@ -57,7 +55,6 @@
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
 
-    
     _presentAnimation = [PresentTransformAnimation new];
     _transitionController = [SwipeUpInteractiveTransition new];
 
@@ -86,7 +83,11 @@
         }
         i++;
     }
-    [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    if (pModel.actionType == ENUpdate) {
+        [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    }else{
+        [_dataArray removeObjectAtIndex:i];
+    }
     [_myTableView reloadData];
 }
 

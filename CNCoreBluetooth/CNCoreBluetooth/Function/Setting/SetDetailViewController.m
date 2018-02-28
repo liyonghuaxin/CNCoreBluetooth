@@ -262,6 +262,7 @@ static NSString *setLockMethod = @"SetLockMethod";
             i++;
         }
         [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:periModel];
+        periModel.actionType = ENUpdate;
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
     }
     
@@ -271,10 +272,22 @@ static NSString *setLockMethod = @"SetLockMethod";
 }
 
 - (void)unPaired{
-    //解除配对
+    //解除配对（不是管理员踢人操作）
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
-            [CNBlueCommunication cbSendInstruction:ENUnpair toPeripheral:peri finish:nil];
+            [[CNDataBase sharedDataBase] deletePairedWithIdentifier:peri.identifier.UUIDString];
+            int i = 0;
+            for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
+                if ([model.periID isEqualToString:periModel.periID]) {
+                    break;
+                }
+                i++;
+            }
+            [[CommonData sharedCommonData].listPeriArr removeObjectAtIndex:i];
+            periModel.actionType = ENDelete;
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
+            [self.navigationController popViewControllerAnimated:YES];
+
             break;
         }
     }

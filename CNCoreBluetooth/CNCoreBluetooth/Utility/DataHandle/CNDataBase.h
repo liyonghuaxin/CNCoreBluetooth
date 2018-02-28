@@ -13,6 +13,10 @@
 
 +(instancetype)sharedDataBase;
 /**
+ 移除配对
+ */
+- (void)deletePairedWithIdentifier:(NSString *)identifier;
+/**
  只插入
  */
 - (void)addPeripheralInfo:(CNPeripheralModel *)model;

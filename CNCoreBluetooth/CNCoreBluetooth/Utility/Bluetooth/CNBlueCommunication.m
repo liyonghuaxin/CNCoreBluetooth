@@ -125,8 +125,12 @@ static periConnectedStateBlock periStateBlock;
             break;
         }
         case ENLockStateReport:{
-            //锁具状态上报
-
+            //app回执
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"C0"];
+            [dataStr appendString:@"1"];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         default:
@@ -313,6 +317,7 @@ static periConnectedStateBlock periStateBlock;
                     respondModel.lockIdentifier = peripheral.identifier.UUIDString;
                     lockStateBlock(respondModel);
                 }
+                [self cbSendInstruction:ENLockStateReport toPeripheral:peripheral finish:nil];
                 break;
             }
             default:

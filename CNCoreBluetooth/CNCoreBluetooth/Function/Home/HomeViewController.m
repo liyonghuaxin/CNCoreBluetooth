@@ -114,7 +114,13 @@
         }
         i++;
     }
-    [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    if (pModel.actionType == ENUpdate) {
+        [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    }else{
+        [_dataArray removeObjectAtIndex:i];
+        [self.lockIDArray removeObject:pModel.periID];
+        [blueManager cus_cancelConnectPeripheral:pModel.peripheral];
+    }
     [_myTableView reloadData];
 }
 
