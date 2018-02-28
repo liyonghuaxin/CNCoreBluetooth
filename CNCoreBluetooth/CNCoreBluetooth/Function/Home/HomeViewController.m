@@ -65,7 +65,6 @@
     __weak typeof(self) weakSelf = self;
     blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
         if (isOpenTimer) {
-            
             //循环自动同步
             [weakSelf addTimer];
         }else{
@@ -99,7 +98,10 @@
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
-    
+
+    [CNBlueCommunication monitorLockState:^(RespondModel *model) {
+        [self updateLockState:model.lockIdentifier state:model.lockState];
+    }];
 }
 
 - (void)reloadList:(NSNotification *)notification{
@@ -113,6 +115,20 @@
         i++;
     }
     [_dataArray replaceObjectAtIndex:i withObject:pModel];
+    [_myTableView reloadData];
+}
+
+#pragma mark Private 锁具状态更新
+
+- (void)updateLockState:(NSString *)lockIdentifier state:(NSString *)state{
+    int i = 0;
+    for (CNPeripheralModel *periModel in _dataArray) {
+        if ([periModel.periID isEqualToString:lockIdentifier]) {
+            periModel.lockState = state;
+            break;
+        }
+        i++;
+    }
     [_myTableView reloadData];
 }
 

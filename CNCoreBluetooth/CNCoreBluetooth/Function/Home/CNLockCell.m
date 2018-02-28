@@ -48,14 +48,17 @@
 //    }else{
 //        _fingerprintImagev.hidden = YES;
 //    }
+    if ([model.lockState intValue] == 1) {
+        [self updateLockState:YES];
+    }else{
+        [self updateLockState:NO];
+    }
 }
 
 - (void)sliderValueChanged:(id)sender{
     UISlider *slider = (UISlider *)sender;
     if (slider.value > 0.7) {
         slider.value = 1;
-        _lockRight.image = [UIImage imageNamed:@"unlockRight"];
-        _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
         //滑动开锁
         if ([self.delegate respondsToSelector:@selector(slideSuccess:)]) {
             [self.delegate slideSuccess:_model.peripheral];
@@ -64,11 +67,17 @@
         dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 3.0 * NSEC_PER_SEC);
         dispatch_after(timer, dispatch_get_main_queue(), ^(void){
             slider.value = 0;
-            _lockRight.image = [UIImage imageNamed:@"lockRight"];
-            _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
         });
     }else{
         slider.value = 0;
+    }
+}
+
+- (void)updateLockState:(BOOL)isLock{
+    if (isLock) {
+        _lockRight.image = [UIImage imageNamed:@"unlockRight"];
+        _lockLeft.image = [UIImage imageNamed:@"unlockLeft"];
+    }else{
         _lockRight.image = [UIImage imageNamed:@"lockRight"];
         _lockLeft.image = [UIImage imageNamed:@"lockLeft"];
     }

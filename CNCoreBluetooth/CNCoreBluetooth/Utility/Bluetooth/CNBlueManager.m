@@ -214,7 +214,9 @@
         [self.peripheralArray addObject:peripheral];
     }
     
-    if (![_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString] && ![_connectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
+    //发现从未自动登录过的设备然后回调
+    CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
+    if (periModel == nil) {
         if (_scanFinished) {
             _scanFinished(peripheral);
             _curPeri = peripheral;
@@ -222,7 +224,16 @@
             [self cus_stopScan];
         }
     }
-
+    
+    //改为自动登录后，此处条件不合理（匹配密码输入错误，未真正意义上匹配过，这里将不会回调）
+//    if (![_unConnectedLockIDArray containsObject:peripheral.identifier.UUIDString] && ![_connectedLockIDArray containsObject:peripheral.identifier.UUIDString]) {
+//        if (_scanFinished) {
+//            _scanFinished(peripheral);
+//            _curPeri = peripheral;
+//            //一次只扫一个
+//            [self cus_stopScan];
+//        }
+//    }
 }
 
 //6、扫描服务 可传服务uuid代表指定服务，传nil代表所有服务

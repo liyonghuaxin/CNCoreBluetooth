@@ -19,6 +19,7 @@ typedef void(^respondBlock)(RespondModel *model);
 //监听 蓝牙锁连接状态
 
 + (void)monitorPeriConnectedState:(periConnectedStateBlock)periConnectedState;
++ (void)monitorLockState:(respondBlock)lockState;
 
 /**
  app->锁具

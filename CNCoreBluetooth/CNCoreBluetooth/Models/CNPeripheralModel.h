@@ -20,5 +20,6 @@
 @property (nonatomic,assign)BOOL isAdmin;
 @property (nonatomic,assign)BOOL isPwd;
 @property (nonatomic,assign)BOOL isTouchUnlock;
+@property (nonatomic,copy)NSString *lockState;
 
 @end

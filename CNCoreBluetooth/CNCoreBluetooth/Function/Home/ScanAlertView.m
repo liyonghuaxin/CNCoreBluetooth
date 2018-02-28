@@ -47,7 +47,6 @@
     }
     // 输入密码完毕
     if (password.length == 6){
-        canDismiss = NO;
         _showType = AlertSearch;
         self.hidden = YES;
         [tx resignFirstResponder];//隐藏键盘
@@ -76,13 +75,14 @@
         _pwd5.text = @"";
         _pwd6.text = @"";
         _assistTF.text = @"";
-        canDismiss = NO;
         [self.assistTF becomeFirstResponder];
         _pwdBgView.hidden = NO;
         _containerView.hidden = YES;
-        if (self.hidden) {
-            self.hidden = NO;
-        }
+        canDismiss = NO;
+        [self stopScan];
+//        if (self.hidden) {
+//            self.hidden = NO;
+//        }
     }else{
         canDismiss = YES;
         _pwdBgView.hidden = YES;

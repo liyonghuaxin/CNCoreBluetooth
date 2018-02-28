@@ -13,7 +13,8 @@
 #import "CNDataBase.h"
 
 static CBCharacteristic *blCharacteristic = nil;
-static respondBlock myRespondBlock;
+static respondBlock openLogBlock;
+static respondBlock lockStateBlock;
 static periConnectedStateBlock periStateBlock;
 
 @implementation CNBlueCommunication
@@ -22,6 +23,10 @@ static periConnectedStateBlock periStateBlock;
     if (blCharacteristic == nil) {
         blCharacteristic = chara;
     }
+}
+
++(void)monitorLockState:(respondBlock)lockState{
+    lockStateBlock = lockState;
 }
 
 +(void)monitorPeriConnectedState:(periConnectedStateBlock)periConnectedState{
@@ -63,8 +68,8 @@ static periConnectedStateBlock periStateBlock;
                 //已配对
                 NSLog(@"已配对");
                 [dataStr appendString:localModel.isTouchUnlock?@"1":@"0"];
-                //获取密码方式
                 [dataStr appendString:localModel.periPwd];
+                //获取密码方式
                 [dataStr appendString:@"0"];
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
             }else{
@@ -72,6 +77,7 @@ static periConnectedStateBlock periStateBlock;
                 NSLog(@"新配对");
                 [dataStr appendString:@"0"];
                 [dataStr appendString:[CommonData sharedCommonData].pairedPwd];
+                //获取密码方式
                 [dataStr appendString:@"1"];
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
             }
@@ -100,7 +106,7 @@ static periConnectedStateBlock periStateBlock;
         }
         case ENLookLockLog:{
             //开锁记录查询
-            myRespondBlock = finish;
+            openLogBlock = finish;
             NSMutableString *dataStr = [[NSMutableString alloc] init];
             [dataStr appendString:@"06"];
             [dataStr appendString:[BlueHelp getCurDateByBCDEncode]];
@@ -120,13 +126,14 @@ static periConnectedStateBlock periStateBlock;
         }
         case ENLockStateReport:{
             //锁具状态上报
-            
+
             break;
         }
         default:
             break;
     }
 }
+
 + (void)cbSendData:(NSData *)data toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
     if (characteristic.properties & CBCharacteristicPropertyWrite){
@@ -150,7 +157,7 @@ static periConnectedStateBlock periStateBlock;
         [peripheral writeValue:rdata forCharacteristic:characteristic  type:type];
     }
 }
-#pragma mark ----------生成数据包-------------
+//生成数据包
 + (NSData *)getDataPacketWith:(NSString *)str{
     
     //字符串补零操作
@@ -220,37 +227,39 @@ static periConnectedStateBlock periStateBlock;
 #pragma mark ----------读取数据-------------
 +(void)cbReadData:(NSData *)data fromPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     
-    RespondModel *model = [self parseResponseDataWithParameter:data];
+    RespondModel *respondModel = [self parseResponseDataWithParameter:data];
     
-    //得到回执
-    //RespondModel *model = [CNBlueCommunication parseResponseDataWithParameter:data];
-
-    if (model) {
-        switch (model.type) {
+    if (respondModel) {
+        switch (respondModel.type) {
             case ENAutoLogin:{
                 //自动登录
                 CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
-                if ([model.state intValue] == 0) {
+                if ([respondModel.state intValue] == 0) {
                     //登录成功
                     [[CommonData sharedCommonData].reportIDArr removeObject:peripheral.identifier.UUIDString];
                     if (!periModel) {
+                        [CNPromptView showStatusWithString:@"Lock Paired"];
                         //连接上设备，数据本地保存
                         CNPeripheralModel *periModel = [[CNPeripheralModel alloc] init];
                         periModel.periID = peripheral.identifier.UUIDString;
                         periModel.periname = peripheral.name;
-                        periModel.isAdmin = [model.isadmin intValue];
+                        periModel.isAdmin = [respondModel.isadmin intValue];
                         periModel.periPwd = [CommonData sharedCommonData].pairedPwd;
+                        periModel.lockState = respondModel.lockState;
                         [[CNDataBase sharedDataBase] addPeripheralInfo:periModel];
+                    }else{
+                        periModel.lockState = respondModel.lockState;
+                        [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
                     if (periStateBlock) {
                         periStateBlock(peripheral, YES, NO);
                     }
-                }else if([model.state intValue] == 1){
+                }else if([respondModel.state intValue] == 1){
                     //自动登录失效，需要用户重新手动输入密码
                     if (periStateBlock) {
                         periStateBlock(peripheral, NO, NO);
                     }
-                }else if([model.state intValue] == 2){
+                }else if([respondModel.state intValue] == 2){
                     //(配对)密码错误
                     [CNPromptView showStatusWithString:@"Lock Unpaired"];
                     if (periStateBlock) {
@@ -266,8 +275,13 @@ static periConnectedStateBlock periStateBlock;
             }
             case ENOpenLock:{
                 //开锁
-                if ([model.state intValue] == 1) {
+                if ([respondModel.state intValue] == 1) {
                     [CNPromptView showStatusWithString:@"Lock is Open"];
+                    //更新列表状态
+                    if (lockStateBlock) {
+                        respondModel.lockIdentifier = peripheral.identifier.UUIDString;
+                        lockStateBlock(respondModel);
+                    }
                 }
                 break;
             }
@@ -278,8 +292,8 @@ static periConnectedStateBlock periStateBlock;
             }
             case ENLookLockLog:{
                 //开锁记录查询
-                if (myRespondBlock) {
-                    myRespondBlock(model);
+                if (openLogBlock) {
+                    openLogBlock(respondModel);
                 }
                 break;
             }
@@ -295,7 +309,10 @@ static periConnectedStateBlock periStateBlock;
             }
             case ENLockStateReport:{
                 //锁具状态上报
-                
+                if (lockStateBlock) {
+                    respondModel.lockIdentifier = peripheral.identifier.UUIDString;
+                    lockStateBlock(respondModel);
+                }
                 break;
             }
             default:
@@ -339,7 +356,7 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80001";//同步成功
+    NSString *str1 = @"80011";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
@@ -347,8 +364,33 @@ static periConnectedStateBlock periStateBlock;
     NSString *str5 = @"871aabbccddeeff000000name";//已配对设备查询上传
     NSString *str6 = @"881";//解除配对关系回执
     NSString *str7 = @"401";//上报锁具状态
-    myData = [self getDataPacketWith:str1];
-    
+  
+    int temp = 1;
+    switch (temp) {
+        case 1:
+            myData = [self getDataPacketWith:str1];
+            break;
+        case 2:
+            myData = [self getDataPacketWith:str2];
+            break;
+        case 3:
+            myData = [self getDataPacketWith:str3];
+            break;
+        case 4:
+            myData = [self getDataPacketWith:str4];
+            break;
+        case 5:
+            myData = [self getDataPacketWith:str5];
+            break;
+        case 6:
+            myData = [self getDataPacketWith:str6];
+            break;
+        case 7:
+            myData = [self getDataPacketWith:str7];
+            break;
+        default:
+            break;
+    }
     //解析数据，暂没用校验位
     RespondModel *resModel = [[RespondModel alloc] init];
     NSString *responseString = [[NSString alloc] initWithData:myData encoding:NSUTF8StringEncoding];
@@ -381,6 +423,7 @@ static periConnectedStateBlock periStateBlock;
         //开锁
         resModel.type = ENOpenLock;
         resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+        resModel.lockState =  [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
     }else if ([instructionStr isEqualToString:@"85"]){
         //广播名称及配对密码修改
         resModel.type = ENChangeNameAndPwd;
@@ -407,14 +450,15 @@ static periConnectedStateBlock periStateBlock;
         //解除配对
         resModel.type = ENUnpair;
         resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-    }else if ([instructionStr isEqualToString:@"C0"]){
+    }else if ([instructionStr isEqualToString:@"40"]){
         //锁具状态上报
         resModel.type = ENLockStateReport;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
+        resModel.lockState = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
     }
     return resModel;
 }
-//生成校验码
+
+//生成校验码 仅对ascii码有效
 + (NSString *)getCheckCode:(NSString *)lenDAndDataDStr{
     //lenDAndDataDStr为长度域和数据域的字符串
     NSString *verifyStr;
