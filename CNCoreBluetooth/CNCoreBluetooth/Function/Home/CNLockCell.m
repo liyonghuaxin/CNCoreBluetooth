@@ -43,6 +43,11 @@
     }else{
         _pwdLab.hidden = YES;
     }
+    if (model.isConnect) {
+        self.contentView.backgroundColor = [UIColor whiteColor];
+    }else{
+        self.contentView.backgroundColor = [UIColor lightGrayColor];
+    }
 //    if (model.isTouchUnlock) {
 //        _fingerprintImagev.hidden = NO;
 //    }else{

@@ -32,5 +32,9 @@
  查询所有已连接设备id
  */
 - (NSArray *)searchAllPariedPeriID;
+/**
+ 查询所有已连接设备
+ */
+- (NSArray *)searchAllPariedPeris;
 @end
 

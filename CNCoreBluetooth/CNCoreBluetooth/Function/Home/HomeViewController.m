@@ -49,6 +49,13 @@
     _dataArray = [NSMutableArray array];
     _lockIDArray = [NSMutableArray array];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
+    
+    //读取已连过的设备
+    NSArray *periArr = [[CNDataBase sharedDataBase] searchAllPariedPeris];
+    for (CNPeripheralModel *model in periArr) {
+        [_lockIDArray addObject:model.periID];
+        [_dataArray addObject:model];
+    }
 
     blueManager = [CNBlueManager sharedBlueManager];
     self.headView.hidden = NO;
@@ -68,16 +75,23 @@
             //循环自动同步
             [weakSelf addTimer];
         }else{
-            if (isConnect) {
+            if (isConnect && ![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
                 //更新列表
-                if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
-                    CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
-                    model.peripheral = peripherial;
-                    [weakSelf.dataArray addObject:model];
-                    [[CommonData sharedCommonData].listPeriArr addObject:model];
-                    [weakSelf.myTableView reloadData];
-                    [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+                CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
+                model.isConnect = YES;
+                model.peripheral = peripherial;
+                [weakSelf.dataArray addObject:model];
+                [[CommonData sharedCommonData].listPeriArr addObject:model];
+                [weakSelf.myTableView reloadData];
+                [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+            }else{
+                for (CNPeripheralModel *model in weakSelf.dataArray) {
+                    if ([model.periID isEqualToString:peripherial.identifier.UUIDString]) {
+                        model.isConnect = isConnect;
+                        break;
+                    }
                 }
+                [weakSelf.myTableView reloadData];
             }
         }
     };
@@ -215,16 +229,12 @@
     //开始搜索外设
     [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
         if (per) {
-            [self findPeri];
-            [alert setShowType:AlertEnterPwd WithTitle:per.name];
+            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+            model.periname = per.name;
+            model.periID = per.identifier.UUIDString;
+            [alert updateDeviceInfo:model];
         }
     }];
-}
-
-- (void)findPeri{
-    NSLog(@"%@",blueManager.peripheralArray);
-    [alert setShowType:AlertEnterPwd];
-
 }
 
 - (void)stopScanPeri{

@@ -8,8 +8,9 @@
 
 #import "ScanAlertView.h"
 
-@interface ScanAlertView(){
-     BOOL canDismiss;
+@interface ScanAlertView()<UITableViewDelegate,UITableViewDataSource>{
+    BOOL canDismiss;
+    NSMutableArray *dataArray;
 }
 @end
 
@@ -17,6 +18,9 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
+    
+    dataArray = [NSMutableArray array];
+    
     _containerView.layer.cornerRadius = 8.0;
     _containerView.layer.masksToBounds = YES;
     _pwdBgView.layer.cornerRadius = 8.0;
@@ -57,12 +61,12 @@
 }
 
 -(void)setShowType:(AlertType)showType WithTitle:(NSString *)title{
-    [self setShowType:showType];
     if (title.length) {
         _lockNameLab.text = title;
     }else{
         _lockNameLab.text = @"Unknown Device";
     }
+    [self setShowType:showType];
 }
 
 -(void)setShowType:(AlertType)showType{
@@ -77,16 +81,20 @@
         _assistTF.text = @"";
         [self.assistTF becomeFirstResponder];
         _pwdBgView.hidden = NO;
-        _containerView.hidden = YES;
         canDismiss = NO;
+        _containerView.hidden = YES;
+        _listBgView.hidden = YES;
+    }else if (showType == AlertLockList){
+        canDismiss = NO;
+        _containerView.hidden = YES;
+        _pwdBgView.hidden = YES;
+        _listBgView.hidden = NO;
         [self stopScan];
-//        if (self.hidden) {
-//            self.hidden = NO;
-//        }
     }else{
         canDismiss = YES;
-        _pwdBgView.hidden = YES;
         _containerView.hidden = NO;
+        _pwdBgView.hidden = YES;
+        _listBgView.hidden = YES;
     }
 }
 
@@ -134,6 +142,36 @@
             isAnimation = NO;
         }
     }
+}
+
+-(void)updateDeviceInfo:(CNPeripheralModel *)lockModel{
+    if (_showType != AlertLockList) {
+        [self setShowType:AlertLockList];
+    }
+    [dataArray addObject:lockModel];
+    [_myTableView reloadData];
+}
+
+#pragma mark taleview delegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    CNPeripheralModel *periModel = (CNPeripheralModel *)dataArray[indexPath.row];
+    [self setShowType:AlertEnterPwd WithTitle:periModel.periname];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return dataArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"identifier"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"identifier"];
+    }
+    CNPeripheralModel *periModel = (CNPeripheralModel *)dataArray[indexPath.row];
+    cell.textLabel.text = periModel.periname;
+    return cell;
 }
 
 @end

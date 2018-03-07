@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,assign)BOOL isPwd;
 @property (nonatomic,assign)BOOL isTouchUnlock;
 @property (nonatomic,copy)NSString *lockState;
+@property (nonatomic,assign)BOOL isConnect;
 @property (nonatomic,assign) ENActionType actionType;
 
 @end

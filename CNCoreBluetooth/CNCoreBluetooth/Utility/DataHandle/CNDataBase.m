@@ -117,6 +117,25 @@
     return array;
 }
 
+-(NSArray *)searchAllPariedPeris{
+    [_db open];
+    FMResultSet *rs = [_db executeQuery:@"Select * FROM peripheral"];
+    NSMutableArray *array = [NSMutableArray array];
+    while ([rs next]) {
+        CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+        model.periID = [rs stringForColumn:@"peri_id"];
+        model.periname = [rs stringForColumn:@"peri_name"];
+        model.periPwd = [rs stringForColumn:@"peri_pwd"];
+        model.lockState = [rs stringForColumn:@"peri_lockState"];
+        model.isAdmin = [rs boolForColumn:@"peri_isAdmin"];
+        model.isPwd = [rs boolForColumn:@"peri_isPwd"];
+        model.isTouchUnlock = [rs boolForColumn:@"peri_isTouchUnlock"];
+        [array addObject:model];
+    }
+    [_db close];
+    return array;
+}
+
 -(void)deletePairedWithIdentifier:(NSString *)identifier{
     [_db open];
     NSString *sqlStr = [NSString stringWithFormat:@"delete from peripheral where peri_id = '%@';",identifier];

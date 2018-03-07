@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CNPeripheralModel.h"
 
 typedef enum : NSUInteger {
     AlertSearch,
     AlertEnterPwd,
+    AlertLockList,
 } AlertType;
 
 @interface ScanAlertView : UIView{
@@ -23,8 +25,10 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,assign) AlertType showType;
 -(void)setShowType:(AlertType)showType WithTitle:(NSString *)title;
+- (void)updateDeviceInfo:(CNPeripheralModel *)lockModel;
 @property (nonatomic,copy) void (^alertBlock)(void);
 @property (nonatomic,copy) void (^returnPasswordStringBlock)(NSString *pwd);
+@property (weak, nonatomic) IBOutlet UIView *listBgView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
 @property (weak, nonatomic) IBOutlet UIView *bgView;
@@ -40,5 +44,6 @@ typedef enum : NSUInteger {
 @property (weak, nonatomic) IBOutlet UIView *enterView;
 @property (weak, nonatomic) IBOutlet UITextField *assistTF;
 - (IBAction)cancelScan:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
 @end
