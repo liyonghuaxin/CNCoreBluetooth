@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "CNPeripheralModel.h"
 
 @interface SetDetailViewController : BaseViewController
-@property (nonatomic,copy) NSString *lockID;
+@property (nonatomic,strong) CNPeripheralModel *lockModel;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) IBOutlet UIView *footView;
 @property (weak, nonatomic) IBOutlet UIButton *saveBtn;

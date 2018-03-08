@@ -18,6 +18,7 @@
 #import "CNDataBase.h"
 #import "CNBlueCommunication.h"
 #import "CNBlueManager.h"
+#import "EnterPwdAlert.h"
 
 static NSString *setDetailCell = @"SetDetailCell";
 
@@ -28,7 +29,8 @@ static NSString *setLockMethod = @"SetLockMethod";
     NSArray *dataArray;
     DeleteUnpairAlert *alert;
     SaveSettingAlert *saveAlert;
-    CNPeripheralModel *periModel;
+    BOOL isShowIncorrectPwd;
+    CNPeripheralModel *tempModel;
 }
 
 @end
@@ -48,15 +50,19 @@ static NSString *setLockMethod = @"SetLockMethod";
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
-    
-    dataArray = @[@"Name",@"Password",@"Open History",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
+    tempModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
+    _lockModel.isAdmin = tempModel.isAdmin;
+    if (_lockModel.isAdmin) {
+        dataArray = @[@"Name",@"Password",@"Open History",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
+    }else{
+        dataArray = @[@"Name",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
+    }
     
     [_myTableView registerNib:[UINib nibWithNibName:@"SetDetailCell" bundle:nil] forCellReuseIdentifier:setDetailCell];
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockMethod" bundle:nil] forCellReuseIdentifier:setLockMethod];
@@ -73,11 +79,12 @@ static NSString *setLockMethod = @"SetLockMethod";
     [bgView addGestureRecognizer:tap];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillHide) name:UIKeyboardWillHideNotification object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyDidHide) name:UIKeyboardDidHideNotification object:nil];
+
     _saveBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
     _saveBtn.layer.cornerRadius = _saveBtn.height/2.0;
     //lyh debug 50*6
-    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*6;
+    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*dataArray.count;
     if (footViewheight<90) {
         footViewheight = 90;
     }
@@ -93,12 +100,20 @@ static NSString *setLockMethod = @"SetLockMethod";
     bgView.hidden = NO;
 }
 
+
 - (void)keyWillHide{
     bgView.hidden = YES;
 }
 
+- (void)keyDidHide{
+    if (isShowIncorrectPwd) {
+        [CNPromptView showStatusWithString:@"Incorrect Password"];
+        isShowIncorrectPwd = NO;
+    }
+}
+
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    periModel.periname = textField.text;
+    tempModel.periname = textField.text;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,26 +132,38 @@ static NSString *setLockMethod = @"SetLockMethod";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     __weak typeof(self) weakself = self;
-    if (indexPath.row == 1) {
-        ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
-        pwd.periModel = periModel;
-        pwd.pwdBlock = ^(NSString *str) {
-            periModel.periPwd = str;
-            [self updateNameAndPwd:NO];
-        };
-        [self.navigationController pushViewController:pwd animated:YES];
-    }else if (indexPath.row == 2){
-        OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
-        history.lockID = periModel.periID;
-        [self.navigationController pushViewController:history animated:YES];
-    }else if (indexPath.row == 5){
-        alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
-        alert.unpairedBlock = ^{
-            [weakself unPaired];
-        };
-        alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        [[UIApplication sharedApplication].keyWindow addSubview:alert];
+    if (_lockModel.isAdmin) {
+        if (indexPath.row == 1) {
+            ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
+            pwd.periModel = tempModel;
+            pwd.pwdBlock = ^(NSString *str) {
+                //periModel.periPwd = str;
+                //[self updateNameAndPwd:NO];
+            };
+            [self.navigationController pushViewController:pwd animated:YES];
+        }else if (indexPath.row == 2){
+            OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
+            history.lockID = _lockModel.periID;
+            [self.navigationController pushViewController:history animated:YES];
+        }else if (indexPath.row == 5){
+            alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
+            alert.unpairedBlock = ^{
+                [weakself unPaired];
+            };
+            alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+            [[UIApplication sharedApplication].keyWindow addSubview:alert];
+        }
+    }else{
+        if (indexPath.row == 3){
+            alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
+            alert.unpairedBlock = ^{
+                [weakself unPaired];
+            };
+            alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+            [[UIApplication sharedApplication].keyWindow addSubview:alert];
+        }
     }
+
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -144,20 +171,30 @@ static NSString *setLockMethod = @"SetLockMethod";
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 3) {
-        return 100;
+    if (_lockModel.isAdmin) {
+        if (indexPath.row == 3) {
+            return 100;
+        }
+    }else{
+        if (indexPath.row == 1) {
+            return 100;
+        }
     }
     return 50;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 3) {
+    int temp = 2;
+    if (_lockModel.isAdmin) {
+        temp = 0;
+    }
+    if (indexPath.row == 3-temp) {
         SetLockMethod *detailCell2 = [tableView dequeueReusableCellWithIdentifier:setLockMethod forIndexPath:indexPath];
         detailCell2.pwdBlock = ^(BOOL isPwd) {
-            periModel.isPwd = isPwd;
+            tempModel.isPwd = isPwd;
         };
-        detailCell2.nameLab.text = dataArray[3];
-        [detailCell2 selectPwd:periModel.isPwd];
+        detailCell2.nameLab.text = dataArray[3-temp];
+        [detailCell2 selectPwd:_lockModel.isPwd];
         return detailCell2;
     }
     SetDetailCell *detailCell = [tableView dequeueReusableCellWithIdentifier:setDetailCell forIndexPath:indexPath];
@@ -165,48 +202,78 @@ static NSString *setLockMethod = @"SetLockMethod";
     detailCell.mySwitch.hidden = YES;
     detailCell.textF.hidden = YES;
     detailCell.swichBlock = ^(BOOL isTouch) {
-        periModel.isTouchUnlock = isTouch;
+        tempModel.isTouchUnlock = isTouch;
     };
     detailCell.nameBlock = ^(NSString *name) {
-        periModel.periname = name;
+        tempModel.periname = name;
     };
-    switch (indexPath.row) {
-        case 0:{
-            detailCell.textF.text = periModel.periname;
-            detailCell.textF.hidden = NO;
-            break;
-        }
-        case 1:{
-            detailCell.textF.hidden = NO;
-            detailCell.textF.secureTextEntry = YES;
-            detailCell.textF.text = periModel.periPwd;
-            detailCell.imageV.hidden = NO;
-            detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
-            break;
-        }
-        case 2:{
-            detailCell.imageV.hidden = NO;
-            detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
-            break;
-        }
-        case 4:{
-            if (periModel.isTouchUnlock) {
-                detailCell.mySwitch.on = YES;
-            }else{
-                detailCell.mySwitch.on = NO;
+    if (_lockModel.isAdmin) {
+        switch (indexPath.row) {
+            case 0:{
+                detailCell.textF.text = _lockModel.periname;
+                detailCell.textF.hidden = NO;
+                break;
             }
-            detailCell.mySwitch.hidden = NO;
-            break;
+            case 1:{
+                detailCell.textF.hidden = NO;
+                detailCell.textF.secureTextEntry = YES;
+                detailCell.textF.text = _lockModel.periPwd;
+                detailCell.imageV.hidden = NO;
+                detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
+                break;
+            }
+            case 2:{
+                
+                detailCell.imageV.hidden = NO;
+                detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
+                break;
+            }
+            case 4:{
+                if (_lockModel.isTouchUnlock) {
+                    detailCell.mySwitch.on = YES;
+                }else{
+                    detailCell.mySwitch.on = NO;
+                }
+                detailCell.mySwitch.hidden = NO;
+                break;
+            }
+            case 5:{
+                detailCell.imageV.hidden = NO;
+                detailCell.imageV.image = [UIImage imageNamed:@"delete"];
+                break;
+            }
+                
+            default:
+                break;
         }
-        case 5:{
-            detailCell.imageV.hidden = NO;
-            detailCell.imageV.image = [UIImage imageNamed:@"delete"];
-            break;
+    }else{
+        switch (indexPath.row) {
+            case 0:{
+                detailCell.textF.enabled = NO;
+                detailCell.textF.text = _lockModel.periname;
+                detailCell.textF.hidden = NO;
+                break;
+            }
+            case 2:{
+                if (_lockModel.isTouchUnlock) {
+                    detailCell.mySwitch.on = YES;
+                }else{
+                    detailCell.mySwitch.on = NO;
+                }
+                detailCell.mySwitch.hidden = NO;
+                break;
+            }
+            case 3:{
+                detailCell.imageV.hidden = NO;
+                detailCell.imageV.image = [UIImage imageNamed:@"delete"];
+                break;
+            }
+                
+            default:
+                break;
         }
-            
-        default:
-            break;
     }
+   
     detailCell.nameLab.text = dataArray[indexPath.row];
     return detailCell;
     
@@ -228,69 +295,96 @@ static NSString *setLockMethod = @"SetLockMethod";
 */
 
 - (IBAction)save:(id)sender {
-    saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
+    //弹出输入密码框
+    EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
+    enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     __weak typeof(self) weakself = self;
-    saveAlert.saveBlock = ^{
-        [weakself updateNameAndPwd:YES];
+    enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
+        if ([pwd isEqualToString:_lockModel.periPwd]) {
+            [weakself updateSetInfo];
+        }else{
+            //密码输错提示
+            isShowIncorrectPwd = YES;
+            [CNPromptView showStatusWithString:@"密码错误"];
+        }
     };
-    saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-    [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
+    [enterAlert showWithName:_lockModel.periname];
+    
+//    saveAlert = [[NSBundle mainBundle] loadNibNamed:@"SaveSettingAlert" owner:self options:nil][0];
+//    __weak typeof(self) weakself = self;
+//    saveAlert.saveBlock = ^{
+//        [weakself updateNameAndPwd:YES];
+//    };
+//    saveAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+//    [[UIApplication sharedApplication].keyWindow addSubview:saveAlert];
 }
 //保存锁具名称和密码
-- (void)updateNameAndPwd:(BOOL)isBack{
-    CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockID];
-    
-    //更新本地数据
-    [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
-
-    if (![originalModel.periname isEqualToString:periModel.periname] || ![originalModel.periPwd isEqualToString:periModel.periPwd]) {
+- (void)updateSetInfo{
+    CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
+    if (![originalModel.periname isEqualToString:tempModel.periname]) {
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
-            if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
-                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:nil];
+            if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
+                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:^(RespondModel *model) {
+                    if ([model.state intValue] == 1) {
+                        [self synchroRelationData];
+                        //更新数据
+                        _lockModel.periname = tempModel.periname;
+                        _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
+                        _lockModel.isPwd = tempModel.isPwd;
+                        [[CNDataBase sharedDataBase] updatePeripheralInfo:tempModel];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        //lyh debug
+                        [CNPromptView showStatusWithString:@"error"];
+                    }
+                }];
                 break;
             }
         }
-    }
-    
-    if (![originalModel.periname isEqualToString:periModel.periname]){
-        //当蓝牙名字修改后相关数据的变动
-        int i = 0;
-        for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
-            if ([model.periID isEqualToString:periModel.periID]) {
-                break;
-            }
-            i++;
-        }
-        [[CommonData sharedCommonData].listPeriArr replaceObjectAtIndex:i withObject:periModel];
-        periModel.actionType = ENUpdate;
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
-    }
-    
-    if (isBack) {
+    }else{
+        //更新数据
+        _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
+        _lockModel.isPwd = tempModel.isPwd;
+        [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
-- (void)unPaired{
-    //解除配对（不是管理员踢人操作）
-    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
-        if ([peri.identifier.UUIDString isEqualToString:periModel.periID]) {
-            [[CNDataBase sharedDataBase] deletePairedWithIdentifier:peri.identifier.UUIDString];
-            int i = 0;
-            for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
-                if ([model.periID isEqualToString:periModel.periID]) {
-                    break;
-                }
-                i++;
-            }
-            [[CommonData sharedCommonData].listPeriArr removeObjectAtIndex:i];
-            periModel.actionType = ENDelete;
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:periModel];
-            [self.navigationController popViewControllerAnimated:YES];
-
+- (void)synchroRelationData{
+    //当蓝牙名字修改后相关数据的变动
+    int i = 0;
+    for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
+        if ([model.periID isEqualToString:_lockModel.periID]) {
             break;
         }
+        i++;
     }
+    _lockModel.actionType = ENUpdate;
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
+}
+
+- (void)unPaired{
+    //弹出输入密码框
+    EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
+    enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
+        if ([pwd isEqualToString:_lockModel.periPwd]) {
+            //解除配对（不是管理员踢人操作）
+            for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+                if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
+                    [[CNDataBase sharedDataBase] deletePairedWithIdentifier:peri.identifier.UUIDString];
+                    _lockModel.actionType = ENDelete;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    break;
+                }
+            }
+        }else{
+            //密码输错提示
+            isShowIncorrectPwd = YES;
+        }
+    };
+    [enterAlert showWithName:_lockModel.periname];
 }
 
 @end

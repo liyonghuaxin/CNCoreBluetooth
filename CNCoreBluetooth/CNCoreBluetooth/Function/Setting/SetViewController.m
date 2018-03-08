@@ -41,14 +41,9 @@
     [self layoutFootView];
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
     _dataArray = [NSMutableArray array];
     self.headView.hidden = NO;
     self.headImageV.image = [UIImage imageNamed:@"LOCK-SETTINGS"];
@@ -74,23 +69,6 @@
     _myTableView.tableFooterView = _footView;
 }
 
-- (void)reloadList:(NSNotification *)notification{
-    CNPeripheralModel *pModel = [notification object];
-    int i = 0;
-    for (CNPeripheralModel *model in _dataArray) {
-        if ([pModel.periID isEqualToString:model.periID]) {
-            break;
-        }
-        i++;
-    }
-    if (pModel.actionType == ENUpdate) {
-        [_dataArray replaceObjectAtIndex:i withObject:pModel];
-    }else{
-        [_dataArray removeObjectAtIndex:i];
-    }
-    [_myTableView reloadData];
-}
-
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -111,7 +89,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     SetDetailViewController *detail = [[SetDetailViewController alloc] init];
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
-    detail.lockID = model.periID;
+    detail.lockModel = model;
     [self.navigationController pushViewController:detail animated:YES];
 }
 

@@ -74,12 +74,12 @@
 }
 
 -(void)updatePeripheralInfo:(CNPeripheralModel *)model{
+    //lyh 属性存在才更新/插入
     [self.dbQueue inDatabase:^(FMDatabase *db) {
         NSUInteger totalCount = [db intForQuery:@"SELECT COUNT (peri_id) FROM peripheral WHERE peri_id = ?",model.periID];
         if (totalCount > 0) {
             //更新
             [db executeUpdate:@"UPDATE peripheral SET peri_id = ?, peri_name = ?, peri_pwd = ?, peri_lockState = ?, peri_isAdmin = ?, peri_isPwd = ?, peri_isTouchUnlock = ? WHERE peri_id = ?",model.periID, model.periname, model.periPwd, model.lockState, @(model.isAdmin), @(model.isPwd), @(model.isTouchUnlock), model.periID];
-
         }else{
             //插入
             [db executeUpdate:@"INSERT INTO peripheral (peri_id, peri_name, peri_pwd, peri_lockState, peri_isAdmin, peri_isPwd, peri_isTouchUnlock) VALUES (?, ?, ?, ?, ?, ?, ?)",model.periID, model.periname, model.periPwd, model.lockState, @(model.isAdmin), @(model.isPwd), @(model.isTouchUnlock)];

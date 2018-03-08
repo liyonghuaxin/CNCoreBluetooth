@@ -51,6 +51,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadList:) name:NotificationReload object:nil];
     
     //读取已连过的设备
+    [CommonData sharedCommonData].listPeriArr = _dataArray;
     NSArray *periArr = [[CNDataBase sharedDataBase] searchAllPariedPeris];
     for (CNPeripheralModel *model in periArr) {
         [_lockIDArray addObject:model.periID];
@@ -78,21 +79,24 @@
             if (isConnect && ![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
                 //更新列表
                 CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
-                model.isConnect = YES;
+                model.isConnect = isConnect;
                 model.peripheral = peripherial;
                 [weakSelf.dataArray addObject:model];
-                [[CommonData sharedCommonData].listPeriArr addObject:model];
-                [weakSelf.myTableView reloadData];
                 [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
-            }else{
-                for (CNPeripheralModel *model in weakSelf.dataArray) {
-                    if ([model.periID isEqualToString:peripherial.identifier.UUIDString]) {
-                        model.isConnect = isConnect;
-                        break;
-                    }
-                }
                 [weakSelf.myTableView reloadData];
             }
+            for (CNPeripheralModel *model in weakSelf.dataArray) {
+                if ([model.periID isEqualToString:peripherial.identifier.UUIDString]) {
+                    model.isConnect = isConnect;
+                    model.periname = peripherial.name;
+                    //未连接设备重新连接上
+                    if(model.peripheral == nil){
+                        model.peripheral = peripherial;
+                    }
+                    break;
+                }
+            }
+            [weakSelf.myTableView reloadData];
         }
     };
     
@@ -129,7 +133,7 @@
         i++;
     }
     if (pModel.actionType == ENUpdate) {
-        [_dataArray replaceObjectAtIndex:i withObject:pModel];
+        //[_dataArray replaceObjectAtIndex:i withObject:pModel];
     }else{
         [_dataArray removeObjectAtIndex:i];
         [self.lockIDArray removeObject:pModel.periID];

@@ -146,6 +146,7 @@
 
 -(void)updateDeviceInfo:(CNPeripheralModel *)lockModel{
     if (_showType != AlertLockList) {
+        [dataArray removeAllObjects];
         [self setShowType:AlertLockList];
     }
     [dataArray addObject:lockModel];

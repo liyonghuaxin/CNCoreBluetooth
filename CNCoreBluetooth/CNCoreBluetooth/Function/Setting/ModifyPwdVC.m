@@ -9,6 +9,9 @@
 #import "ModifyPwdVC.h"
 #import "modifyPwdCell.h"
 #import "UIView+KGViewExtend.h"
+#import "CNBlueManager.h"
+#import "CNDataBase.h"
+#import "CNBlueCommunication.h"
 
 @interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>{
     NSArray *dataArray;
@@ -162,13 +165,14 @@
     //先判断当前密码
     if (curPwd.length == 6 && [curPwd isEqualToString:_periModel.periPwd]) {
         if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
-            if (_pwdBlock) {
-                _pwdBlock(pwd1);
-            }
-            [self.navigationController popViewControllerAnimated:YES];
+//            if (_pwdBlock) {
+//                _pwdBlock(pwd1);
+//            }
+            [self updateSetInfo];
         }else{
             //两次密码不一致 或 密码位数错误
             //lyh debug
+            [CNPromptView showStatusWithString:@"error"];
         }
     }else{
         //原始密码错误
@@ -176,5 +180,26 @@
         [CNPromptView showStatusWithString:@"原始密码错误"];
     }
     
+}
+
+//保存锁具名称和密码
+- (void)updateSetInfo{
+    //实际这里只修改名字了，密码修改不在这个页面
+    for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+        if ([peri.identifier.UUIDString isEqualToString:_periModel.periID]) {
+            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:^(RespondModel *model) {
+                if ([model.state intValue] == 1) {
+                    _periModel.periPwd = pwd1;
+                    //更新本地数据
+                    [[CNDataBase sharedDataBase] updatePeripheralInfo:_periModel];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }else{
+                    //lyh debug
+                    [CNPromptView showStatusWithString:@"error"];
+                }
+            }];
+            break;
+        }
+    }
 }
 @end

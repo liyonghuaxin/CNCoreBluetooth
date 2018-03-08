@@ -15,6 +15,7 @@
 static CBCharacteristic *blCharacteristic = nil;
 static respondBlock openLogBlock;
 static respondBlock lockStateBlock;
+static respondBlock modifyPwdBlock;
 static periConnectedStateBlock periStateBlock;
 
 @implementation CNBlueCommunication
@@ -95,6 +96,7 @@ static periConnectedStateBlock periStateBlock;
         }
         case ENChangeNameAndPwd:{
             //广播名称及配对密码修改
+            modifyPwdBlock = finish;
             CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
             NSMutableString *dataStr = [[NSMutableString alloc] init];
             [dataStr appendString:@"05"];
@@ -252,6 +254,9 @@ static periConnectedStateBlock periStateBlock;
                         periModel.lockState = respondModel.lockState;
                         [[CNDataBase sharedDataBase] addPeripheralInfo:periModel];
                     }else{
+                        periModel.periID = peripheral.identifier.UUIDString;
+                        periModel.periname = peripheral.name;
+                        periModel.isAdmin = [respondModel.isadmin intValue];
                         periModel.lockState = respondModel.lockState;
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
@@ -286,12 +291,16 @@ static periConnectedStateBlock periStateBlock;
                         respondModel.lockIdentifier = peripheral.identifier.UUIDString;
                         lockStateBlock(respondModel);
                     }
+                }else{
+                    
                 }
                 break;
             }
             case ENChangeNameAndPwd:{
                 //广播名称及配对密码修改
-                
+                if (modifyPwdBlock) {
+                    modifyPwdBlock(respondModel);
+                }
                 break;
             }
             case ENLookLockLog:{
@@ -361,7 +370,7 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80011";//同步成功
+    NSString *str1 = @"80010";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
