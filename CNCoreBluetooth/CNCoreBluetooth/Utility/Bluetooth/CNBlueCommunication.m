@@ -296,7 +296,6 @@ static periConnectedStateBlock periStateBlock;
                                     periModel.periPwd = pwdStr;
                                 }
                             }
-                            
                         }
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
@@ -414,7 +413,7 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80101";//同步成功
+    NSString *str1 = @"80001";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//名称密码修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];

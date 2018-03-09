@@ -101,9 +101,13 @@
     _myTableView.tableFooterView = _footView;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return dataArray.count;
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    textField.layer.borderWidth=0.5f;
+    textField.layer.cornerRadius = 5.0;
+    textField.layer.borderColor=[UIColor blackColor].CGColor;
+    return YES;
 }
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSMutableString *newtxt = [NSMutableString stringWithString:textField.text];
@@ -120,6 +124,12 @@
     }else{
         pwd2 = textField.text;
     }
+    textField.layer.borderWidth=0.5f;
+    textField.layer.cornerRadius = 5.0;
+    textField.layer.borderColor=UIColorFromRGBH(0xcdcdcd).CGColor;}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return dataArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
