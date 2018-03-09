@@ -106,10 +106,10 @@ static NSString *setLockMethod = @"SetLockMethod";
 }
 
 - (void)keyDidHide{
-    if (isShowIncorrectPwd) {
-        [CNPromptView showStatusWithString:@"Incorrect Password"];
-        isShowIncorrectPwd = NO;
-    }
+//    if (isShowIncorrectPwd) {
+//        [CNPromptView showStatusWithString:@"Incorrect Password"];
+//        isShowIncorrectPwd = NO;
+//    }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
@@ -313,8 +313,8 @@ static NSString *setLockMethod = @"SetLockMethod";
             [weakself updateSetInfo];
         }else{
             //密码输错提示
-            isShowIncorrectPwd = YES;
-            [CNPromptView showStatusWithString:@"密码错误"];
+            //isShowIncorrectPwd = YES;
+            [CNPromptView showStatusWithString:@"Incorrect Password"];
         }
     };
     [enterAlert showWithName:_lockModel.periname];
@@ -335,11 +335,13 @@ static NSString *setLockMethod = @"SetLockMethod";
             if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
                 [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
                     if ([model.state intValue] == 1) {
-                        [self synchroRelationData];
                         //更新数据
                         _lockModel.periname = tempModel.periname;
                         _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
                         _lockModel.isPwd = tempModel.isPwd;
+                        _lockModel.actionType = ENUpdate;
+                        //不传_lockModel也可以
+                        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:tempModel];
                         [self.navigationController popViewControllerAnimated:YES];
                     }else{
@@ -354,22 +356,12 @@ static NSString *setLockMethod = @"SetLockMethod";
         //更新数据
         _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
         _lockModel.isPwd = tempModel.isPwd;
+        _lockModel.actionType = ENUpdate;
+        //不传_lockModel也可以
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
         [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
         [self.navigationController popViewControllerAnimated:YES];
     }
-}
-
-- (void)synchroRelationData{
-    //当蓝牙名字修改后相关数据的变动
-    int i = 0;
-    for (CNPeripheralModel *model in [CommonData sharedCommonData].listPeriArr) {
-        if ([model.periID isEqualToString:_lockModel.periID]) {
-            break;
-        }
-        i++;
-    }
-    _lockModel.actionType = ENUpdate;
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
 }
 
 - (void)unPaired{
@@ -390,7 +382,8 @@ static NSString *setLockMethod = @"SetLockMethod";
             }
         }else{
             //密码输错提示
-            isShowIncorrectPwd = YES;
+            //isShowIncorrectPwd = YES;
+            [CNPromptView showStatusWithString:@"Incorrect Password"];
         }
     };
     [enterAlert showWithName:_lockModel.periname];

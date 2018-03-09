@@ -220,7 +220,7 @@
         if (_scanFinished) {
             _scanFinished(peripheral);
             //一次只扫一个
-            [self cus_stopScan];
+            //[self cus_stopScan];
         }
     }
     

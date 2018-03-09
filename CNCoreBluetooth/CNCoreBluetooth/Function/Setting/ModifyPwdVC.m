@@ -88,6 +88,9 @@
 
 - (void)keyWillShow{
     float footViewheight = 90;
+    if (SCREENHEIGHT <= 568) {
+        footViewheight = 70;
+    }
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;
 }

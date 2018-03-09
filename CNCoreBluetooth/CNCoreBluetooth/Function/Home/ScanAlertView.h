@@ -21,7 +21,7 @@ typedef enum : NSUInteger {
 }
 
 - (void)beginScan;
-- (void)stopScan;
+- (void)stopScanAnimation;
 
 @property (nonatomic,assign) AlertType showType;
 -(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri;

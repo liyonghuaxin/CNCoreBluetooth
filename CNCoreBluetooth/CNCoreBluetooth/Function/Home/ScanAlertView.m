@@ -94,7 +94,7 @@
         _containerView.hidden = YES;
         _pwdBgView.hidden = YES;
         _listBgView.hidden = NO;
-        [self stopScan];
+        [self stopScanAnimation];
     }else{
         canDismiss = YES;
         _containerView.hidden = NO;
@@ -110,7 +110,7 @@
     [self beginAnimation];
 }
 
--(void)stopScan{
+-(void)stopScanAnimation{
     isAnimation = NO;
     angle = 0;
     if (canDismiss) {
@@ -134,10 +134,15 @@
 - (IBAction)cancelScan:(id)sender {
     canDismiss = YES;
     if (_showType == AlertSearch) {
-        [self stopScan];
+        [self stopScanAnimation];
         if (_alertBlock) {
             _alertBlock();
         }
+    }else if (_showType == AlertLockList){
+        if (_alertBlock) {
+            _alertBlock();
+        }
+        self.hidden = YES;
     }else{
         self.hidden = YES;
         if (self.canResignFirstResponder) {

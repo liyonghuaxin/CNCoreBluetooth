@@ -263,8 +263,11 @@
     NSDate *curDate = [NSDate date];
     NSTimeInterval secondsBetweenDates = [curDate timeIntervalSinceDate:beginDate];
     if (secondsBetweenDates>6) {
-        [_alert stopScan];
-        [blueManager cus_stopScan];
+        //搜索出蓝牙设备，到6秒后不终止，知道点击扫描列表下面的取消
+        if (_alert.showType == AlertSearch) {
+            [_alert stopScanAnimation];
+            [blueManager cus_stopScan];
+        }
     }
 }
 #pragma mark tableviewDelegate
