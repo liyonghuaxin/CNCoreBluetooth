@@ -187,7 +187,7 @@
     //实际这里只修改名字了，密码修改不在这个页面
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_periModel.periID]) {
-            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:^(RespondModel *model) {
+            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
                     _periModel.periPwd = pwd1;
                     //更新本地数据

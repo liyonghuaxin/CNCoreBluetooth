@@ -13,9 +13,9 @@ typedef enum : NSUInteger {
     ENAutoLogin,//自动登录
     ENOpenLock,//开锁
     ENChangeNameAndPwd,//广播名称及配对密码修改
-    ENLookLockLog,//开锁记录查询
-    ENLookHasPair,//已配对设备查询
-    ENUnpair,//解除配对
+    ENLookLockLog,//开锁日志查询
+    ENLookHasPair,//登录设备查询
+    ENUnpair,//自动登录解除
     ENLockStateReport//锁具状态上报
 } InstructionEnum;
 

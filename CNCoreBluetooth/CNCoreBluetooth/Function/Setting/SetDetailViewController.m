@@ -19,6 +19,7 @@
 #import "CNBlueCommunication.h"
 #import "CNBlueManager.h"
 #import "EnterPwdAlert.h"
+#import "UserControlVC.h"
 
 static NSString *setDetailCell = @"SetDetailCell";
 
@@ -59,14 +60,13 @@ static NSString *setLockMethod = @"SetLockMethod";
     tempModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
     _lockModel.isAdmin = tempModel.isAdmin;
     if (_lockModel.isAdmin) {
-        dataArray = @[@"Name",@"Password",@"Open History",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
+        dataArray = @[@"Name",@"Password",@"Open History",@"User Control",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
     }else{
         dataArray = @[@"Name",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
     }
     
     [_myTableView registerNib:[UINib nibWithNibName:@"SetDetailCell" bundle:nil] forCellReuseIdentifier:setDetailCell];
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockMethod" bundle:nil] forCellReuseIdentifier:setLockMethod];
-    _myTableView.scrollEnabled = NO;
     _myTableView.tableFooterView = [[UIView alloc] init];
     
     bgView = [[UIView alloc] init];
@@ -145,7 +145,11 @@ static NSString *setLockMethod = @"SetLockMethod";
             OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
             history.lockID = _lockModel.periID;
             [self.navigationController pushViewController:history animated:YES];
-        }else if (indexPath.row == 5){
+        }else if (indexPath.row == 3){
+            UserControlVC *user = [[UserControlVC alloc] init];
+            user.model = _lockModel;
+            [self.navigationController pushViewController:user animated:YES];
+        }else if (indexPath.row == 6){
             alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
             alert.unpairedBlock = ^{
                 [weakself unPaired];
@@ -172,7 +176,7 @@ static NSString *setLockMethod = @"SetLockMethod";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_lockModel.isAdmin) {
-        if (indexPath.row == 3) {
+        if (indexPath.row == 4) {
             return 100;
         }
     }else{
@@ -184,16 +188,16 @@ static NSString *setLockMethod = @"SetLockMethod";
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    int temp = 2;
+    int temp = 3;
     if (_lockModel.isAdmin) {
         temp = 0;
     }
-    if (indexPath.row == 3-temp) {
+    if (indexPath.row == 4-temp) {
         SetLockMethod *detailCell2 = [tableView dequeueReusableCellWithIdentifier:setLockMethod forIndexPath:indexPath];
         detailCell2.pwdBlock = ^(BOOL isPwd) {
             tempModel.isPwd = isPwd;
         };
-        detailCell2.nameLab.text = dataArray[3-temp];
+        detailCell2.nameLab.text = dataArray[4-temp];
         [detailCell2 selectPwd:_lockModel.isPwd];
         return detailCell2;
     }
@@ -228,7 +232,12 @@ static NSString *setLockMethod = @"SetLockMethod";
                 detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
                 break;
             }
-            case 4:{
+            case 3:{
+                detailCell.imageV.hidden = NO;
+                detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
+                break;
+            }
+            case 5:{
                 if (_lockModel.isTouchUnlock) {
                     detailCell.mySwitch.on = YES;
                 }else{
@@ -237,7 +246,7 @@ static NSString *setLockMethod = @"SetLockMethod";
                 detailCell.mySwitch.hidden = NO;
                 break;
             }
-            case 5:{
+            case 6:{
                 detailCell.imageV.hidden = NO;
                 detailCell.imageV.image = [UIImage imageNamed:@"delete"];
                 break;
@@ -324,7 +333,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     if (![originalModel.periname isEqualToString:tempModel.periname]) {
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
-                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri finish:^(RespondModel *model) {
+                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
                     if ([model.state intValue] == 1) {
                         [self synchroRelationData];
                         //更新数据

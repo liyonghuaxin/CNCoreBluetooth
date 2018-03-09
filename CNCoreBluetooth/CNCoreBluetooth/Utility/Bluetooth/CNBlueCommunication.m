@@ -1,3 +1,4 @@
+
 //
 //  CNBlueCommunication.m
 //  CNCoreBluetooth
@@ -16,6 +17,8 @@ static CBCharacteristic *blCharacteristic = nil;
 static respondBlock openLogBlock;
 static respondBlock lockStateBlock;
 static respondBlock modifyPwdBlock;
+static respondBlock pairedLockLogBlock;
+static respondBlock unpairBlock;
 static periConnectedStateBlock periStateBlock;
 
 @implementation CNBlueCommunication
@@ -54,7 +57,7 @@ static periConnectedStateBlock periStateBlock;
     return uidStr;
 }
 #pragma mark ----------发送数据-------------
-+ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral finish:(respondBlock)finish{
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral otherParameter:(id)para finish:(respondBlock)finish{
     if (blCharacteristic == nil || peripheral == nil) {
         return;
     }
@@ -118,12 +121,21 @@ static periConnectedStateBlock periStateBlock;
         }
         case ENLookHasPair:{
             //已配对设备查询
-            
+            pairedLockLogBlock = finish;
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"07"];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         case ENUnpair:{
             //解除配对
-            
+            unpairBlock = finish;
+            NSMutableString *dataStr = [[NSMutableString alloc] init];
+            [dataStr appendString:@"08"];
+            [dataStr appendString:para];
+            NSData *data = [self getDataPacketWith:dataStr];
+            [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
         case ENLockStateReport:{
@@ -234,7 +246,7 @@ static periConnectedStateBlock periStateBlock;
 +(void)cbReadData:(NSData *)data fromPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     
     RespondModel *respondModel = [self parseResponseDataWithParameter:data];
-    
+
     if (respondModel) {
         switch (respondModel.type) {
             case ENAutoLogin:{
@@ -312,12 +324,16 @@ static periConnectedStateBlock periStateBlock;
             }
             case ENLookHasPair:{
                 //已配对设备查询
-                
+                if (pairedLockLogBlock) {
+                    pairedLockLogBlock(respondModel);
+                }
                 break;
             }
             case ENUnpair:{
                 //解除配对
-                
+                if (unpairBlock) {
+                    unpairBlock(respondModel);
+                }
                 break;
             }
             case ENLockStateReport:{
@@ -326,7 +342,7 @@ static periConnectedStateBlock periStateBlock;
                     respondModel.lockIdentifier = peripheral.identifier.UUIDString;
                     lockStateBlock(respondModel);
                 }
-                [self cbSendInstruction:ENLockStateReport toPeripheral:peripheral finish:nil];
+                [self cbSendInstruction:ENLockStateReport toPeripheral:peripheral otherParameter:nil finish:nil];
                 break;
             }
             default:
@@ -370,7 +386,7 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80010";//同步成功
+    NSString *str1 = @"80011";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
@@ -457,7 +473,7 @@ static periConnectedStateBlock periStateBlock;
         //已配对设备查询
         resModel.type = ENLookHasPair;
         resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-        resModel.macAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
+        resModel.lockMacAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
         //锁具名称
         resModel.lockName = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
     }else if ([instructionStr isEqualToString:@"88"]){

@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNCoreBluetooth/Function/Setting/ModifyPwdVC.m"
-            timestampString = "542193566.490003"
+            timestampString = "542272725.640139"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "191"
@@ -26,11 +26,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNCoreBluetooth/Utility/Bluetooth/CNBlueCommunication.m"
-            timestampString = "542193566.490077"
+            timestampString = "542272725.640238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
+            landmarkName = "+parseResponseDataWithParameter:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CNCoreBluetooth/Utility/Bluetooth/CNBlueCommunication.m"
+            timestampString = "542272725.64031"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "+cbReadData:fromPeripheral:withCharacteristic:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,28 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CNCoreBluetooth/Utility/Bluetooth/CNBlueCommunication.m"
-            timestampString = "542193566.490176"
+            timestampString = "542272764.293183"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
-            landmarkName = "+parseResponseDataWithParameter:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CNCoreBluetooth/Function/Setting/SetDetailViewController.m"
-            timestampString = "542193566.490593"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
-            landmarkName = "-updateSetInfo"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "+cbSendInstruction:toPeripheral:otherParameter:finish:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

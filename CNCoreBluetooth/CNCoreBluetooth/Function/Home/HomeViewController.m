@@ -184,7 +184,7 @@
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
         for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
-                [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri finish:nil];
+                [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:nil];
             }
         }
     }
@@ -301,7 +301,7 @@
             enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
             enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
                 if ([pwd isEqualToString:model.periPwd]) {
-                    [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri finish:nil];
+                    [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
                 }else{
                     //密码输错提示
                     [SVProgressHUD showErrorWithStatus:@"Password Error"];
@@ -309,7 +309,7 @@
             };
             [enterAlert showWithName:model.periname];
         }else{
-            [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri finish:nil];
+            [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
         }
     }
 }

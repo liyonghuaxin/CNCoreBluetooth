@@ -24,7 +24,7 @@ typedef void(^respondBlock)(RespondModel *model);
 /**
  app->锁具
  */
-+ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral finish:(respondBlock)finish;
++ (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral  otherParameter:(id)para finish:(respondBlock)finish;
 /**
  app->锁具
  */

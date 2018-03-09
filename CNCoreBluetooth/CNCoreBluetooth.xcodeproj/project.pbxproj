@@ -42,6 +42,10 @@
 		18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */; };
 		18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A31202AA399004DE2B2 /* OpenHistoryCell.m */; };
 		18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */; };
+		1835AD012051418200BE0C83 /* UserControlVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835ACFF2051418200BE0C83 /* UserControlVC.m */; };
+		1835AD022051418200BE0C83 /* UserControlVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835AD002051418200BE0C83 /* UserControlVC.xib */; };
+		1835AD062051428300BE0C83 /* UserControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835AD042051428300BE0C83 /* UserControlCell.m */; };
+		1835AD072051428300BE0C83 /* UserControlCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835AD052051428300BE0C83 /* UserControlCell.xib */; };
 		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
 		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
 		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
@@ -147,6 +151,12 @@
 		18262A30202AA399004DE2B2 /* OpenHistoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenHistoryCell.h; sourceTree = "<group>"; };
 		18262A31202AA399004DE2B2 /* OpenHistoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenHistoryCell.m; sourceTree = "<group>"; };
 		18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenHistoryCell.xib; sourceTree = "<group>"; };
+		1835ACFE2051418200BE0C83 /* UserControlVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserControlVC.h; sourceTree = "<group>"; };
+		1835ACFF2051418200BE0C83 /* UserControlVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserControlVC.m; sourceTree = "<group>"; };
+		1835AD002051418200BE0C83 /* UserControlVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserControlVC.xib; sourceTree = "<group>"; };
+		1835AD032051428300BE0C83 /* UserControlCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserControlCell.h; sourceTree = "<group>"; };
+		1835AD042051428300BE0C83 /* UserControlCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserControlCell.m; sourceTree = "<group>"; };
+		1835AD052051428300BE0C83 /* UserControlCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserControlCell.xib; sourceTree = "<group>"; };
 		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
@@ -343,6 +353,12 @@
 				18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */,
 				18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */,
 				18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */,
+				1835ACFE2051418200BE0C83 /* UserControlVC.h */,
+				1835ACFF2051418200BE0C83 /* UserControlVC.m */,
+				1835AD002051418200BE0C83 /* UserControlVC.xib */,
+				1835AD032051428300BE0C83 /* UserControlCell.h */,
+				1835AD042051428300BE0C83 /* UserControlCell.m */,
+				1835AD052051428300BE0C83 /* UserControlCell.xib */,
 				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
 				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
 				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
@@ -610,6 +626,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1835AD022051418200BE0C83 /* UserControlVC.xib in Resources */,
 				18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */,
 				18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */,
 				18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */,
@@ -631,6 +648,7 @@
 				18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */,
 				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
 				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
+				1835AD072051428300BE0C83 /* UserControlCell.xib in Resources */,
 				18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */,
 				186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */,
 				186E8391201EBFC3008D08B1 /* SetViewController.xib in Resources */,
@@ -703,6 +721,7 @@
 				18262A1A20297BB6004DE2B2 /* SetDetailCell.m in Sources */,
 				182629E820274E11004DE2B2 /* BaseViewController.m in Sources */,
 				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
+				1835AD062051428300BE0C83 /* UserControlCell.m in Sources */,
 				18262A0520285772004DE2B2 /* HelpCell.m in Sources */,
 				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
 				18262A01202855CB004DE2B2 /* BaseCell.m in Sources */,
@@ -739,6 +758,7 @@
 				186FCD732020603500A16E87 /* CNBlueManager.m in Sources */,
 				182629F42028236F004DE2B2 /* CNLockCell.m in Sources */,
 				182629FE20284281004DE2B2 /* CNPromptView.m in Sources */,
+				1835AD012051418200BE0C83 /* UserControlVC.m in Sources */,
 				18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */,
 				186E8395201EBFDA008D08B1 /* HelpViewController.m in Sources */,
 			);

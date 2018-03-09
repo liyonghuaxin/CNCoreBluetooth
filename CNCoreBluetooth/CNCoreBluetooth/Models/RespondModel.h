@@ -12,8 +12,6 @@
 @interface RespondModel : NSObject
 //蓝牙锁identifier,
 @property (nonatomic, copy) NSString *lockIdentifier;
-//蓝牙锁mac地址
-@property (nonatomic, copy) NSString *lockMacAddress;
 //指令码
 @property (nonatomic, assign) InstructionEnum type;
 //状态码
@@ -28,8 +26,8 @@
 @property (nonatomic, copy) NSString *date;
 //app端mac地址 或 RFID卡ID卡号
 @property (nonatomic, copy) NSString *IDAddress;
-//配对APP端对应MAC地址
-@property (nonatomic, copy) NSString *macAddress;
+//蓝牙锁mac地址
+@property (nonatomic, copy) NSString *lockMacAddress;
 //app 蓝牙名称
 @property (nonatomic, copy) NSString *lockName;
 

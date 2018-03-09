@@ -49,7 +49,7 @@
     
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
-            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri finish:^(RespondModel *model) {
+            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
                 [dataArray addObject:model];
                 [self.myTableView reloadData];
             }];

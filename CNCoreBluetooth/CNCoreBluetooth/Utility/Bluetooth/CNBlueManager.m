@@ -335,7 +335,7 @@
 //    }
     
     //自动登录
-    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral finish:nil];
+    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:nil];
     
     //app端自动登录成功才认为真正连接上
     [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
