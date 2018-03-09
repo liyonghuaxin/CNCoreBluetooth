@@ -23,6 +23,7 @@ Boolean isopen = false;
         data = [[CommonData alloc] init];
         data.listPeriArr = [NSMutableArray array];
         data.reportIDArr = [NSMutableArray array];
+        data.deviceInfoArr = [NSMutableArray array];
     });
     return data;
 }

@@ -10,7 +10,7 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "RespondModel.h"
 
-typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer);
+typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
 
 typedef void(^respondBlock)(RespondModel *model);
 

@@ -79,7 +79,16 @@ static periConnectedStateBlock periStateBlock;
                 //新配对
                 NSLog(@"新配对");
                 [dataStr appendString:@"0"];
-                [dataStr appendString:[CommonData sharedCommonData].pairedPwd];
+                for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
+                    CBPeripheral *lock = [dic objectForKey:@"device"];
+                    if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+                        NSString *pwdStr = [dic objectForKey:@"pwd"];
+                        if (pwdStr) {
+                            [dataStr appendString:pwdStr];
+                        }
+                        break;
+                    }
+                }
                 //获取密码方式
                 [dataStr appendString:@"1"];
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
@@ -261,7 +270,16 @@ static periConnectedStateBlock periStateBlock;
                         periModel.periID = peripheral.identifier.UUIDString;
                         periModel.periname = peripheral.name;
                         periModel.isAdmin = [respondModel.isadmin intValue];
-                        periModel.periPwd = [CommonData sharedCommonData].pairedPwd;
+                        for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
+                            CBPeripheral *lock = [dic objectForKey:@"device"];
+                            if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+                                NSString *pwdStr = [dic objectForKey:@"pwd"];
+                                if (pwdStr) {
+                                    periModel.periPwd = pwdStr;
+                                }
+                            }
+                            
+                        }            
                         periModel.lockState = respondModel.lockState;
                         [[CNDataBase sharedDataBase] addPeripheralInfo:periModel];
                     }else{
@@ -269,26 +287,37 @@ static periConnectedStateBlock periStateBlock;
                         periModel.periname = peripheral.name;
                         periModel.isAdmin = [respondModel.isadmin intValue];
                         periModel.lockState = respondModel.lockState;
+                        //密码修改、重新输入密码正确
+                        for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
+                            CBPeripheral *lock = [dic objectForKey:@"device"];
+                            if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+                                NSString *pwdStr = [dic objectForKey:@"pwd"];
+                                if (pwdStr) {
+                                    periModel.periPwd = pwdStr;
+                                }
+                            }
+                            
+                        }
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
                     if (periStateBlock) {
-                        periStateBlock(peripheral, YES, NO);
+                        periStateBlock(peripheral, YES, NO, NO);
                     }
                 }else if([respondModel.state intValue] == 1){
                     //自动登录失效，需要用户重新手动输入密码
                     if (periStateBlock) {
-                        periStateBlock(peripheral, NO, NO);
+                        periStateBlock(peripheral, NO, NO, YES);
                     }
                 }else if([respondModel.state intValue] == 2){
                     //(配对)密码错误
                     [CNPromptView showStatusWithString:@"Lock Unpaired"];
                     if (periStateBlock) {
-                        periStateBlock(peripheral, NO, NO);
+                        periStateBlock(peripheral, NO, NO, NO);
                     }
                 }else{
                     //密码正确但同步失败
                     if (periStateBlock) {
-                        periStateBlock(peripheral, YES, YES);
+                        periStateBlock(peripheral, YES, YES, NO);
                     }
                 }
                 break;
@@ -385,7 +414,7 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80001";//同步成功
+    NSString *str1 = @"80101";//同步成功
     NSString *str2 = @"811";//开锁请求回执
     NSString *str3 = @"851";//名称密码修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
@@ -394,6 +423,8 @@ static periConnectedStateBlock periStateBlock;
     NSString *str6 = @"881";//解除配对关系回执
     NSString *str7 = @"401";//上报锁具状态
   
+    NSString *str8 = @"80001";//同步成功
+
     int temp = 1;
     switch (temp) {
         case 1:
@@ -416,6 +447,9 @@ static periConnectedStateBlock periStateBlock;
             break;
         case 7:
             myData = [self getDataPacketWith:str7];
+            break;
+        case 8:
+            myData = [self getDataPacketWith:str8];
             break;
         default:
             break;

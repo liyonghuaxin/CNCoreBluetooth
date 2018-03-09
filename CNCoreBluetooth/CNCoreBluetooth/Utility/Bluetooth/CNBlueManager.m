@@ -219,7 +219,6 @@
     if (periModel == nil) {
         if (_scanFinished) {
             _scanFinished(peripheral);
-            _curPeri = peripheral;
             //一次只扫一个
             [self cus_stopScan];
         }
@@ -268,7 +267,7 @@
     [_unConnectedLockIDArray addObject:peripheral.identifier.UUIDString];
     
     if (_periConnectedState) {
-        _periConnectedState(peripheral,NO,NO);
+        _periConnectedState(peripheral,NO,NO,NO);
     }
     
     //[self.mgr connectPeripheral:peripheral options:nil];
@@ -336,18 +335,23 @@
     
     //自动登录
     [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:nil];
-    
     //app端自动登录成功才认为真正连接上
-    [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
-        if (isConnect) {
+    [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
+        if (isNeedReRnterPwd) {
+            //密码失效，重新输密码
+            _periConnectedState(peripherial,isConnect,isOpenTimer,isNeedReRnterPwd);
+            [self.mgr cancelPeripheralConnection:peripherial];
+
+        }else if (isConnect) {
+            //自动登录成功 或者 需要开启定时器继续同步
             if (_periConnectedState) {
-                _periConnectedState(peripherial,isConnect,isOpenTimer);
+                _periConnectedState(peripherial,isConnect,isOpenTimer,isNeedReRnterPwd);
             }
         }else{
+            //新添设备配对密码错误
             [self.mgr cancelPeripheralConnection:peripherial];
         }
     }];
-    
     //收到锁具回应后再移除
     [[CommonData sharedCommonData].reportIDArr addObject:peripheral.identifier.UUIDString];
     

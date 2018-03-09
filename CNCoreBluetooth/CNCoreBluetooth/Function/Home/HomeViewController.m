@@ -16,7 +16,7 @@
 #import "EnterPwdAlert.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
-    ScanAlertView *alert;
+    
     NSDate *beginDate;
     CNBlueManager *blueManager;
     NSTimer *reportTimer;
@@ -25,7 +25,7 @@
 @property (nonatomic,strong) NSMutableArray *dataArray;
 //在列表中已显示的锁具id
 @property (nonatomic,strong) NSMutableArray *lockIDArray;
-
+@property (nonatomic,strong) ScanAlertView *alert;
 @property (nonatomic,strong) NSTimer *myTimer;
 
 @end
@@ -68,21 +68,55 @@
 
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
+    
+    __weak typeof(self) weakSelf = self;
+
+    //搜索外设框
+    _alert = [[NSBundle mainBundle] loadNibNamed:@"ScanAlertView" owner:self options:nil][0];
+    _alert.hidden = YES;
+    _alert.alertBlock = ^{
+        if ([weakSelf.myTimer isValid]) {
+            [weakSelf.myTimer invalidate];
+        }
+        weakSelf.myTimer = nil;
+        [[CNBlueManager sharedBlueManager] cus_stopScan];
+    };
+    _alert.returnPasswordStringBlock = ^(NSString *pwd, CBPeripheral *peri) {
+        NSDictionary *dic = @{@"device":peri,@"pwd":pwd};
+        [[CommonData sharedCommonData].deviceInfoArr addObject:dic];
+        [[CNBlueManager sharedBlueManager] cus_connectPeripheral:peri];
+    };
+    _alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    [[UIApplication sharedApplication].keyWindow addSubview:_alert];
 
     //外设连接状态发生变化
-    __weak typeof(self) weakSelf = self;
-    blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer) {
-        if (isOpenTimer) {
+    blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
+        if (isNeedReRnterPwd) {
+            //密码失效重新输入密码
+            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripherial];
+        }else if (isOpenTimer) {
             //循环自动同步
             [weakSelf addTimer];
         }else{
-            if (isConnect && ![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+            if (isConnect) {
                 //更新列表
                 CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
                 model.isConnect = isConnect;
                 model.peripheral = peripherial;
-                [weakSelf.dataArray addObject:model];
-                [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+                if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+                    [weakSelf.dataArray addObject:model];
+                    [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+                }else{
+                    //dataArray初始化比较早，这里重新更新数据
+                    int i = 0;
+                    for (CNPeripheralModel *oldModel in weakSelf.dataArray) {
+                        if ([oldModel.periID isEqualToString:model.periID]) {
+                            [weakSelf.dataArray replaceObjectAtIndex:i withObject:model];
+                            break;
+                        }
+                        i++;
+                    }
+                }
                 [weakSelf.myTableView reloadData];
             }
             for (CNPeripheralModel *model in weakSelf.dataArray) {
@@ -100,23 +134,6 @@
         }
     };
     
-    //搜索外设框
-    alert = [[NSBundle mainBundle] loadNibNamed:@"ScanAlertView" owner:self options:nil][0];
-    alert.hidden = YES;
-    alert.alertBlock = ^{
-        if ([weakSelf.myTimer isValid]) {
-            [weakSelf.myTimer invalidate];
-        }
-        weakSelf.myTimer = nil;
-        [[CNBlueManager sharedBlueManager] cus_stopScan];
-    };
-    alert.returnPasswordStringBlock = ^(NSString *pwd) {
-        [CommonData sharedCommonData].pairedPwd = pwd;
-        [[CNBlueManager sharedBlueManager] cus_connectPeripheral:[CNBlueManager sharedBlueManager].curPeri];
-    };
-    alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-    [[UIApplication sharedApplication].keyWindow addSubview:alert];
-
     [CNBlueCommunication monitorLockState:^(RespondModel *model) {
         [self updateLockState:model.lockIdentifier state:model.lockState];
     }];
@@ -229,14 +246,15 @@
      */
     [[NSRunLoop mainRunLoop] addTimer:_myTimer forMode:NSDefaultRunLoopMode];
     beginDate = [NSDate date];
-    [alert beginScan];
+    [_alert beginScan];
     //开始搜索外设
     [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
         if (per) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
             model.periname = per.name;
             model.periID = per.identifier.UUIDString;
-            [alert updateDeviceInfo:model];
+            model.peripheral = per;
+            [_alert updateDeviceInfo:model];
         }
     }];
 }
@@ -245,7 +263,7 @@
     NSDate *curDate = [NSDate date];
     NSTimeInterval secondsBetweenDates = [curDate timeIntervalSinceDate:beginDate];
     if (secondsBetweenDates>6) {
-        [alert stopScan];
+        [_alert stopScan];
         [blueManager cus_stopScan];
     }
 }

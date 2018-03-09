@@ -11,6 +11,7 @@
 @interface ScanAlertView()<UITableViewDelegate,UITableViewDataSource>{
     BOOL canDismiss;
     NSMutableArray *dataArray;
+    CBPeripheral *curLock;
 }
 @end
 
@@ -55,16 +56,20 @@
         self.hidden = YES;
         [tx resignFirstResponder];//隐藏键盘
         if (self.returnPasswordStringBlock != nil) {
-            self.returnPasswordStringBlock(password);
+            self.returnPasswordStringBlock(password, curLock);
         }
     }
 }
 
--(void)setShowType:(AlertType)showType WithTitle:(NSString *)title{
-    if (title.length) {
-        _lockNameLab.text = title;
+-(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri{
+    if (peri.name) {
+        _lockNameLab.text = peri.name;
     }else{
         _lockNameLab.text = @"Unknown Device";
+    }
+    curLock = peri;
+    if (self.hidden) {
+        self.hidden = NO;
     }
     [self setShowType:showType];
 }
@@ -158,7 +163,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     CNPeripheralModel *periModel = (CNPeripheralModel *)dataArray[indexPath.row];
-    [self setShowType:AlertEnterPwd WithTitle:periModel.periname];
+    curLock = periModel.peripheral;
+    [self setShowType:AlertEnterPwd WithPeripheral:periModel.peripheral];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

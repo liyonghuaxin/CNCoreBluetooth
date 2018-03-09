@@ -11,7 +11,7 @@
 #import "CNBlueCommon.h"
 
 typedef void(^scanFinishBlock)(CBPeripheral *per);
-typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer);
+typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
 
 @interface CNBlueManager : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
 
@@ -36,7 +36,6 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect
  */
 //- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri;
 @property (nonatomic,strong) CBCentralManager *mgr;
-@property (nonatomic,strong) CBPeripheral *curPeri;
 //监听 蓝牙锁连接状态
 @property (nonatomic,copy)periConnectedStateBlock periConnectedState;
 //存放已扫到的外设

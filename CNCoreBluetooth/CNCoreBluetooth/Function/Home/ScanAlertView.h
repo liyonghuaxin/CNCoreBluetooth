@@ -24,10 +24,10 @@ typedef enum : NSUInteger {
 - (void)stopScan;
 
 @property (nonatomic,assign) AlertType showType;
--(void)setShowType:(AlertType)showType WithTitle:(NSString *)title;
+-(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri;
 - (void)updateDeviceInfo:(CNPeripheralModel *)lockModel;
 @property (nonatomic,copy) void (^alertBlock)(void);
-@property (nonatomic,copy) void (^returnPasswordStringBlock)(NSString *pwd);
+@property (nonatomic,copy) void (^returnPasswordStringBlock)(NSString *pwd, CBPeripheral *peri);
 @property (weak, nonatomic) IBOutlet UIView *listBgView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
