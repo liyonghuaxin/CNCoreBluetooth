@@ -62,8 +62,9 @@
 
 - (void)layoutFootView{
     float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*_dataArray.count;
-    if (footViewheight<150) {
-        footViewheight = 150;
+    //两个按钮最低高度150  一个按钮最低高度90
+    if (footViewheight<90) {
+        footViewheight = 90;
     }
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;

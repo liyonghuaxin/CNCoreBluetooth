@@ -304,7 +304,7 @@
                     [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
                 }else{
                     //密码输错提示
-                    [SVProgressHUD showErrorWithStatus:@"Password Error"];
+                    [CNPromptView showStatusWithString:@"Incorrect Password"];
                 }
             };
             [enterAlert showWithName:model.periname];

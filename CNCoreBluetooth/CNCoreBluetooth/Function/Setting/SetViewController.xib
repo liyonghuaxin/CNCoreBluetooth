@@ -78,7 +78,7 @@
                     <rect key="frame" x="172" y="84" width="30" height="30"/>
                     <color key="backgroundColor" red="0.58424812559999995" green="0.58435159920000002" blue="0.58424162859999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scM-xZ-qzo">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scM-xZ-qzo">
                     <rect key="frame" x="50" y="49" width="275" height="35"/>
                     <color key="backgroundColor" red="0.15311145779999999" green="0.1450034976" blue="0.14906343820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="19"/>

@@ -1,4 +1,3 @@
-
 //
 //  CNBlueCommunication.m
 //  CNCoreBluetooth
@@ -386,9 +385,9 @@ static periConnectedStateBlock periStateBlock;
     //debug
     //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
     //假数据
-    NSString *str1 = @"80011";//同步成功
+    NSString *str1 = @"80001";//同步成功
     NSString *str2 = @"811";//开锁请求回执
-    NSString *str3 = @"851";//修改回执
+    NSString *str3 = @"851";//名称密码修改回执
     NSString *curTime = [BlueHelp getCurDateByBCDEncode];
     NSString *str4 = [NSString stringWithFormat:@"8613%@aabbccddeeff",curTime];//开锁记录查询
     NSString *str5 = @"871aabbccddeeff000000name";//已配对设备查询上传

@@ -36,6 +36,11 @@
     [self setBackBtnHiden:NO];
 }
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -63,8 +68,8 @@
     }];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [_myTableView addGestureRecognizer:tap];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillHide) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillHide) name:UIKeyboardWillHideNotification object:nil];
 
     _updatePwdBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
     _updatePwdBtn.layer.cornerRadius = _updatePwdBtn.height/2.0;
@@ -81,13 +86,20 @@
     [self.view endEditing:YES];
 }
 
-//- (void)keyWillShow{
-//    bgView.hidden = NO;
-//}
-//
-//- (void)keyWillHide{
-//    bgView.hidden = YES;
-//}
+- (void)keyWillShow{
+    float footViewheight = 90;
+    _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
+    _myTableView.tableFooterView = _footView;
+}
+
+- (void)keyWillHide{
+    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*4;
+    if (footViewheight<90) {
+        footViewheight = 90;
+    }
+    _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
+    _myTableView.tableFooterView = _footView;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return dataArray.count;
