@@ -82,19 +82,29 @@
         [[CNBlueManager sharedBlueManager] cus_stopScan];
     };
     _alert.returnPasswordStringBlock = ^(NSString *pwd, CBPeripheral *peri) {
-        //代码重新梳理
-        NSMutableArray *array = [NSMutableArray arrayWithArray:[CommonData sharedCommonData].deviceInfoArr];
-        int i = 0;
-        for (NSDictionary *dic in array) {
-            CBPeripheral *lock = [dic objectForKey:@"device"];
-            if ([lock.identifier.UUIDString isEqualToString:peri.identifier.UUIDString] ) {
-                [[CommonData sharedCommonData].deviceInfoArr removeObjectAtIndex:i];
-            }
-            i++;
+        /*三种情况进入此回调
+         1、新配对
+         2、被管理员踢了，需重新输入密码
+         3、之前数据库密码失效
+         */
+        //情况2、3两种情况舍弃本读数据库密码
+        CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
+        if (periModel) {
+            periModel.periPwd = pwd;
+            [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
         }
+        
+        //delete
+        NSIndexSet *indexSet = [[CommonData sharedCommonData].deviceInfoArr indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CBPeripheral *lock = [obj objectForKey:@"device"];
+            return [lock.identifier.UUIDString isEqualToString:peri.identifier.UUIDString];
+        }];
+        [[CommonData sharedCommonData].deviceInfoArr removeObjectsAtIndexes:indexSet];
+        //insert
         NSDictionary *dic = @{@"device":peri,@"pwd":pwd};
         [[CommonData sharedCommonData].deviceInfoArr addObject:dic];
-        NSLog(@"%@",[CommonData sharedCommonData].deviceInfoArr);
+        
+        //新匹配 或者 被踢后重新连接设备
         [[CNBlueManager sharedBlueManager] cus_connectPeripheral:peri];
     };
     _alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);

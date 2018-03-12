@@ -72,22 +72,9 @@ static periConnectedStateBlock periStateBlock;
                 //已配对
                 NSLog(@"已配对");
                 [dataStr appendString:localModel.isTouchUnlock?@"1":@"0"];
-                //lyh 逻辑重新梳理 现在内存密码 比数据库密码优先
-                NSString *pwdStr;
-                for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
-                    CBPeripheral *lock = [dic objectForKey:@"device"];
-                    if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
-                        pwdStr = [dic objectForKey:@"pwd"];
-                        if (pwdStr) {
-                            [dataStr appendString:pwdStr];
-                        }
-                        break;
-                    }
-                }
-                if (pwdStr == nil) {
-                    [dataStr appendString:localModel.periPwd];
-                }
-                
+                //被管理员踢了或旧密码失效两种情况新输入的密码已更新到数据库
+                //正常的自动登录还继续用以前的保存的旧密码
+                [dataStr appendString:localModel.periPwd];
                 //获取密码方式
                 [dataStr appendString:@"0"];
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
@@ -95,16 +82,15 @@ static periConnectedStateBlock periStateBlock;
                 //新配对
                 NSLog(@"新配对");
                 [dataStr appendString:@"0"];
+                NSString *pwdStr = @"000000";
                 for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
                     CBPeripheral *lock = [dic objectForKey:@"device"];
                     if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
-                        NSString *pwdStr = [dic objectForKey:@"pwd"];
-                        if (pwdStr) {
-                            [dataStr appendString:pwdStr];
-                        }
+                        pwdStr = [dic objectForKey:@"pwd"];
                         break;
                     }
                 }
+                [dataStr appendString:pwdStr];
                 //获取密码方式
                 [dataStr appendString:@"1"];
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
