@@ -1,6 +1,0 @@
-target 'CNCoreBluetooth' do
-
-pod 'FMDB'
-pod 'Masonry'
-
-end
