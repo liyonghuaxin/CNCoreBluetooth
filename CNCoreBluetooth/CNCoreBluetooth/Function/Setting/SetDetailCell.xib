@@ -48,7 +48,7 @@
                         </constraints>
                     </imageView>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Quick Safe" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jh2-ys-rYF">
-                        <rect key="frame" x="106" y="19.5" width="150" height="20"/>
+                        <rect key="frame" x="114" y="19.5" width="150" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="150" id="Ndk-aN-8MY"/>
                         </constraints>
@@ -64,7 +64,7 @@
                 <constraints>
                     <constraint firstItem="cJ5-X6-msX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1Vb-fQ-SuN"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="leading" secondItem="cJ5-X6-msX" secondAttribute="trailing" id="3Bn-Uo-LaX"/>
-                    <constraint firstItem="s9W-hH-SoK" firstAttribute="leading" secondItem="Jh2-ys-rYF" secondAttribute="trailing" constant="8" id="3Lg-ZM-ttv"/>
+                    <constraint firstItem="s9W-hH-SoK" firstAttribute="leading" secondItem="Jh2-ys-rYF" secondAttribute="trailing" id="3Lg-ZM-ttv"/>
                     <constraint firstItem="Jh2-ys-rYF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8za-cU-Z1P"/>
                     <constraint firstItem="cJ5-X6-msX" firstAttribute="leading" secondItem="R2v-20-BbQ" secondAttribute="trailing" id="DLP-0A-BZ9"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="leading" secondItem="s9W-hH-SoK" secondAttribute="trailing" id="G6s-i8-gRI"/>

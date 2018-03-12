@@ -10,11 +10,14 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "RespondModel.h"
 
-typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
+typedef void(^periConnectedStateBlock)(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
 
 typedef void(^respondBlock)(RespondModel *model);
 
 @interface CNBlueCommunication : NSObject
+
+//lyh delete
++ (RespondModel *)parseResponseDataWithParameter:(NSData *)myData;
 
 //监听 蓝牙锁连接状态
 

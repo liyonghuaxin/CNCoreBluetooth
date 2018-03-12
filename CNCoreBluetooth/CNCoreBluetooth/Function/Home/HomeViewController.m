@@ -82,30 +82,41 @@
         [[CNBlueManager sharedBlueManager] cus_stopScan];
     };
     _alert.returnPasswordStringBlock = ^(NSString *pwd, CBPeripheral *peri) {
+        //代码重新梳理
+        NSMutableArray *array = [NSMutableArray arrayWithArray:[CommonData sharedCommonData].deviceInfoArr];
+        int i = 0;
+        for (NSDictionary *dic in array) {
+            CBPeripheral *lock = [dic objectForKey:@"device"];
+            if ([lock.identifier.UUIDString isEqualToString:peri.identifier.UUIDString] ) {
+                [[CommonData sharedCommonData].deviceInfoArr removeObjectAtIndex:i];
+            }
+            i++;
+        }
         NSDictionary *dic = @{@"device":peri,@"pwd":pwd};
         [[CommonData sharedCommonData].deviceInfoArr addObject:dic];
+        NSLog(@"%@",[CommonData sharedCommonData].deviceInfoArr);
         [[CNBlueManager sharedBlueManager] cus_connectPeripheral:peri];
     };
     _alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:_alert];
 
     //外设连接状态发生变化
-    blueManager.periConnectedState = ^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
+    blueManager.periConnectedState = ^(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
         if (isNeedReRnterPwd) {
             //密码失效重新输入密码
-            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripherial];
+            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripheral];
         }else if (isOpenTimer) {
             //循环自动同步
             [weakSelf addTimer];
         }else{
             if (isConnect) {
                 //更新列表
-                CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripherial.identifier.UUIDString];
+                CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
                 model.isConnect = isConnect;
-                model.peripheral = peripherial;
-                if (![weakSelf.lockIDArray containsObject:peripherial.identifier.UUIDString]) {
+                model.peripheral = peripheral;
+                if (![weakSelf.lockIDArray containsObject:peripheral.identifier.UUIDString]) {
                     [weakSelf.dataArray addObject:model];
-                    [weakSelf.lockIDArray addObject:peripherial.identifier.UUIDString];
+                    [weakSelf.lockIDArray addObject:peripheral.identifier.UUIDString];
                 }else{
                     //dataArray初始化比较早，这里重新更新数据
                     int i = 0;
@@ -120,12 +131,12 @@
                 [weakSelf.myTableView reloadData];
             }
             for (CNPeripheralModel *model in weakSelf.dataArray) {
-                if ([model.periID isEqualToString:peripherial.identifier.UUIDString]) {
+                if ([model.periID isEqualToString:peripheral.identifier.UUIDString]) {
                     model.isConnect = isConnect;
-                    model.periname = peripherial.name;
+                    model.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
                     //未连接设备重新连接上
                     if(model.peripheral == nil){
-                        model.peripheral = peripherial;
+                        model.peripheral = peripheral;
                     }
                     break;
                 }
@@ -220,6 +231,29 @@
 
 //开始/停止扫描
 - (void)scanPeri{
+    if (@available(iOS 10.0, *)) {
+        if (blueManager.mgr.state != CBManagerStatePoweredOn) {
+//            [CNPromptView showStatusWithString:@"请打开蓝牙"];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Turn On Bluetooth to Allow \"QuickSafes\" to Connect to Accessories" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *setAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                NSURL *url = [NSURL URLWithString:@"APP-Prefs:root=Bluetooth"];
+                if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                    [[UIApplication sharedApplication] openURL:url];
+                }
+            }];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                //UITextField *userName = alertController.textFields.firstObject;
+            }];
+            [alertController addAction:setAction];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+            return;
+        }
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    
 //    dispatch_time_t timer = dispatch_time(DISPATCH_TIME_NOW, 6.0 * NSEC_PER_SEC);
 //    NSLog(@"=======%@",dateString);
 //    dispatch_after(timer, dispatch_get_main_queue(), ^(void){
@@ -251,7 +285,7 @@
     [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
         if (per) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-            model.periname = per.name;
+            model.periname = [per.name stringByReplacingOccurrencesOfString:@" " withString:@""];
             model.periID = per.identifier.UUIDString;
             model.peripheral = per;
             [_alert updateDeviceInfo:model];

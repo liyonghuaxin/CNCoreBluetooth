@@ -24,6 +24,16 @@
     _enterView.layer.borderWidth = 1.0;
     _enterView.backgroundColor = [UIColor whiteColor];
     
+    _pwdBgView.layer.cornerRadius = 8.0;
+    _pwdBgView.layer.masksToBounds = YES;
+    
+    _pwd1.secureTextEntry = YES;
+    _pwd2.secureTextEntry = YES;
+    _pwd3.secureTextEntry = YES;
+    _pwd4.secureTextEntry = YES;
+    _pwd5.secureTextEntry = YES;
+    _pwd6.secureTextEntry = YES;
+    
     [self.assistTF addTarget:self action:@selector(txchange:) forControlEvents:UIControlEventEditingChanged];
     
 }

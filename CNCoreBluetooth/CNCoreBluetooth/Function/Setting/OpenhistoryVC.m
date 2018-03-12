@@ -50,8 +50,13 @@
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
             [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
-                [dataArray addObject:model];
-                [self.myTableView reloadData];
+                if ([model.state intValue] == 1) {
+                    [dataArray addObject:model];
+                    [self.myTableView reloadData];
+                }else{
+                    //查询完毕
+                    //[model.state intValue] == 0
+                }
             }];
             break;
         }
@@ -69,12 +74,25 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     OpenHistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OpenHistoryCell" forIndexPath:indexPath];
+    RespondModel *model = dataArray[indexPath.row];
+    
+    NSMutableString *string = [[NSMutableString alloc] init];
+    [string appendString:model.IDAddress];
+    if (model.lockMethod == ENRFIDMethod) {
+        [string appendString:@"RFID开锁"];
+    }else if (model.lockMethod == ENTouchMethod){
+        [string appendString:@"触摸开锁"];
+    }else{
+        [string appendString:@"APP开锁"];
+    }
+    [string appendString:model.date];
+    
     if (indexPath.row%2 == 0) {
         cell.imageV.image = [UIImage imageNamed:@"lockRedLog"];
-        cell.conLab.text = @"You Locked Quick Safe 1";
+        cell.conLab.text = string;//@"You Locked Quick Safe 1";
     }else{
         cell.imageV.image = [UIImage imageNamed:@"lockGreenLog"];
-        cell.conLab.text = @"You Unlocked Quick Safe 1";
+        cell.conLab.text = string;//@"You Unlocked Quick Safe 1";
     }
     return cell;
 }

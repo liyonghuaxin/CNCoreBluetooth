@@ -1,0 +1,980 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6C92021591F001487B0 /* SetLockCell.m */; };
+		1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CA2021591F001487B0 /* SetLockCell.xib */; };
+		1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6CE202161D0001487B0 /* SetDetailVC.m */; };
+		1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CF202161D0001487B0 /* SetDetailVC.xib */; };
+		1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */; };
+		1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D620217B25001487B0 /* PresentTransformAnimation.m */; };
+		1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */; };
+		1810A6E12021A398001487B0 /* CNDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E02021A398001487B0 /* CNDataBase.m */; };
+		1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6E920229841001487B0 /* CNBlueCommunication.m */; };
+		182629E820274E11004DE2B2 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629E720274E11004DE2B2 /* BaseViewController.m */; };
+		182629EB20274E43004DE2B2 /* CNNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629EA20274E43004DE2B2 /* CNNavController.m */; };
+		182629F42028236F004DE2B2 /* CNLockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629F22028236F004DE2B2 /* CNLockCell.m */; };
+		182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 182629F32028236F004DE2B2 /* CNLockCell.xib */; };
+		182629F82028284E004DE2B2 /* CNSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629F72028284E004DE2B2 /* CNSlider.m */; };
+		182629FE20284281004DE2B2 /* CNPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182629FD20284281004DE2B2 /* CNPromptView.m */; };
+		18262A01202855CB004DE2B2 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A00202855CB004DE2B2 /* BaseCell.m */; };
+		18262A0520285772004DE2B2 /* HelpCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A0320285772004DE2B2 /* HelpCell.m */; };
+		18262A0620285772004DE2B2 /* HelpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A0420285772004DE2B2 /* HelpCell.xib */; };
+		18262A0A202931BA004DE2B2 /* HelpConCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A08202931BA004DE2B2 /* HelpConCell.m */; };
+		18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A09202931BA004DE2B2 /* HelpConCell.xib */; };
+		18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A0D20294595004DE2B2 /* NSString+Utils.m */; };
+		18262A1520297B63004DE2B2 /* SetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A1320297B63004DE2B2 /* SetDetailViewController.m */; };
+		18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A1420297B63004DE2B2 /* SetDetailViewController.xib */; };
+		18262A1A20297BB6004DE2B2 /* SetDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A1820297BB6004DE2B2 /* SetDetailCell.m */; };
+		18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A1920297BB6004DE2B2 /* SetDetailCell.xib */; };
+		18262A1F20298A2C004DE2B2 /* SetLockMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A1D20298A2C004DE2B2 /* SetLockMethod.m */; };
+		18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */; };
+		18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A22202A9287004DE2B2 /* ModifyPwdVC.m */; };
+		18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */; };
+		18262A29202A93D8004DE2B2 /* modifyPwdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A27202A93D8004DE2B2 /* modifyPwdCell.m */; };
+		18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */; };
+		18262A2E202AA2D6004DE2B2 /* OpenhistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */; };
+		18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */; };
+		18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A31202AA399004DE2B2 /* OpenHistoryCell.m */; };
+		18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */; };
+		186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8382201DD937008D08B1 /* SVProgressHUD.m */; };
+		186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */; };
+		186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186E8384201DD937008D08B1 /* SVProgressHUD.bundle */; };
+		186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8389201EBFAF008D08B1 /* HomeViewController.m */; };
+		186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E838A201EBFAF008D08B1 /* HomeViewController.xib */; };
+		186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E838E201EBFC3008D08B1 /* SetViewController.m */; };
+		186E8391201EBFC3008D08B1 /* SetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E838F201EBFC3008D08B1 /* SetViewController.xib */; };
+		186E8395201EBFDA008D08B1 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8393201EBFDA008D08B1 /* HelpViewController.m */; };
+		186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E8394201EBFDA008D08B1 /* HelpViewController.xib */; };
+		186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E8398201EE3C5008D08B1 /* ScanAlertView.m */; };
+		186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186E839A201EE3EC008D08B1 /* ScanAlertView.xib */; };
+		186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD69201FF4E400A16E87 /* LockCell.m */; };
+		186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186FCD6A201FF4E400A16E87 /* LockCell.xib */; };
+		186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD6F2020577300A16E87 /* CNPeripheralModel.m */; };
+		186FCD732020603500A16E87 /* CNBlueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186FCD722020603500A16E87 /* CNBlueManager.m */; };
+		18997CF620268A1300C4F03A /* RespondModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18997CF520268A1300C4F03A /* RespondModel.m */; };
+		18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B499202C3BF300725545 /* ChangePwdAlert.m */; };
+		18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */; };
+		18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */; };
+		18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */; };
+		18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A4B4A7202C52D000725545 /* SaveSettingAlert.m */; };
+		18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A4B4A9202C531400725545 /* SaveSettingAlert.xib */; };
+		18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A7177C2026008B00F25626 /* CNKeychainManager.m */; };
+		18A717832026062300F25626 /* CommonData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A717822026062300F25626 /* CommonData.m */; };
+		18C3A675201AB10600999678 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A674201AB10600999678 /* AppDelegate.m */; };
+		18C3A678201AB10600999678 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A677201AB10600999678 /* ViewController.m */; };
+		18C3A67B201AB10600999678 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A679201AB10600999678 /* Main.storyboard */; };
+		18C3A67D201AB10600999678 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A67C201AB10600999678 /* Assets.xcassets */; };
+		18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A67E201AB10600999678 /* LaunchScreen.storyboard */; };
+		18C3A683201AB10600999678 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A682201AB10600999678 /* main.m */; };
+		18C3A68D201AB10600999678 /* CNCoreBluetoothUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */; };
+		7703C1B32B53266D2DBFDCC0 /* libPods-CNCoreBluetooth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18C3A689201AB10600999678 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18C3A668201AB10600999678 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18C3A66F201AB10600999678;
+			remoteInfo = CNCoreBluetooth;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1810A6C82021591F001487B0 /* SetLockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetLockCell.h; sourceTree = "<group>"; };
+		1810A6C92021591F001487B0 /* SetLockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetLockCell.m; sourceTree = "<group>"; };
+		1810A6CA2021591F001487B0 /* SetLockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetLockCell.xib; sourceTree = "<group>"; };
+		1810A6CD202161D0001487B0 /* SetDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetDetailVC.h; sourceTree = "<group>"; };
+		1810A6CE202161D0001487B0 /* SetDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetDetailVC.m; sourceTree = "<group>"; };
+		1810A6CF202161D0001487B0 /* SetDetailVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetDetailVC.xib; sourceTree = "<group>"; };
+		1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeUpInteractiveTransition.m; sourceTree = "<group>"; };
+		1810A6D420217B25001487B0 /* PresentTransformAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentTransformAnimation.h; sourceTree = "<group>"; };
+		1810A6D520217B25001487B0 /* SwipeUpInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeUpInteractiveTransition.h; sourceTree = "<group>"; };
+		1810A6D620217B25001487B0 /* PresentTransformAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentTransformAnimation.m; sourceTree = "<group>"; };
+		1810A6DC20217D16001487B0 /* UIView+KGViewExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+KGViewExtend.h"; sourceTree = "<group>"; };
+		1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+KGViewExtend.m"; sourceTree = "<group>"; };
+		1810A6DF2021A398001487B0 /* CNDataBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNDataBase.h; sourceTree = "<group>"; };
+		1810A6E02021A398001487B0 /* CNDataBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNDataBase.m; sourceTree = "<group>"; };
+		1810A6E820229841001487B0 /* CNBlueCommunication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBlueCommunication.h; sourceTree = "<group>"; };
+		1810A6E920229841001487B0 /* CNBlueCommunication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNBlueCommunication.m; sourceTree = "<group>"; };
+		182629E120272725004DE2B2 /* CNBlueCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNBlueCommon.h; sourceTree = "<group>"; };
+		182629E620274E11004DE2B2 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		182629E720274E11004DE2B2 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		182629E920274E43004DE2B2 /* CNNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNavController.h; sourceTree = "<group>"; };
+		182629EA20274E43004DE2B2 /* CNNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNavController.m; sourceTree = "<group>"; };
+		182629F12028236F004DE2B2 /* CNLockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNLockCell.h; sourceTree = "<group>"; };
+		182629F22028236F004DE2B2 /* CNLockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNLockCell.m; sourceTree = "<group>"; };
+		182629F32028236F004DE2B2 /* CNLockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CNLockCell.xib; sourceTree = "<group>"; };
+		182629F62028284E004DE2B2 /* CNSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNSlider.h; sourceTree = "<group>"; };
+		182629F72028284E004DE2B2 /* CNSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNSlider.m; sourceTree = "<group>"; };
+		182629FC20284281004DE2B2 /* CNPromptView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNPromptView.h; sourceTree = "<group>"; };
+		182629FD20284281004DE2B2 /* CNPromptView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNPromptView.m; sourceTree = "<group>"; };
+		182629FF202855CB004DE2B2 /* BaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
+		18262A00202855CB004DE2B2 /* BaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
+		18262A0220285772004DE2B2 /* HelpCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpCell.h; sourceTree = "<group>"; };
+		18262A0320285772004DE2B2 /* HelpCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpCell.m; sourceTree = "<group>"; };
+		18262A0420285772004DE2B2 /* HelpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpCell.xib; sourceTree = "<group>"; };
+		18262A07202931BA004DE2B2 /* HelpConCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpConCell.h; sourceTree = "<group>"; };
+		18262A08202931BA004DE2B2 /* HelpConCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpConCell.m; sourceTree = "<group>"; };
+		18262A09202931BA004DE2B2 /* HelpConCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpConCell.xib; sourceTree = "<group>"; };
+		18262A0C20294595004DE2B2 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
+		18262A0D20294595004DE2B2 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
+		18262A1220297B63004DE2B2 /* SetDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetDetailViewController.h; sourceTree = "<group>"; };
+		18262A1320297B63004DE2B2 /* SetDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetDetailViewController.m; sourceTree = "<group>"; };
+		18262A1420297B63004DE2B2 /* SetDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetDetailViewController.xib; sourceTree = "<group>"; };
+		18262A1720297BB6004DE2B2 /* SetDetailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetDetailCell.h; sourceTree = "<group>"; };
+		18262A1820297BB6004DE2B2 /* SetDetailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetDetailCell.m; sourceTree = "<group>"; };
+		18262A1920297BB6004DE2B2 /* SetDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetDetailCell.xib; sourceTree = "<group>"; };
+		18262A1C20298A2C004DE2B2 /* SetLockMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetLockMethod.h; sourceTree = "<group>"; };
+		18262A1D20298A2C004DE2B2 /* SetLockMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetLockMethod.m; sourceTree = "<group>"; };
+		18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetLockMethod.xib; sourceTree = "<group>"; };
+		18262A21202A9287004DE2B2 /* ModifyPwdVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyPwdVC.h; sourceTree = "<group>"; };
+		18262A22202A9287004DE2B2 /* ModifyPwdVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyPwdVC.m; sourceTree = "<group>"; };
+		18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ModifyPwdVC.xib; sourceTree = "<group>"; };
+		18262A26202A93D8004DE2B2 /* modifyPwdCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modifyPwdCell.h; sourceTree = "<group>"; };
+		18262A27202A93D8004DE2B2 /* modifyPwdCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = modifyPwdCell.m; sourceTree = "<group>"; };
+		18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = modifyPwdCell.xib; sourceTree = "<group>"; };
+		18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenhistoryVC.h; sourceTree = "<group>"; };
+		18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenhistoryVC.m; sourceTree = "<group>"; };
+		18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenhistoryVC.xib; sourceTree = "<group>"; };
+		18262A30202AA399004DE2B2 /* OpenHistoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenHistoryCell.h; sourceTree = "<group>"; };
+		18262A31202AA399004DE2B2 /* OpenHistoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenHistoryCell.m; sourceTree = "<group>"; };
+		18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenHistoryCell.xib; sourceTree = "<group>"; };
+		186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		186E8381201DD937008D08B1 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		186E8382201DD937008D08B1 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		186E8384201DD937008D08B1 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		186E8388201EBFAF008D08B1 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		186E8389201EBFAF008D08B1 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		186E838A201EBFAF008D08B1 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		186E838D201EBFC3008D08B1 /* SetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetViewController.h; sourceTree = "<group>"; };
+		186E838E201EBFC3008D08B1 /* SetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; };
+		186E838F201EBFC3008D08B1 /* SetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetViewController.xib; sourceTree = "<group>"; };
+		186E8392201EBFDA008D08B1 /* HelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		186E8393201EBFDA008D08B1 /* HelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		186E8394201EBFDA008D08B1 /* HelpViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
+		186E8397201EE3C5008D08B1 /* ScanAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanAlertView.h; sourceTree = "<group>"; };
+		186E8398201EE3C5008D08B1 /* ScanAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanAlertView.m; sourceTree = "<group>"; };
+		186E839A201EE3EC008D08B1 /* ScanAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScanAlertView.xib; sourceTree = "<group>"; };
+		186E839C201EEB16008D08B1 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		186FCD68201FF4E400A16E87 /* LockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockCell.h; sourceTree = "<group>"; };
+		186FCD69201FF4E400A16E87 /* LockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockCell.m; sourceTree = "<group>"; };
+		186FCD6A201FF4E400A16E87 /* LockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LockCell.xib; sourceTree = "<group>"; };
+		186FCD6E2020577300A16E87 /* CNPeripheralModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNPeripheralModel.h; sourceTree = "<group>"; };
+		186FCD6F2020577300A16E87 /* CNPeripheralModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNPeripheralModel.m; sourceTree = "<group>"; };
+		186FCD712020603500A16E87 /* CNBlueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNBlueManager.h; sourceTree = "<group>"; };
+		186FCD722020603500A16E87 /* CNBlueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNBlueManager.m; sourceTree = "<group>"; };
+		18997CF420268A1300C4F03A /* RespondModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondModel.h; sourceTree = "<group>"; };
+		18997CF520268A1300C4F03A /* RespondModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RespondModel.m; sourceTree = "<group>"; };
+		18A4B498202C3BF300725545 /* ChangePwdAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangePwdAlert.h; sourceTree = "<group>"; };
+		18A4B499202C3BF300725545 /* ChangePwdAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChangePwdAlert.m; sourceTree = "<group>"; };
+		18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChangePwdAlert.xib; sourceTree = "<group>"; };
+		18A4B4A0202C4B5F00725545 /* DeleteUnpairAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeleteUnpairAlert.h; sourceTree = "<group>"; };
+		18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeleteUnpairAlert.m; sourceTree = "<group>"; };
+		18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DeleteUnpairAlert.xib; sourceTree = "<group>"; };
+		18A4B4A6202C52D000725545 /* SaveSettingAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveSettingAlert.h; sourceTree = "<group>"; };
+		18A4B4A7202C52D000725545 /* SaveSettingAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SaveSettingAlert.m; sourceTree = "<group>"; };
+		18A4B4A9202C531400725545 /* SaveSettingAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveSettingAlert.xib; sourceTree = "<group>"; };
+		18A7177B2026008B00F25626 /* CNKeychainManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CNKeychainManager.h; sourceTree = "<group>"; };
+		18A7177C2026008B00F25626 /* CNKeychainManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNKeychainManager.m; sourceTree = "<group>"; };
+		18A717812026062300F25626 /* CommonData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonData.h; sourceTree = "<group>"; };
+		18A717822026062300F25626 /* CommonData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonData.m; sourceTree = "<group>"; };
+		18C3A670201AB10600999678 /* CNCoreBluetooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CNCoreBluetooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C3A673201AB10600999678 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		18C3A674201AB10600999678 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		18C3A676201AB10600999678 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		18C3A677201AB10600999678 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		18C3A67A201AB10600999678 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		18C3A67C201AB10600999678 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		18C3A67F201AB10600999678 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		18C3A681201AB10600999678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18C3A682201AB10600999678 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18C3A688201AB10600999678 /* CNCoreBluetoothUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CNCoreBluetoothUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNCoreBluetoothUITests.m; sourceTree = "<group>"; };
+		18C3A68E201AB10600999678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.release.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.release.xcconfig"; sourceTree = "<group>"; };
+		C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.debug.xcconfig"; sourceTree = "<group>"; };
+		F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CNCoreBluetooth.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18C3A66D201AB10600999678 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7703C1B32B53266D2DBFDCC0 /* libPods-CNCoreBluetooth.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C3A685201AB10600999678 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1810A6D220217B25001487B0 /* TransitionAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */,
+				1810A6D420217B25001487B0 /* PresentTransformAnimation.h */,
+				1810A6D520217B25001487B0 /* SwipeUpInteractiveTransition.h */,
+				1810A6D620217B25001487B0 /* PresentTransformAnimation.m */,
+			);
+			path = TransitionAnimation;
+			sourceTree = "<group>";
+		};
+		182629E22027453C004DE2B2 /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				18A717812026062300F25626 /* CommonData.h */,
+				18A717822026062300F25626 /* CommonData.m */,
+				182629E920274E43004DE2B2 /* CNNavController.h */,
+				182629EA20274E43004DE2B2 /* CNNavController.m */,
+				182629E620274E11004DE2B2 /* BaseViewController.h */,
+				182629E720274E11004DE2B2 /* BaseViewController.m */,
+				182629FF202855CB004DE2B2 /* BaseCell.h */,
+				18262A00202855CB004DE2B2 /* BaseCell.m */,
+			);
+			path = BaseClass;
+			sourceTree = "<group>";
+		};
+		18262A0F20297A9C004DE2B2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				186E8388201EBFAF008D08B1 /* HomeViewController.h */,
+				186E8389201EBFAF008D08B1 /* HomeViewController.m */,
+				186E838A201EBFAF008D08B1 /* HomeViewController.xib */,
+				186E8397201EE3C5008D08B1 /* ScanAlertView.h */,
+				186E8398201EE3C5008D08B1 /* ScanAlertView.m */,
+				186E839A201EE3EC008D08B1 /* ScanAlertView.xib */,
+				182629F12028236F004DE2B2 /* CNLockCell.h */,
+				182629F22028236F004DE2B2 /* CNLockCell.m */,
+				182629F32028236F004DE2B2 /* CNLockCell.xib */,
+				186FCD68201FF4E400A16E87 /* LockCell.h */,
+				186FCD69201FF4E400A16E87 /* LockCell.m */,
+				186FCD6A201FF4E400A16E87 /* LockCell.xib */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		18262A1020297AA6004DE2B2 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				18A4B4A5202C4B9100725545 /* AlertView */,
+				18A4B49F202C459400725545 /* ModifyPwd */,
+				18A4B49E202C458200725545 /* SetDetail */,
+				18A4B49D202C456A00725545 /* Set */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		18262A1120297AAF004DE2B2 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				186E8392201EBFDA008D08B1 /* HelpViewController.h */,
+				186E8393201EBFDA008D08B1 /* HelpViewController.m */,
+				186E8394201EBFDA008D08B1 /* HelpViewController.xib */,
+				18262A0220285772004DE2B2 /* HelpCell.h */,
+				18262A0320285772004DE2B2 /* HelpCell.m */,
+				18262A0420285772004DE2B2 /* HelpCell.xib */,
+				18262A07202931BA004DE2B2 /* HelpConCell.h */,
+				18262A08202931BA004DE2B2 /* HelpConCell.m */,
+				18262A09202931BA004DE2B2 /* HelpConCell.xib */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		186E837F201DD937008D08B1 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				186E8380201DD937008D08B1 /* SVIndefiniteAnimatedView.h */,
+				186E8381201DD937008D08B1 /* SVProgressHUD.h */,
+				186E8382201DD937008D08B1 /* SVProgressHUD.m */,
+				186E8383201DD937008D08B1 /* SVIndefiniteAnimatedView.m */,
+				186E8384201DD937008D08B1 /* SVProgressHUD.bundle */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		186FCD6D2020574300A16E87 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				186FCD6E2020577300A16E87 /* CNPeripheralModel.h */,
+				186FCD6F2020577300A16E87 /* CNPeripheralModel.m */,
+				18997CF420268A1300C4F03A /* RespondModel.h */,
+				18997CF520268A1300C4F03A /* RespondModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		18A4B49D202C456A00725545 /* Set */ = {
+			isa = PBXGroup;
+			children = (
+				186E838D201EBFC3008D08B1 /* SetViewController.h */,
+				186E838E201EBFC3008D08B1 /* SetViewController.m */,
+				186E838F201EBFC3008D08B1 /* SetViewController.xib */,
+				1810A6C82021591F001487B0 /* SetLockCell.h */,
+				1810A6C92021591F001487B0 /* SetLockCell.m */,
+				1810A6CA2021591F001487B0 /* SetLockCell.xib */,
+				18262A1C20298A2C004DE2B2 /* SetLockMethod.h */,
+				18262A1D20298A2C004DE2B2 /* SetLockMethod.m */,
+				18262A1E20298A2C004DE2B2 /* SetLockMethod.xib */,
+			);
+			name = Set;
+			sourceTree = "<group>";
+		};
+		18A4B49E202C458200725545 /* SetDetail */ = {
+			isa = PBXGroup;
+			children = (
+				18262A1220297B63004DE2B2 /* SetDetailViewController.h */,
+				18262A1320297B63004DE2B2 /* SetDetailViewController.m */,
+				18262A1420297B63004DE2B2 /* SetDetailViewController.xib */,
+				18262A2B202AA2D6004DE2B2 /* OpenhistoryVC.h */,
+				18262A2C202AA2D6004DE2B2 /* OpenhistoryVC.m */,
+				18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */,
+				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
+				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
+				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
+				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
+				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
+				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
+				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
+				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
+				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
+			);
+			name = SetDetail;
+			sourceTree = "<group>";
+		};
+		18A4B49F202C459400725545 /* ModifyPwd */ = {
+			isa = PBXGroup;
+			children = (
+				18262A21202A9287004DE2B2 /* ModifyPwdVC.h */,
+				18262A22202A9287004DE2B2 /* ModifyPwdVC.m */,
+				18262A23202A9287004DE2B2 /* ModifyPwdVC.xib */,
+				18262A26202A93D8004DE2B2 /* modifyPwdCell.h */,
+				18262A27202A93D8004DE2B2 /* modifyPwdCell.m */,
+				18262A28202A93D8004DE2B2 /* modifyPwdCell.xib */,
+			);
+			name = ModifyPwd;
+			sourceTree = "<group>";
+		};
+		18A4B4A5202C4B9100725545 /* AlertView */ = {
+			isa = PBXGroup;
+			children = (
+				18A4B498202C3BF300725545 /* ChangePwdAlert.h */,
+				18A4B499202C3BF300725545 /* ChangePwdAlert.m */,
+				18A4B49B202C3C4E00725545 /* ChangePwdAlert.xib */,
+				18A4B4A0202C4B5F00725545 /* DeleteUnpairAlert.h */,
+				18A4B4A1202C4B5F00725545 /* DeleteUnpairAlert.m */,
+				18A4B4A3202C4B8000725545 /* DeleteUnpairAlert.xib */,
+				18A4B4A6202C52D000725545 /* SaveSettingAlert.h */,
+				18A4B4A7202C52D000725545 /* SaveSettingAlert.m */,
+				18A4B4A9202C531400725545 /* SaveSettingAlert.xib */,
+			);
+			name = AlertView;
+			sourceTree = "<group>";
+		};
+		18A717842026081E00F25626 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				182629E120272725004DE2B2 /* CNBlueCommon.h */,
+				186FCD712020603500A16E87 /* CNBlueManager.h */,
+				186FCD722020603500A16E87 /* CNBlueManager.m */,
+				1810A6E820229841001487B0 /* CNBlueCommunication.h */,
+				1810A6E920229841001487B0 /* CNBlueCommunication.m */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		18A717852026088000F25626 /* DataHandle */ = {
+			isa = PBXGroup;
+			children = (
+				1810A6DF2021A398001487B0 /* CNDataBase.h */,
+				1810A6E02021A398001487B0 /* CNDataBase.m */,
+				18A7177B2026008B00F25626 /* CNKeychainManager.h */,
+				18A7177C2026008B00F25626 /* CNKeychainManager.m */,
+			);
+			path = DataHandle;
+			sourceTree = "<group>";
+		};
+		18A717882026094300F25626 /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				18262A1120297AAF004DE2B2 /* Help */,
+				18262A1020297AA6004DE2B2 /* Setting */,
+				18262A0F20297A9C004DE2B2 /* Home */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
+		18A717892026096200F25626 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				18A7178B202609BE00F25626 /* Category */,
+				18A717852026088000F25626 /* DataHandle */,
+				18A717842026081E00F25626 /* Bluetooth */,
+				186E837F201DD937008D08B1 /* SVProgressHUD */,
+				1810A6D220217B25001487B0 /* TransitionAnimation */,
+				182629FC20284281004DE2B2 /* CNPromptView.h */,
+				182629FD20284281004DE2B2 /* CNPromptView.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		18A7178A2026099C00F25626 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				182629F62028284E004DE2B2 /* CNSlider.h */,
+				182629F72028284E004DE2B2 /* CNSlider.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18A7178B202609BE00F25626 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				18262A0C20294595004DE2B2 /* NSString+Utils.h */,
+				18262A0D20294595004DE2B2 /* NSString+Utils.m */,
+				1810A6DC20217D16001487B0 /* UIView+KGViewExtend.h */,
+				1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		18C3A667201AB10600999678 = {
+			isa = PBXGroup;
+			children = (
+				18C3A672201AB10600999678 /* CNCoreBluetooth */,
+				18C3A68B201AB10600999678 /* CNCoreBluetoothUITests */,
+				18C3A671201AB10600999678 /* Products */,
+				1D5FB52DC18D3D657DB8D8FF /* Pods */,
+				3DBE1E4FCAB536674645C97B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		18C3A671201AB10600999678 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18C3A670201AB10600999678 /* CNCoreBluetooth.app */,
+				18C3A688201AB10600999678 /* CNCoreBluetoothUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18C3A672201AB10600999678 /* CNCoreBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				182629E22027453C004DE2B2 /* BaseClass */,
+				18A7178A2026099C00F25626 /* View */,
+				18A717892026096200F25626 /* Utility */,
+				18A717882026094300F25626 /* Function */,
+				186FCD6D2020574300A16E87 /* Models */,
+				186E839C201EEB16008D08B1 /* PrefixHeader.pch */,
+				18C3A673201AB10600999678 /* AppDelegate.h */,
+				18C3A674201AB10600999678 /* AppDelegate.m */,
+				18C3A676201AB10600999678 /* ViewController.h */,
+				18C3A677201AB10600999678 /* ViewController.m */,
+				18C3A679201AB10600999678 /* Main.storyboard */,
+				18C3A67C201AB10600999678 /* Assets.xcassets */,
+				18C3A67E201AB10600999678 /* LaunchScreen.storyboard */,
+				18C3A681201AB10600999678 /* Info.plist */,
+				18C3A682201AB10600999678 /* main.m */,
+			);
+			path = CNCoreBluetooth;
+			sourceTree = "<group>";
+		};
+		18C3A68B201AB10600999678 /* CNCoreBluetoothUITests */ = {
+			isa = PBXGroup;
+			children = (
+				18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */,
+				18C3A68E201AB10600999678 /* Info.plist */,
+			);
+			path = CNCoreBluetoothUITests;
+			sourceTree = "<group>";
+		};
+		1D5FB52DC18D3D657DB8D8FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */,
+				552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3DBE1E4FCAB536674645C97B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18C3A66F201AB10600999678 /* CNCoreBluetooth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C3A691201AB10600999678 /* Build configuration list for PBXNativeTarget "CNCoreBluetooth" */;
+			buildPhases = (
+				65DD33C2E761F90FE781DD06 /* [CP] Check Pods Manifest.lock */,
+				18C3A66C201AB10600999678 /* Sources */,
+				18C3A66D201AB10600999678 /* Frameworks */,
+				18C3A66E201AB10600999678 /* Resources */,
+				4D36E248C97057C09927D8A4 /* [CP] Embed Pods Frameworks */,
+				5E04A9F07C17E8217AF198FD /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CNCoreBluetooth;
+			productName = CNCoreBluetooth;
+			productReference = 18C3A670201AB10600999678 /* CNCoreBluetooth.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18C3A687201AB10600999678 /* CNCoreBluetoothUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C3A694201AB10600999678 /* Build configuration list for PBXNativeTarget "CNCoreBluetoothUITests" */;
+			buildPhases = (
+				18C3A684201AB10600999678 /* Sources */,
+				18C3A685201AB10600999678 /* Frameworks */,
+				18C3A686201AB10600999678 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18C3A68A201AB10600999678 /* PBXTargetDependency */,
+			);
+			name = CNCoreBluetoothUITests;
+			productName = CNCoreBluetoothUITests;
+			productReference = 18C3A688201AB10600999678 /* CNCoreBluetoothUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18C3A668201AB10600999678 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = apple;
+				TargetAttributes = {
+					18C3A66F201AB10600999678 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					18C3A687201AB10600999678 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 18C3A66F201AB10600999678;
+					};
+				};
+			};
+			buildConfigurationList = 18C3A66B201AB10600999678 /* Build configuration list for PBXProject "CNCoreBluetooth" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18C3A667201AB10600999678;
+			productRefGroup = 18C3A671201AB10600999678 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18C3A66F201AB10600999678 /* CNCoreBluetooth */,
+				18C3A687201AB10600999678 /* CNCoreBluetoothUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18C3A66E201AB10600999678 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18A4B49C202C3C4E00725545 /* ChangePwdAlert.xib in Resources */,
+				18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */,
+				18262A25202A9287004DE2B2 /* ModifyPwdVC.xib in Resources */,
+				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
+				18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */,
+				182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */,
+				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
+				18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */,
+				18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */,
+				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
+				186E838C201EBFAF008D08B1 /* HomeViewController.xib in Resources */,
+				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
+				18262A0620285772004DE2B2 /* HelpCell.xib in Resources */,
+				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
+				18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */,
+				186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */,
+				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,
+				186FCD6C201FF4E400A16E87 /* LockCell.xib in Resources */,
+				18A4B4AA202C531400725545 /* SaveSettingAlert.xib in Resources */,
+				18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */,
+				186E8387201DD937008D08B1 /* SVProgressHUD.bundle in Resources */,
+				18262A0B202931BA004DE2B2 /* HelpConCell.xib in Resources */,
+				186E8396201EBFDA008D08B1 /* HelpViewController.xib in Resources */,
+				186E8391201EBFC3008D08B1 /* SetViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C3A686201AB10600999678 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4D36E248C97057C09927D8A4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5E04A9F07C17E8217AF198FD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		65DD33C2E761F90FE781DD06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18C3A66C201AB10600999678 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
+				18262A1A20297BB6004DE2B2 /* SetDetailCell.m in Sources */,
+				182629E820274E11004DE2B2 /* BaseViewController.m in Sources */,
+				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,
+				18262A0520285772004DE2B2 /* HelpCell.m in Sources */,
+				186E8386201DD937008D08B1 /* SVIndefiniteAnimatedView.m in Sources */,
+				18262A01202855CB004DE2B2 /* BaseCell.m in Sources */,
+				18997CF620268A1300C4F03A /* RespondModel.m in Sources */,
+				1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */,
+				18262A29202A93D8004DE2B2 /* modifyPwdCell.m in Sources */,
+				182629EB20274E43004DE2B2 /* CNNavController.m in Sources */,
+				18262A0A202931BA004DE2B2 /* HelpConCell.m in Sources */,
+				18C3A678201AB10600999678 /* ViewController.m in Sources */,
+				18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */,
+				18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */,
+				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
+				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
+				186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */,
+				18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */,
+				18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */,
+				186E8390201EBFC3008D08B1 /* SetViewController.m in Sources */,
+				1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */,
+				186FCD6B201FF4E400A16E87 /* LockCell.m in Sources */,
+				18262A1520297B63004DE2B2 /* SetDetailViewController.m in Sources */,
+				18C3A683201AB10600999678 /* main.m in Sources */,
+				1810A6EA20229841001487B0 /* CNBlueCommunication.m in Sources */,
+				1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */,
+				18262A2E202AA2D6004DE2B2 /* OpenhistoryVC.m in Sources */,
+				18A717832026062300F25626 /* CommonData.m in Sources */,
+				1810A6E12021A398001487B0 /* CNDataBase.m in Sources */,
+				18C3A675201AB10600999678 /* AppDelegate.m in Sources */,
+				18262A1F20298A2C004DE2B2 /* SetLockMethod.m in Sources */,
+				18A4B4A2202C4B5F00725545 /* DeleteUnpairAlert.m in Sources */,
+				186E838B201EBFAF008D08B1 /* HomeViewController.m in Sources */,
+				18A4B4A8202C52D000725545 /* SaveSettingAlert.m in Sources */,
+				182629F82028284E004DE2B2 /* CNSlider.m in Sources */,
+				186FCD732020603500A16E87 /* CNBlueManager.m in Sources */,
+				182629F42028236F004DE2B2 /* CNLockCell.m in Sources */,
+				182629FE20284281004DE2B2 /* CNPromptView.m in Sources */,
+				18A7177D2026008B00F25626 /* CNKeychainManager.m in Sources */,
+				186E8395201EBFDA008D08B1 /* HelpViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C3A684201AB10600999678 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C3A68D201AB10600999678 /* CNCoreBluetoothUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18C3A68A201AB10600999678 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18C3A66F201AB10600999678 /* CNCoreBluetooth */;
+			targetProxy = 18C3A689201AB10600999678 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18C3A679201AB10600999678 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C3A67A201AB10600999678 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		18C3A67E201AB10600999678 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18C3A67F201AB10600999678 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18C3A68F201AB10600999678 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		18C3A690201AB10600999678 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		18C3A692201AB10600999678 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 58R7H452RZ;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CNCoreBluetooth/PrefixHeader.pch;
+				INFOPLIST_FILE = CNCoreBluetooth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18C3A693201AB10600999678 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 58R7H452RZ;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CNCoreBluetooth/PrefixHeader.pch;
+				INFOPLIST_FILE = CNCoreBluetooth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetooth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		18C3A695201AB10600999678 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 58R7H452RZ;
+				INFOPLIST_FILE = CNCoreBluetoothUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetoothUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CNCoreBluetooth;
+			};
+			name = Debug;
+		};
+		18C3A696201AB10600999678 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 58R7H452RZ;
+				INFOPLIST_FILE = CNCoreBluetoothUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ChengNing.CNCoreBluetoothUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CNCoreBluetooth;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18C3A66B201AB10600999678 /* Build configuration list for PBXProject "CNCoreBluetooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C3A68F201AB10600999678 /* Debug */,
+				18C3A690201AB10600999678 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18C3A691201AB10600999678 /* Build configuration list for PBXNativeTarget "CNCoreBluetooth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C3A692201AB10600999678 /* Debug */,
+				18C3A693201AB10600999678 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18C3A694201AB10600999678 /* Build configuration list for PBXNativeTarget "CNCoreBluetoothUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C3A695201AB10600999678 /* Debug */,
+				18C3A696201AB10600999678 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18C3A668201AB10600999678 /* Project object */;
+}

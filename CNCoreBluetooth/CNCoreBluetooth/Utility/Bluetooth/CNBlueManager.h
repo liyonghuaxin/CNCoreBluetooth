@@ -11,7 +11,7 @@
 #import "CNBlueCommon.h"
 
 typedef void(^scanFinishBlock)(CBPeripheral *per);
-typedef void(^periConnectedStateBlock)(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
+typedef void(^periConnectedStateBlock)(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
 
 @interface CNBlueManager : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
 

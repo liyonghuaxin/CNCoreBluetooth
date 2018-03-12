@@ -1,0 +1,39 @@
+//
+//  PrefixHeader.pch
+//  CNCoreBluetooth
+//
+//  Created by apple on 2018/1/29.
+//  Copyright © 2018年 apple. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+#import "CommonData.h"
+#import "CNPromptView.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define isOpen   (YES)
+
+//----------尺寸
+#define SCREENHEIGHT  ([UIScreen mainScreen].bounds.size.height)
+#define SCREENWIDTH   ([UIScreen mainScreen].bounds.size.width)
+#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+//----------颜色
+#define THEME_RED_COLOR UIColorFromRGBH(0xb1222a)
+#define THEME_BLACK_COLOR UIColorFromRGBH(0x272725)
+#define TEXT_LIST_COLOR UIColorFromRGBH(0x585858)
+#define LINE_COLOR UIColorFromRGBH(0xe0e0e0)
+#define TEXT_BLACK_COLOR UIColorFromRGBH(0x373737)
+#define TEXT_GRAY_COLOR UIColorFromRGBH(0x959595)
+//head title color
+#define TEXT_HEAD_COLOR UIColorFromRGBH(0x323232)
+#define TEXT_HEAD_FONT [UIFont systemFontOfSize:16]
+#define UIColorFromRGBH(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+//----------字号
+#define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen] bounds].size.width - (double )320) < DBL_EPSILON )
+#define IS_IPHONE_6 (fabs((double)[[UIScreen mainScreen] bounds].size.width - (double )375) < DBL_EPSILON )
+#define IS_IPHONE_6_PLUS (SCREENWIDTH>=414 )
+#define FontSizeAdjust (IS_IPHONE_6_PLUS?1:(IS_IPHONE_6?0:-2))
+
+#endif /* PrefixHeader_pch */

@@ -59,6 +59,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     // Do any additional setup after loading the view from its nib.
     tempModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
     _lockModel.isAdmin = tempModel.isAdmin;
+    
     if (_lockModel.isAdmin) {
         dataArray = @[@"Name",@"Password",@"Open History",@"User Control",@"Unlock Mode",@"Enable TouchSafe Sensor",@"Unpair Device"];
     }else{
@@ -135,7 +136,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     if (_lockModel.isAdmin) {
         if (indexPath.row == 1) {
             ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
-            pwd.periModel = tempModel;
+            pwd.periModel = _lockModel;
             pwd.pwdBlock = ^(NSString *str) {
                 //periModel.periPwd = str;
                 //[self updateNameAndPwd:NO];
@@ -221,6 +222,7 @@ static NSString *setLockMethod = @"SetLockMethod";
             case 1:{
                 detailCell.textF.hidden = NO;
                 detailCell.textF.secureTextEntry = YES;
+                detailCell.textF.enabled = NO;
                 detailCell.textF.text = _lockModel.periPwd;
                 detailCell.imageV.hidden = NO;
                 detailCell.imageV.image = [UIImage imageNamed:@"chevron"];
@@ -333,7 +335,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     if (![originalModel.periname isEqualToString:tempModel.periname]) {
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
-                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
+                [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:tempModel finish:^(RespondModel *model) {
                     if ([model.state intValue] == 1) {
                         //更新数据
                         _lockModel.periname = tempModel.periname;
@@ -342,7 +344,7 @@ static NSString *setLockMethod = @"SetLockMethod";
                         _lockModel.actionType = ENUpdate;
                         //不传_lockModel也可以
                         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
-                        [[CNDataBase sharedDataBase] updatePeripheralInfo:tempModel];
+                        [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
                         [self.navigationController popViewControllerAnimated:YES];
                     }else{
                         //lyh debug

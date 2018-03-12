@@ -42,6 +42,7 @@
         //扫描设备时,不扫描到相同设备,这样可以节约电量,提高app性能.如果需求是需要实时获取设备最新信息的,那就需要设置为YES.
         //CBCentralManagerScanOptionAllowDuplicatesKey,key值是NSNumber,默认值为NO表示不会重复扫描已经发现的设备,如需要不断获取最新的信号强度RSSI所以一般设为YES了
         //manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue() options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
+        //CBCentralManagerOptionShowPowerAlertKey 初始化，如果是否弹框提示打开蓝牙。NO不提示
         manager.mgr = [[CBCentralManager alloc] initWithDelegate:manager queue:dispatch_get_main_queue()];
         manager.peripheralArray = [NSMutableArray array];
         manager.connectedPeripheralArray = [NSMutableArray array];
@@ -99,7 +100,7 @@
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
     _scanFinished = finish;
     CBUUID *lockService = [CBUUID UUIDWithString:@"FFE0"];
-    //过滤
+    //过滤  @[lockService]
     [self.mgr scanForPeripheralsWithServices:@[lockService] options:nil];
 }
 
@@ -111,12 +112,13 @@
     //lyh  warning
     if (@available(iOS 10.0, *)) {
         if (self.mgr.state != CBManagerStatePoweredOn) {
-            [SVProgressHUD showErrorWithStatus:@"请打开蓝牙"];
+            [CNPromptView showStatusWithString:@"请打开蓝牙"];
             return;
         }
     } else {
         // Fallback on earlier versions
     }
+    
     if (peri.state == CBPeripheralStateDisconnected) {
         NSLog(@"🔑🔑🔑🔑🔑🔑🔑正在连接设备 ： %@",peri.name);
         [self.mgr connectPeripheral:peri options:nil];
@@ -336,20 +338,20 @@
     //自动登录
     [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:nil];
     //app端自动登录成功才认为真正连接上
-    [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripherial, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
+    [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
         if (isNeedReRnterPwd) {
             //密码失效，重新输密码
-            _periConnectedState(peripherial,isConnect,isOpenTimer,isNeedReRnterPwd);
-            [self.mgr cancelPeripheralConnection:peripherial];
+            _periConnectedState(peripheral,isConnect,isOpenTimer,isNeedReRnterPwd);
+            [self.mgr cancelPeripheralConnection:peripheral];
 
         }else if (isConnect) {
             //自动登录成功 或者 需要开启定时器继续同步
             if (_periConnectedState) {
-                _periConnectedState(peripherial,isConnect,isOpenTimer,isNeedReRnterPwd);
+                _periConnectedState(peripheral,isConnect,isOpenTimer,isNeedReRnterPwd);
             }
         }else{
             //新添设备配对密码错误
-            [self.mgr cancelPeripheralConnection:peripherial];
+            [self.mgr cancelPeripheralConnection:peripheral];
         }
     }];
     //收到锁具回应后再移除
@@ -371,11 +373,17 @@
         NSLog(@"%@停止通知", characteristic);
     }
 }
+
 //---------接受外设数据---------
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
-    NSData *originData = characteristic.value;
-    NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
-    [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];;
+    if (!error) {
+        NSData *originData = characteristic.value;
+        NSString *responseString = [[NSString alloc] initWithData:originData encoding:NSUTF8StringEncoding];
+        NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
+        [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];;
+    }
+    //lyh debug
+    [CNBlueCommunication cbReadData:nil fromPeripheral:peripheral withCharacteristic:characteristic];;
 }
 //写数据是否成功   对应  CBCharacteristicPropertyWrite
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {

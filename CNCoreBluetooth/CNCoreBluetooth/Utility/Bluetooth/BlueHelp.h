@@ -15,4 +15,6 @@
 + (NSString *)getDateWith:(NSString *)str;
 + (NSData *)getCurDateBytes;
 + (NSString *)getCurDeviceName;
++ (NSString *)adjustDeviceName:(NSString *)name;
+
 @end

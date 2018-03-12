@@ -102,7 +102,7 @@
     SetLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLockCell" forIndexPath:indexPath];
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
     if ([model.periname isEqualToString:@"Quick Safe"]) {
-        cell.nameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
+        cell.nameLab.text = [NSString stringWithFormat:@"Quick Safe %ld",indexPath.row+1];
     }else{
         if (model.periname) {
             cell.nameLab.text = model.periname;

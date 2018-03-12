@@ -15,11 +15,11 @@
 
 @interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>{
     NSArray *dataArray;
-    UIView *bgView;
     NSString *curPwd;
     NSString *pwd1;
     NSString *pwd2;
-
+    float keykoardHeight;
+    float offsetHeight;
 }
 
 @end
@@ -58,17 +58,10 @@
     
     [_myTableView registerNib:[UINib nibWithNibName:@"modifyPwdCell" bundle:nil] forCellReuseIdentifier:@"modifyPwdCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
-    _myTableView.scrollEnabled = NO;
     
-    bgView = [[UIView alloc] init];
-    [self.view addSubview:bgView];
-    bgView.hidden = YES;
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_myTableView);
-    }];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [_myTableView addGestureRecognizer:tap];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyWillHide) name:UIKeyboardWillHideNotification object:nil];
 
     _updatePwdBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
@@ -86,13 +79,25 @@
     [self.view endEditing:YES];
 }
 
-- (void)keyWillShow{
-    float footViewheight = 90;
-    if (SCREENHEIGHT <= 568) {
-        footViewheight = 70;
-    }
+- (void)keyWillShow:(NSNotification *)notification{
+    //获取键盘的高度
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    keykoardHeight = keyboardRect.size.height;
+    
+    float footViewheight = 70;
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;
+    
+    offsetHeight = 50*4+footViewheight+keykoardHeight-(SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara);
+    offsetHeight = offsetHeight>0?offsetHeight:0;
+    UITextField *tf2 = [self.view viewWithTag:2];
+    UITextField *tf3 = [self.view viewWithTag:3];
+    if (tf2.isFirstResponder || tf3.isFirstResponder) {
+        _myTableView.contentOffset = CGPointMake(0, offsetHeight);
+    }
+
 }
 
 - (void)keyWillHide{
@@ -108,6 +113,9 @@
     textField.layer.borderWidth=0.5f;
     textField.layer.cornerRadius = 5.0;
     textField.layer.borderColor=[UIColor blackColor].CGColor;
+    if (textField.tag == 2 || textField.tag == 3) {
+        _myTableView.contentOffset = CGPointMake(0, offsetHeight);
+    }
     return YES;
 }
 
@@ -120,16 +128,10 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    if (textField.tag == 1) {
-        curPwd = textField.text;
-    }else if(textField.tag == 2){
-        pwd1 = textField.text;
-    }else{
-        pwd2 = textField.text;
-    }
     textField.layer.borderWidth=0.5f;
     textField.layer.cornerRadius = 5.0;
-    textField.layer.borderColor=UIColorFromRGBH(0xcdcdcd).CGColor;}
+    textField.layer.borderColor=UIColorFromRGBH(0xcdcdcd).CGColor;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return dataArray.count;
@@ -187,6 +189,15 @@
 */
 
 - (IBAction)updatePwd:(id)sender {
+    [self.view endEditing:YES];
+    
+    UITextField *tf1 = [self.view viewWithTag:1];
+    curPwd = tf1.text;
+    UITextField *tf2 = [self.view viewWithTag:2];
+    pwd1 = tf2.text;
+    UITextField *tf3 = [self.view viewWithTag:3];
+    pwd2 = tf3.text;
+
     //先判断当前密码
     if (curPwd.length == 6 && [curPwd isEqualToString:_periModel.periPwd]) {
         if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
@@ -209,10 +220,12 @@
 
 //保存锁具名称和密码
 - (void)updateSetInfo{
-    //实际这里只修改名字了，密码修改不在这个页面
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_periModel.periID]) {
-            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
+            CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
+            model.periPwd = pwd1;
+            model.periname = _periModel.periname;
+            [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:model finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
                     _periModel.periPwd = pwd1;
                     //更新本地数据

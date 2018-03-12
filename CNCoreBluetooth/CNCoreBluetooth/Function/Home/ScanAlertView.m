@@ -26,6 +26,8 @@
     _containerView.layer.masksToBounds = YES;
     _pwdBgView.layer.cornerRadius = 8.0;
     _pwdBgView.layer.masksToBounds = YES;
+    _listBgView.layer.cornerRadius = 8.0;
+    _listBgView.layer.masksToBounds = YES;
     
     _enterView.layer.borderColor = UIColorFromRGBH(0xc1c1c1).CGColor;
     _enterView.layer.borderWidth = 1.0;
@@ -35,8 +37,15 @@
     _containerView.hidden = NO;
     canDismiss = YES;
     
-    [self.assistTF addTarget:self action:@selector(txchange:) forControlEvents:UIControlEventEditingChanged];
+    _pwd1.secureTextEntry = YES;
+    _pwd2.secureTextEntry = YES;
+    _pwd3.secureTextEntry = YES;
+    _pwd4.secureTextEntry = YES;
+    _pwd5.secureTextEntry = YES;
+    _pwd6.secureTextEntry = YES;
 
+    [self.assistTF addTarget:self action:@selector(txchange:) forControlEvents:UIControlEventEditingChanged];
+    _myTableView.tableFooterView = [[UIView alloc] init];
 }
 
 - (void)txchange:(UITextField *)tx{
@@ -63,7 +72,7 @@
 
 -(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri{
     if (peri.name) {
-        _lockNameLab.text = peri.name;
+        _lockNameLab.text = [peri.name stringByReplacingOccurrencesOfString:@" " withString:@""];
     }else{
         _lockNameLab.text = @"Unknown Device";
     }
@@ -103,7 +112,7 @@
     }
 }
 
--(void)beginScan{
+-(void)beginScan{    
     [self setShowType:AlertSearch];
     isAnimation = YES;
     self.hidden = NO;
@@ -158,6 +167,11 @@
     if (_showType != AlertLockList) {
         [dataArray removeAllObjects];
         [self setShowType:AlertLockList];
+    }
+    for (CNPeripheralModel *model in dataArray) {
+        if ([model.periID isEqualToString:lockModel.periID]) {
+            return;
+        }
     }
     [dataArray addObject:lockModel];
     [_myTableView reloadData];

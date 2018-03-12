@@ -76,14 +76,27 @@
     NSData *data = [deviceName dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableString *resultStr = [[NSMutableString alloc] init];
     if (data.length<=10) {
-        for (int i = 0; i<10-data.length; i++) {
-            [resultStr appendString:@"0"];
-        }
         [resultStr appendString:deviceName];
+        for (int i = 0; i<10-data.length; i++) {
+            [resultStr appendString:@" "];
+        }
         return resultStr;
     }else{
         return [deviceName subStringByByteLength:10];
     }
 }
 
++ (NSString *)adjustDeviceName:(NSString *)name{
+    NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableString *resultStr = [[NSMutableString alloc] init];
+    if (data.length<=18) {
+        [resultStr appendString:name];
+        for (int i = 0; i<18-data.length; i++) {
+            [resultStr appendString:@" "];
+        }
+        return resultStr;
+    }else{
+        return [name subStringByByteLength:18];
+    }
+}
 @end

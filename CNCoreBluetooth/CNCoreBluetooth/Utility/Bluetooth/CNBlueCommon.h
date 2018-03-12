@@ -20,9 +20,9 @@ typedef enum : NSUInteger {
 } InstructionEnum;
 
 typedef enum : NSUInteger {
-    ENSlideMethod = 1,
+    ENRFIDMethod = 1,
     ENTouchMethod,
-    ENPwdMethod,
+    ENAPPMethod,
 } ENLockMethod;
 
 #endif /* CNBlueCommon_h */

@@ -91,7 +91,7 @@
 }
 
 - (NSString *)adjustLockName:(NSString *)name{
-   return [name stringByReplacingOccurrencesOfString:@"0" withString:@""];
+   return [name stringByReplacingOccurrencesOfString:@" " withString:@""];
 }
 
 - (NSString *)adjustLockMacAddress:(NSString *)address{
