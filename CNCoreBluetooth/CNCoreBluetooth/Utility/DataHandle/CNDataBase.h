@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CNPeripheralModel.h"
+@class RespondModel;
 
 @interface CNDataBase : NSObject
 
@@ -36,5 +37,10 @@
  查询所有已连接设备
  */
 - (NSArray *)searchAllPariedPeris;
+
+- (void)addLog:(RespondModel *)model;
+
+- (NSArray *)queryOpenLockLog:(NSString *)lockID;
+
 @end
 

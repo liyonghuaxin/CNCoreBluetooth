@@ -10,6 +10,7 @@
 #import "OpenHistoryCell.h"
 #import "CNBlueCommunication.h"
 #import "CNBlueManager.h"
+#import "CNDataBase.h"
 
 @interface OpenhistoryVC ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *dataArray;
@@ -47,11 +48,19 @@
     [_myTableView registerNib:[UINib nibWithNibName:@"OpenHistoryCell" bundle:nil] forCellReuseIdentifier:@"OpenHistoryCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
     
+    NSArray *array = [[CNDataBase sharedDataBase] queryOpenLockLog:_lockID];
+    [dataArray addObjectsFromArray:array];
+    RespondModel *model;
+    if (array.count) {
+        model = array[0];
+    }
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
-            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
+            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:model.date finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
+                    model.lockIdentifier = _lockID;
                     [dataArray addObject:model];
+                    [[CNDataBase sharedDataBase] addLog:model];
                     [self.myTableView reloadData];
                 }else{
                     //查询完毕
@@ -77,7 +86,7 @@
     RespondModel *model = dataArray[indexPath.row];
     
     NSMutableString *string = [[NSMutableString alloc] init];
-    [string appendString:model.IDAddress];
+    //[string appendString:model.IDAddress];
     if (model.lockMethod == ENRFIDMethod) {
         [string appendString:@"RFID开锁"];
     }else if (model.lockMethod == ENTouchMethod){

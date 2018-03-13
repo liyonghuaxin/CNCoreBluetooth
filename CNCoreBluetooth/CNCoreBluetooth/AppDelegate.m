@@ -31,12 +31,6 @@ extern float lyh;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    NSMutableArray *a1 = [NSMutableArray arrayWithArray:@[@"1", @"2"]];
-    NSMutableArray *a2 = [NSMutableArray arrayWithArray:a1];
-    NSMutableArray *a3 = a1;
-    a1[0] = @"3";
-    a1 = @[@"0"];
-    
     [BlueHelp getCurDeviceName];
     
     char a = 'B';

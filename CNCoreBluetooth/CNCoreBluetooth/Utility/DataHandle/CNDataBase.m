@@ -8,6 +8,7 @@
 
 #import "CNDataBase.h"
 #import <FMDB.h>
+#import "RespondModel.h"
 
 @interface CNDataBase(){
     
@@ -42,11 +43,17 @@
     NSLog(@"%@",filePath);
     _db = [FMDatabase databaseWithPath:filePath];
     _dbQueue = [FMDatabaseQueue databaseQueueWithPath:filePath];
-    [_db open];
-    // 初始化数据表
-    NSString *periSql = @"Create table if not exists peripheral (id INTEGER primary key autoincrement  not null , peri_id VARCHAR(255), peri_name VARCHAR(255), peri_pwd VARCHAR(255), peri_lockState VARCHAR(255), peri_isAdmin INTEGER, peri_isPwd INTEGER, peri_isTouchUnlock INTEGER)";
-    [_db executeUpdate:periSql];
-    [_db close];
+
+    [_dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        // 初始化数据表
+        NSString *periSql = @"Create table if not exists peripheral (id INTEGER primary key autoincrement  not null , peri_id VARCHAR(255), peri_name VARCHAR(255), peri_pwd VARCHAR(255), peri_lockState VARCHAR(255), peri_isAdmin INTEGER, peri_isPwd INTEGER, peri_isTouchUnlock INTEGER)";
+        [db executeUpdate:periSql];
+        
+        // 初始化数据表
+        NSString *openLog = @"create table if not exists lockLog (id INTEGER primary key autoincrement  not null , log_lockId VARCHAR(255), log_method VARCHAR(255), log_date VARCHAR(255), log_deviceAddress VARCHAR(255))";
+        [db executeUpdate:openLog];
+    }];
+    
 }
 
 - (BOOL)isExistTable:(NSString *)tableName{
@@ -141,6 +148,29 @@
     NSString *sqlStr = [NSString stringWithFormat:@"delete from peripheral where peri_id = '%@';",identifier];
     [_db executeUpdate:sqlStr];
     [_db close];
+}
+
+#pragma mark 开锁日志
+
+- (void)addLog:(RespondModel *)model{
+    [_dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        [db executeUpdate:@"INSERT INTO lockLog (log_lockId, log_method, log_date, log_deviceAddress) VALUES (?, ?, ?, ?)",model.lockIdentifier, @(model.lockMethod), model.date, model.IDAddress];
+    }];
+}
+
+- (NSArray *)queryOpenLockLog:(NSString *)lockID{
+    [_db open];
+    NSMutableArray *array = [NSMutableArray array];
+    FMResultSet *rs = [_db executeQuery:@"Select * FROM lockLog where log_lockId = ?  Order By log_date DESC ",lockID];
+    while ([rs next]) {
+        RespondModel *model = [[RespondModel alloc] init];
+        model.lockMacAddress = [rs stringForColumn:@"log_lockId"];
+        model.lockMethod = [[rs stringForColumn:@"log_method"] intValue];
+        model.date = [rs stringForColumn:@"log_date"];
+        model.IDAddress = [rs stringForColumn:@"log_deviceAddress"];
+        [array addObject:model];
+    }
+    return array;
 }
 
 @end

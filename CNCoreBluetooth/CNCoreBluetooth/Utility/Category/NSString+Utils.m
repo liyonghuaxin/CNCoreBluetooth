@@ -44,12 +44,12 @@
         }
     }
     
-    //左补0
+    //右补空格
     NSMutableString *resultStr = [[NSMutableString alloc] init];
-    for (int i = 0; i <Len-[tempStr getByteNum]; i++) {
-        [resultStr appendString:@"0"];
-    }
     [resultStr appendString:tempStr];
+    for (int i = 0; i <Len-[tempStr getByteNum]; i++) {
+        [resultStr appendString:@" "];
+    }
     return resultStr;
 }
 

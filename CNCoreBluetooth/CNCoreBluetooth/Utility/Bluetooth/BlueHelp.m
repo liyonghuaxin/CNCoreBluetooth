@@ -32,6 +32,29 @@
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return string;
 }
+
++(NSString *)getLastDateAboutLog:(NSString *)str{
+    if (!str) {
+        //2018-01-01 00:00:00
+        str = @"180101000000";
+    }
+    if (str.length == 12) {
+        int y,m,d,hh,mm,ss;
+        y = [self getDecimalNumber:[str substringWithRange:NSMakeRange(0, 2)]];
+        m = [self getDecimalNumber:[str substringWithRange:NSMakeRange(2, 2)]];
+        d = [self getDecimalNumber:[str substringWithRange:NSMakeRange(4, 2)]];
+        hh = [self getDecimalNumber:[str substringWithRange:NSMakeRange(6, 2)]];
+        mm = [self getDecimalNumber:[str substringWithRange:NSMakeRange(8, 2)]];
+        ss = [self getDecimalNumber:[str substringWithRange:NSMakeRange(10, 2)]];
+        Byte byte[] = {y,m,d,hh,mm,ss};
+        NSData *data = [NSData dataWithBytes:byte length:sizeof(byte)];
+        NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return string;
+    }else{
+        return [self getCurDateByBCDEncode];
+    }
+}
+
 //将数字改为 两个bcd编码  反编回 一个字节（对应ascii）
 + (int)getDecimalNumber:(NSString *)str{
     //return [str intValue];// 18 按照0x12处理
@@ -86,7 +109,7 @@
     }
 }
 
-+ (NSString *)adjustDeviceName:(NSString *)name{
++ (NSString *)adjustLockDeviceName:(NSString *)name{
     NSData *data = [name dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableString *resultStr = [[NSMutableString alloc] init];
     if (data.length<=18) {
