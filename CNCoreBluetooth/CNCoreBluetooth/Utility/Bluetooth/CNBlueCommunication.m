@@ -435,7 +435,7 @@ static periConnectedStateBlock periStateBlock;
         default:
             break;
     }
-    //-------------------------过滤data获得有效数据--------------------------
+    //---------------过滤data获得有效数据------------------
     Byte *bytes = (Byte *)[myData bytes];
     //过滤BL之前的数据
     for (int i = 0; i < myData.length; i++) {
@@ -455,7 +455,7 @@ static periConnectedStateBlock periStateBlock;
     if (myData.length >= totalLength) {
         myData = [myData subdataWithRange:NSMakeRange(0, totalLength)];
     }
-    //------------------------解析有效数据包-----------------------
+    //--------------------解析有效数据包------------------
     //获取数据域
     NSData *dataDomain = [myData subdataWithRange:NSMakeRange(18, dataLength)];
     //指令码
@@ -514,11 +514,9 @@ static periConnectedStateBlock periStateBlock;
 }
 
 /*
- 问题2、已配对设备查询、开锁记录上传 数据有丢失问题？
- 问题3、汉子占三个字节，已配对设备查询目前限制10个字节
- 问题4、开锁记录上传中的开锁方式RFID、触摸、APP操作  ID指？
+ 汉子占三个字节，已配对设备查询目前限制10个字节
  */
-//解析锁具发给app的数据
+//（弃用）解析锁具发给app的数据
 + (RespondModel *)debugParseResponseDataWithParameter:(NSData *)myData{
     /*
      -----⭐️------假数据测试------⭐️-----
