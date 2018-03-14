@@ -9,7 +9,6 @@
 #import "SetViewController.h"
 #import "SetLockCell.h"
 #import "CNBlueManager.h"
-#import "SetDetailVC.h"
 #import "PresentTransformAnimation.h"
 #import "SwipeUpInteractiveTransition.h"
 #import "CNDataBase.h"

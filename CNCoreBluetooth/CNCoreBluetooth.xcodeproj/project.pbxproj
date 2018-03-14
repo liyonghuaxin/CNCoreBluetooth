@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6C92021591F001487B0 /* SetLockCell.m */; };
 		1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CA2021591F001487B0 /* SetLockCell.xib */; };
-		1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6CE202161D0001487B0 /* SetDetailVC.m */; };
-		1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1810A6CF202161D0001487B0 /* SetDetailVC.xib */; };
 		1810A6D720217B25001487B0 /* SwipeUpInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */; };
 		1810A6D820217B25001487B0 /* PresentTransformAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6D620217B25001487B0 /* PresentTransformAnimation.m */; };
 		1810A6DE20217D16001487B0 /* UIView+KGViewExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = 1810A6DD20217D16001487B0 /* UIView+KGViewExtend.m */; };
@@ -95,9 +93,6 @@
 		1810A6C82021591F001487B0 /* SetLockCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetLockCell.h; sourceTree = "<group>"; };
 		1810A6C92021591F001487B0 /* SetLockCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetLockCell.m; sourceTree = "<group>"; };
 		1810A6CA2021591F001487B0 /* SetLockCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetLockCell.xib; sourceTree = "<group>"; };
-		1810A6CD202161D0001487B0 /* SetDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetDetailVC.h; sourceTree = "<group>"; };
-		1810A6CE202161D0001487B0 /* SetDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetDetailVC.m; sourceTree = "<group>"; };
-		1810A6CF202161D0001487B0 /* SetDetailVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetDetailVC.xib; sourceTree = "<group>"; };
 		1810A6D320217B25001487B0 /* SwipeUpInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeUpInteractiveTransition.m; sourceTree = "<group>"; };
 		1810A6D420217B25001487B0 /* PresentTransformAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentTransformAnimation.h; sourceTree = "<group>"; };
 		1810A6D520217B25001487B0 /* SwipeUpInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeUpInteractiveTransition.h; sourceTree = "<group>"; };
@@ -362,9 +357,6 @@
 				18262A1720297BB6004DE2B2 /* SetDetailCell.h */,
 				18262A1820297BB6004DE2B2 /* SetDetailCell.m */,
 				18262A1920297BB6004DE2B2 /* SetDetailCell.xib */,
-				1810A6CD202161D0001487B0 /* SetDetailVC.h */,
-				1810A6CE202161D0001487B0 /* SetDetailVC.m */,
-				1810A6CF202161D0001487B0 /* SetDetailVC.xib */,
 				18262A30202AA399004DE2B2 /* OpenHistoryCell.h */,
 				18262A31202AA399004DE2B2 /* OpenHistoryCell.m */,
 				18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */,
@@ -633,7 +625,6 @@
 				18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */,
 				18262A1B20297BB6004DE2B2 /* SetDetailCell.xib in Resources */,
 				182629F52028236F004DE2B2 /* CNLockCell.xib in Resources */,
-				1810A6D1202161D0001487B0 /* SetDetailVC.xib in Resources */,
 				18A4B4A4202C4B8000725545 /* DeleteUnpairAlert.xib in Resources */,
 				18262A2A202A93D8004DE2B2 /* modifyPwdCell.xib in Resources */,
 				18C3A67D201AB10600999678 /* Assets.xcassets in Resources */,
@@ -733,7 +724,6 @@
 				18C3A678201AB10600999678 /* ViewController.m in Sources */,
 				18262A0E20294595004DE2B2 /* NSString+Utils.m in Sources */,
 				18262A24202A9287004DE2B2 /* ModifyPwdVC.m in Sources */,
-				1810A6D0202161D0001487B0 /* SetDetailVC.m in Sources */,
 				186E8385201DD937008D08B1 /* SVProgressHUD.m in Sources */,
 				186E8399201EE3C5008D08B1 /* ScanAlertView.m in Sources */,
 				18A4B49A202C3BF300725545 /* ChangePwdAlert.m in Sources */,

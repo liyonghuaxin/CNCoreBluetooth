@@ -11,7 +11,6 @@
 
 @interface ModifyPwdVC : BaseViewController
 
-@property (nonatomic,copy) void(^pwdBlock)(NSString *str);
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 - (IBAction)updatePwd:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *updatePwdBtn;

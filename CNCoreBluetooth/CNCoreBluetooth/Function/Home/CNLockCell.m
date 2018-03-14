@@ -21,7 +21,6 @@
     _pwdLab.textColor = TEXT_LIST_COLOR;
     _pwdLab.font = [UIFont systemFontOfSize:14+FontSizeAdjust];
 
-    
     _slider.minimumTrackTintColor = THEME_BLACK_COLOR;
     _slider.maximumTrackTintColor = THEME_BLACK_COLOR;
     _slider.continuous = YES;
@@ -38,21 +37,21 @@
 }
 -(void)setModel:(CNPeripheralModel *)model{
     _model = model;
-    if (model.isPwd) {
-        _pwdLab.hidden = NO;
-    }else{
+    if (model.openMethod == OpenLockSlide) {
         _pwdLab.hidden = YES;
+        _fingerprintImagev.hidden = YES;
+    }else if(model.openMethod == OpenLockThumb){
+        _pwdLab.hidden = YES;
+        _fingerprintImagev.hidden = NO;
+    }else{
+        _pwdLab.hidden = NO;
+        _fingerprintImagev.hidden = YES;
     }
     if (model.isConnect) {
         self.contentView.backgroundColor = [UIColor whiteColor];
     }else{
         self.contentView.backgroundColor = [UIColor lightGrayColor];
     }
-//    if (model.isTouchUnlock) {
-//        _fingerprintImagev.hidden = NO;
-//    }else{
-//        _fingerprintImagev.hidden = YES;
-//    }
     if ([model.lockState intValue] == 1) {
         [self updateLockState:YES];
     }else{

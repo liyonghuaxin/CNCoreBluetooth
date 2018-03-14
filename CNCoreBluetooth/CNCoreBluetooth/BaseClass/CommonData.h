@@ -13,6 +13,12 @@ extern float iPhoneXBottomPara;
 extern float edgeDistancePage;
 extern float scalePage;
 
+typedef enum : NSUInteger {
+    OpenLockSlide,
+    OpenLockThumb,
+    OpenLockPwd,
+} OpenLockMethod;
+
 @interface CommonData : NSObject
 
 +(instancetype)sharedCommonData;

@@ -24,7 +24,7 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy)NSString *periname;
 @property (nonatomic,copy)NSString *periPwd;
 @property (nonatomic,assign)BOOL isAdmin;
-@property (nonatomic,assign)BOOL isPwd;
+@property (nonatomic,assign)OpenLockMethod openMethod;
 @property (nonatomic,assign)BOOL isTouchUnlock;
 @property (nonatomic,copy)NSString *lockState;
 @property (nonatomic,assign)BOOL isConnect;

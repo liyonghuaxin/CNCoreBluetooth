@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CNPeripheralModel.h"
 
 @interface SetLockMethod : UITableViewCell
-@property (nonatomic, copy) void (^pwdBlock)(BOOL isPwd);
-@property (nonatomic,assign) BOOL isPwd;
+@property (nonatomic, copy) void (^openBlock)(OpenLockMethod openMethod);
 @property (weak, nonatomic) IBOutlet UILabel *nameLab;
-@property (weak, nonatomic) IBOutlet UILabel *conLab1;
-@property (weak, nonatomic) IBOutlet UILabel *conLab2;
-@property (weak, nonatomic) IBOutlet UIImageView *imageV11;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV1;
+@property (weak, nonatomic) IBOutlet UIImageView *imageV11;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV2;
 @property (weak, nonatomic) IBOutlet UIImageView *imageV22;
+@property (weak, nonatomic) IBOutlet UIImageView *imageV3;
+@property (weak, nonatomic) IBOutlet UIImageView *imageV33;
 - (IBAction)selectAction:(id)sender;
-- (void)selectPwd:(BOOL)isPwd;
+- (void)selectMethod:(OpenLockMethod)openMethod;
 @end

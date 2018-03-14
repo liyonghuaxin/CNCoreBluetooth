@@ -201,19 +201,16 @@
     //先判断当前密码
     if (curPwd.length == 6 && [curPwd isEqualToString:_periModel.periPwd]) {
         if (pwd1.length == 6 && [pwd1 isEqualToString:pwd2]) {
-//            if (_pwdBlock) {
-//                _pwdBlock(pwd1);
-//            }
             [self updateSetInfo];
         }else{
             //两次密码不一致 或 密码位数错误
             //lyh debug
-            [CNPromptView showStatusWithString:@"error"];
+            [CNPromptView showStatusWithString:@"error"   withadjustBottomSpace:50];
         }
     }else{
         //原始密码错误
         //lyh debug
-        [CNPromptView showStatusWithString:@"原始密码错误"];
+        [CNPromptView showStatusWithString:@"原始密码错误"   withadjustBottomSpace:50];
     }
     
 }
@@ -227,13 +224,14 @@
             model.periname = _periModel.periname;
             [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:model finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
+                    //更新内存中密码
                     _periModel.periPwd = pwd1;
                     //更新本地数据
                     [[CNDataBase sharedDataBase] updatePeripheralInfo:_periModel];
                     [self.navigationController popViewControllerAnimated:YES];
                 }else{
                     //lyh debug
-                    [CNPromptView showStatusWithString:@"error"];
+                    [CNPromptView showStatusWithString:@"error" withadjustBottomSpace:50];
                 }
             }];
             break;

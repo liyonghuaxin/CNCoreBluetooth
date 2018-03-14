@@ -85,7 +85,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     _saveBtn.titleLabel.font = [UIFont systemFontOfSize:19+FontSizeAdjust];
     _saveBtn.layer.cornerRadius = _saveBtn.height/2.0;
     //lyh debug 50*6
-    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-50-50*dataArray.count;
+    float footViewheight = SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara-125-50*(dataArray.count-1);
     if (footViewheight<90) {
         footViewheight = 90;
     }
@@ -137,10 +137,6 @@ static NSString *setLockMethod = @"SetLockMethod";
         if (indexPath.row == 1) {
             ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
             pwd.periModel = _lockModel;
-            pwd.pwdBlock = ^(NSString *str) {
-                //periModel.periPwd = str;
-                //[self updateNameAndPwd:NO];
-            };
             [self.navigationController pushViewController:pwd animated:YES];
         }else if (indexPath.row == 2){
             OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
@@ -178,11 +174,11 @@ static NSString *setLockMethod = @"SetLockMethod";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_lockModel.isAdmin) {
         if (indexPath.row == 4) {
-            return 100;
+            return 125;
         }
     }else{
         if (indexPath.row == 1) {
-            return 100;
+            return 125;
         }
     }
     return 50;
@@ -195,11 +191,11 @@ static NSString *setLockMethod = @"SetLockMethod";
     }
     if (indexPath.row == 4-temp) {
         SetLockMethod *detailCell2 = [tableView dequeueReusableCellWithIdentifier:setLockMethod forIndexPath:indexPath];
-        detailCell2.pwdBlock = ^(BOOL isPwd) {
-            tempModel.isPwd = isPwd;
+        detailCell2.openBlock = ^(OpenLockMethod openMethod) {
+            tempModel.openMethod = openMethod;
         };
         detailCell2.nameLab.text = dataArray[4-temp];
-        [detailCell2 selectPwd:_lockModel.isPwd];
+        [detailCell2 selectMethod:tempModel.openMethod];
         return detailCell2;
     }
     SetDetailCell *detailCell = [tableView dequeueReusableCellWithIdentifier:setDetailCell forIndexPath:indexPath];
@@ -316,7 +312,8 @@ static NSString *setLockMethod = @"SetLockMethod";
         }else{
             //密码输错提示
             //isShowIncorrectPwd = YES;
-            [CNPromptView showStatusWithString:@"Incorrect Password"];
+            [CNPromptView showStatusWithString:@"Incorrect Password"  withadjustBottomSpace:50];
+            
         }
     };
     [enterAlert showWithName:_lockModel.periname];
@@ -340,7 +337,7 @@ static NSString *setLockMethod = @"SetLockMethod";
                         //更新数据
                         _lockModel.periname = tempModel.periname;
                         _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
-                        _lockModel.isPwd = tempModel.isPwd;
+                        _lockModel.openMethod = tempModel.openMethod;
                         _lockModel.actionType = ENUpdate;
                         //不传_lockModel也可以
                         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
@@ -357,7 +354,7 @@ static NSString *setLockMethod = @"SetLockMethod";
     }else{
         //更新数据
         _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
-        _lockModel.isPwd = tempModel.isPwd;
+        _lockModel.openMethod = tempModel.openMethod;
         _lockModel.actionType = ENUpdate;
         //不传_lockModel也可以
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
@@ -385,7 +382,7 @@ static NSString *setLockMethod = @"SetLockMethod";
         }else{
             //密码输错提示
             //isShowIncorrectPwd = YES;
-            [CNPromptView showStatusWithString:@"Incorrect Password"];
+            [CNPromptView showStatusWithString:@"Incorrect Password"   withadjustBottomSpace:50];
         }
     };
     [enterAlert showWithName:_lockModel.periname];

@@ -11,5 +11,5 @@
 @interface CNPromptView : UIView
 
 + (void)showStatusWithString:(NSString *)message;
-
++(void)showStatusWithString:(NSString *)message withadjustBottomSpace:(float)space;
 @end

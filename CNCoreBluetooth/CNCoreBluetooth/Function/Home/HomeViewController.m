@@ -14,6 +14,7 @@
 #import "SVProgressHUD.h"
 #import "CNBlueCommunication.h"
 #import "EnterPwdAlert.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,LockCellActionDelegate>{
     
@@ -342,7 +343,7 @@
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
     cell.model = model;
     if ([model.periname isEqualToString:@"Quick Safe"]) {
-        cell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %d",indexPath.row+1];
+        cell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %ld",indexPath.row+1];
     }else{
         if (model.periname) {
             cell.lockNameLab.text = model.periname;
@@ -360,7 +361,9 @@
         [blueManager cus_connectPeripheral:peri];
     }else{
         CNPeripheralModel *model = [[CNDataBase sharedDataBase] searchPeripheralInfo:peri.identifier.UUIDString];
-        if (model.isPwd) {
+        if (model.openMethod == OpenLockSlide) {
+            [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
+        }else if (model.openMethod == OpenLockPwd) {
             //弹出输入密码框
             EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
             enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
@@ -374,9 +377,93 @@
             };
             [enterAlert showWithName:model.periname];
         }else{
-            [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
+            //触摸开锁
+            [self thumbPrint:peri];
         }
     }
+}
+
+- (void)thumbPrint:(CBPeripheral *)peri{
+    //初始化上下文对象
+    LAContext* context = [[LAContext alloc] init];
+    //这个设置的使用密码的字体，当text=@""时，按钮将被隐藏
+    context.localizedFallbackTitle=@"";
+    //这个设置的取消按钮的字体
+    if (@available(iOS 10.0, *)) {
+        context.localizedCancelTitle=@"取消";
+    } else {
+        // Fallback on earlier versions
+    }
+    //错误对象
+    NSError* error = nil;
+    NSString* result = @"需要验证您的touch ID";
+    //首先使用canEvaluatePolicy 判断设备支持状态
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        //支持指纹验证
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:result reply:^(BOOL success, NSError *error) {
+            if (success) {
+                //验证成功，主线程处理UI
+                //NSLog(@"验证成功");
+                [CNBlueCommunication cbSendInstruction:ENOpenLock toPeripheral:peri otherParameter:nil finish:nil];
+            }
+            else
+            {
+                //NSLog(@"%@",error.localizedDescription);
+                switch (error.code) {
+                    case LAErrorSystemCancel:
+                    {
+                        //NSLog(@"Authentication was cancelled by the system");
+                        //切换到其他APP，系统取消验证Touch ID
+                        break;
+                    }
+                    case LAErrorUserCancel:
+                    {
+                        //NSLog(@"Authentication was cancelled by the user");
+                        //用户取消验证Touch ID
+                        break;
+                    }
+                    case LAErrorUserFallback:
+                    {
+                        //NSLog(@"User selected to enter custom password");
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            //用户选择其他验证方式，切换主线程处理
+                        }];
+                        break;
+                    }
+                    default:
+                    {
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            //其他情况，切换主线程处理
+                        }];
+                        break;
+                    }
+                }
+            }
+        }];
+    }
+    else
+    {
+        //不支持指纹识别，LOG出错误详情
+        switch (error.code) {
+            case LAErrorTouchIDNotEnrolled:
+            {
+                //NSLog(@"TouchID is not enrolled");
+                break;
+            }
+            case LAErrorPasscodeNotSet:
+            {
+                //NSLog(@"A passcode has not been set");
+                break;
+            }
+            default:
+            {
+                //NSLog(@"TouchID not available");
+                break;
+            }
+        }
+        //NSLog(@"%@",error.localizedDescription);
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {

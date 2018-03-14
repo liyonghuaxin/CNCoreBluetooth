@@ -24,33 +24,42 @@
     // Configure the view for the selected state
 }
 
-- (void)selectPwd:(BOOL)isPwd{
-    if (isPwd) {
-        _isPwd = YES;
-        _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
-        _imageV11.image = nil;
-        _imageV2.image = [UIImage imageNamed:@"ellipseRed"];
-        _imageV22.image = [UIImage imageNamed:@"ellipseWhite"];
-    }else{
-        _isPwd = NO;
+- (void)selectMethod:(OpenLockMethod)openMethod{
+    if (openMethod == OpenLockSlide) {
         _imageV1.image = [UIImage imageNamed:@"ellipseRed"];
         _imageV11.image = [UIImage imageNamed:@"ellipseWhite"];
         _imageV2.image = [UIImage imageNamed:@"ellipseGray"];
         _imageV22.image = nil;
+        _imageV3.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV33.image = nil;
+    }else if (openMethod == OpenLockThumb){
+        _imageV2.image = [UIImage imageNamed:@"ellipseRed"];
+        _imageV22.image = [UIImage imageNamed:@"ellipseWhite"];
+        _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV11.image = nil;
+        _imageV3.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV33.image = nil;
+    }else{
+        _imageV3.image = [UIImage imageNamed:@"ellipseRed"];
+        _imageV33.image = [UIImage imageNamed:@"ellipseWhite"];
+        _imageV1.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV11.image = nil;
+        _imageV2.image = [UIImage imageNamed:@"ellipseGray"];
+        _imageV22.image = nil;
     }
-    if (_pwdBlock) {
-        _pwdBlock(_isPwd);
+    if (_openBlock) {
+        _openBlock(openMethod);
     }
 }
 
 - (IBAction)selectAction:(id)sender {
     UIButton *btn = (UIButton *)sender;
-    if (btn.tag == 1 && _isPwd) {
-        [self selectPwd:NO];
+    if (btn.tag == 1) {
+        [self selectMethod:OpenLockSlide];
+    }else if (btn.tag == 2 ){
+        [self selectMethod:OpenLockThumb];
     }else{
-        if (_isPwd == NO) {
-            [self selectPwd:YES];
-        }
+        [self selectMethod:OpenLockPwd];
     }
 }
 @end

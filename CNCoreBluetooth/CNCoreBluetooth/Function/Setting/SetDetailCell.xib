@@ -47,10 +47,10 @@
                             <constraint firstAttribute="width" secondItem="s9W-hH-SoK" secondAttribute="height" multiplier="41:39" id="YNu-UB-Mcf"/>
                         </constraints>
                     </imageView>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Quick Safe" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jh2-ys-rYF">
-                        <rect key="frame" x="114" y="19.5" width="150" height="20"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Quick Safe" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jh2-ys-rYF">
+                        <rect key="frame" x="150" y="19.5" width="120" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="150" id="Ndk-aN-8MY"/>
+                            <constraint firstAttribute="width" constant="120" id="Ndk-aN-8MY"/>
                         </constraints>
                         <color key="textColor" red="0.60385400056838989" green="0.60396051406860352" blue="0.60384726524353027" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
@@ -64,10 +64,10 @@
                 <constraints>
                     <constraint firstItem="cJ5-X6-msX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1Vb-fQ-SuN"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="leading" secondItem="cJ5-X6-msX" secondAttribute="trailing" id="3Bn-Uo-LaX"/>
-                    <constraint firstItem="s9W-hH-SoK" firstAttribute="leading" secondItem="Jh2-ys-rYF" secondAttribute="trailing" id="3Lg-ZM-ttv"/>
                     <constraint firstItem="Jh2-ys-rYF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8za-cU-Z1P"/>
                     <constraint firstItem="cJ5-X6-msX" firstAttribute="leading" secondItem="R2v-20-BbQ" secondAttribute="trailing" id="DLP-0A-BZ9"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="leading" secondItem="s9W-hH-SoK" secondAttribute="trailing" id="G6s-i8-gRI"/>
+                    <constraint firstItem="Jh2-ys-rYF" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" constant="50" id="GAk-vk-Gbf"/>
                     <constraint firstItem="e9l-kO-iH6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Hrb-cl-57y"/>
                     <constraint firstItem="R2v-20-BbQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="TYA-8X-zgz"/>
                     <constraint firstItem="R2v-20-BbQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="VEZ-vF-BUP"/>
