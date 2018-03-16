@@ -57,10 +57,15 @@
 
 //将数字改为 两个bcd编码  反编回 一个字节（对应ascii）
 + (int)getDecimalNumber:(NSString *)str{
+//    unsigned intData = 0;
+//    NSScanner *scanner = [NSScanner scannerWithString:str];
+//    [scanner scanHexInt:&intData];
+    
     //return [str intValue];// 18 按照0x12处理
     int num1 =  [str intValue]/10*16;
     int num2 =  [str intValue]%10;
     return num1+num2;
+    
 }
 
 +(NSString *)getDateWith:(NSString *)str{

@@ -168,24 +168,15 @@ static periConnectedStateBlock periStateBlock;
     if (characteristic.properties & CBCharacteristicPropertyWrite){
         type = CBCharacteristicWriteWithResponse;
     }
-    [peripheral readValueForCharacteristic:characteristic];
+    /*
+     该方法执行，代理方法
+     -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+     立马响应
+     */
+    //[peripheral readValueForCharacteristic:characteristic];
     [peripheral writeValue:data forCharacteristic:characteristic  type:type];
 }
-/*
- 关于写数据
- CBCharacteristicWriteWithResponse方法给外围设备写数据时，会回调 其代理的peripheral:didWriteValueForCharacteristic:error:方法。
- */
-+ (void)cbSendStringCon:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
-    if (characteristic){
-        CBCharacteristicWriteType type = CBCharacteristicWriteWithoutResponse;
-        if (characteristic.properties & CBCharacteristicPropertyWrite){
-            type = CBCharacteristicWriteWithResponse;
-        }
-        [peripheral readValueForCharacteristic:characteristic];
-        NSData *rdata = [CNBlueCommunication getDataPacketWith:str];
-        [peripheral writeValue:rdata forCharacteristic:characteristic  type:type];
-    }
-}
+
 //生成数据包
 + (NSData *)getDataPacketWith:(NSString *)str{
     
@@ -674,20 +665,17 @@ static periConnectedStateBlock periStateBlock;
     return verifyStr;
 }
 
-#pragma mark ----------数据转换-------------
-
-#pragma mark 备用
-- (unsigned)parseIntFromData:(NSData *)data{
-    
+#pragma mark -------备用---数据转换-------------
+//传入data：<12> 返回18
++ (unsigned)parseIntFromData:(NSData *)data{
     NSString *dataDescription = [data description];
     NSString *dataAsString = [dataDescription substringWithRange:NSMakeRange(1, [dataDescription length]-2)];
-    
     unsigned intData = 0;
     NSScanner *scanner = [NSScanner scannerWithString:dataAsString];
     [scanner scanHexInt:&intData];
     return intData;
 }
-
+//传入12 返回3132
 + (NSString *)hexStringFromString:(NSString *)string{
     NSData *myD = [string dataUsingEncoding:NSUTF8StringEncoding];
     Byte *bytes = (Byte *)[myD bytes];
@@ -697,7 +685,7 @@ static periConnectedStateBlock periStateBlock;
         
     {
         NSString *newHexStr = [NSString stringWithFormat:@"%x",bytes[i]&0xff];///16进制数
-        
+        //      %x(%X)      十六进制整数0f(0F)   e.g.   0x1234
         if([newHexStr length]==1)
             
             hexStr = [NSString stringWithFormat:@"%@0%@",hexStr,newHexStr];
@@ -709,7 +697,7 @@ static periConnectedStateBlock periStateBlock;
     return hexStr;
 }
 
-//将传入的NSData类型转换成NSString并返回
+////传入12 返回3132
 + (NSString*)hexadecimalString:(NSData *)data{
     NSString* result;
     const unsigned char* dataBuffer = (const unsigned char*)[data bytes];
@@ -725,43 +713,14 @@ static periConnectedStateBlock periStateBlock;
     return result;
 }
 //将传入的NSString类型转换成ASCII码并返回
+//传入12  返回<3132>
 + (NSData*)dataWithString:(NSString *)string{
-    unsigned char *bytes = (unsigned char *)[string UTF8String];
-    NSInteger len = string.length;
-    return [NSData dataWithBytes:bytes length:len];
-}
-
-+(void)cbCorrectTime:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic{
-    //data：2018-02-01 06:29:25 +0000
-    NSDate *date = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YY-MM-dd-hh-mm"];
-    //dateString：18-02-01-02-29   已转为中国时间了
-    NSString *dateString = [dateFormatter stringFromDate:date];
-    NSArray *time_strs = [dateString componentsSeparatedByString:@"-"];
-    NSLog(@"time_strs = %@",time_strs);
-    // (18, 02, 01, 02, 29)
-    int num3 =[time_strs[0] intValue];
-    int num4 =[time_strs[1] intValue];
-    int num5 =[time_strs[2] intValue];
-    int num6 =[time_strs[3] intValue];
-    int num7 =[time_strs[4] intValue];
-    
-    //后三位90-11-5是把CMD_HEAD CMD_LENGHT CMD_SORT 转成的10进制
-    int num8 = num3 + num4 +num5 +num6 +num7 +90+11+5;
-    Byte   CMD_HEAD = 0x5A;//ASCII Z
-    Byte   CMD_LENGHT = 0x0B;//ASCII  VT 制表符
-    Byte   CMD_SORT = 0x05;//ASCII 5
-    
-    Byte byte4[] = {CMD_HEAD,CMD_LENGHT,CMD_SORT,num3,num4,num5,num6,num7,num8,0,0};
-    NSData *data23 = [NSData dataWithBytes:byte4 length:sizeof(byte4)];
-    /*
-     byte4：十六进制对应的asciii码
-     (Byte [11]) byte4 = ([0] = 'Z', [1] = '\v', [2] = '\x05', [3] = '\x12', [4] = '\x02', [5] = '\x01', [6] = '\x02', [7] = '\x1d', [8] = '\x9e', [9] = '\0', [10] = '\0')
-     data23：
-     <5a0b0512 0201021d 9e0000>
-     */
-    
+    const char *bytes = [string UTF8String];
+//    NSInteger len = string.length;
+//    NSInteger len1 = sizeof(bytes);
+    NSInteger len2 = strlen(bytes);
+    NSData *data = [NSData dataWithBytes:bytes length:len2];
+    return data;
 }
 
 /*  蓝牙mac地址
@@ -769,26 +728,11 @@ static periConnectedStateBlock periStateBlock;
  */
 +(void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic{
     //测试先这样 68:96:7B:ED:4D:29
-    NSLog(@"MAC地址");
-    Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
-    NSData *data = [NSData dataWithBytes:&b length:8];
-    [CNBlueCommunication writePeripheral:peripheral characteristic:characteristic value:data];
+//    NSLog(@"MAC地址");
+//    Byte b[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA0};
+//    NSData *data = [NSData dataWithBytes:&b length:8];
+//    [CNBlueCommunication writePeripheral:peripheral characteristic:characteristic value:data];
 }
 
-//通用发送指令方法
-+ (void)writePeripheral:(CBPeripheral *)p
-         characteristic:(CBCharacteristic *)c
-                  value:(NSData *)value {
-    //判断属性是否可写
-    if (c.properties & CBCharacteristicPropertyWrite) {
-        [p writeValue:value forCharacteristic:c type:CBCharacteristicWriteWithResponse];
-    } else {
-        NSLog(@"该属性不可写");
-    }
-}
-
-+(void)cbReadOfflineData:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic{
-    
-}
 
 @end

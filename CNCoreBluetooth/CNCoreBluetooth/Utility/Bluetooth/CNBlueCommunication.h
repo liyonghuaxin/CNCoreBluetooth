@@ -26,10 +26,6 @@ typedef void(^respondBlock)(RespondModel *model);
  */
 + (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral  otherParameter:(id)para finish:(respondBlock)finish;
 /**
- app->锁具
- */
-+ (void)cbSendStringCon:(NSString *)str toPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic;
-/**
  锁具->app
  */
 + (void)cbReadData:(NSData *)data fromPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic;
@@ -43,9 +39,6 @@ typedef void(^respondBlock)(RespondModel *model);
 
 // 获取手机蓝牙mac地址
 + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
-+ (void)cbCorrectTime:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
-+ (void)cbReadOfflineData:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;
-
 + (NSData*)dataWithString:(NSString *)string;
 + (NSString*)hexadecimalString:(NSData *)data;
 

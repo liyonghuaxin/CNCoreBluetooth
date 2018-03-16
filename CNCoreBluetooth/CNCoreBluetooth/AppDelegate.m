@@ -31,8 +31,16 @@ extern float lyh;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [BlueHelp getCurDeviceName];
+    char *str1="absde";
+    char str2[]="absde";
+    char str3[8]={'a'};
+    char ss[] = "0123456789";
     
+    int a1 = sizeof(str1);
+    int a2 = sizeof(str2);
+    int a3 = sizeof(str3);
+    int a4 = sizeof(ss);
+        
     char a = 'B';
     char b = '1';
     int c = 0x18;

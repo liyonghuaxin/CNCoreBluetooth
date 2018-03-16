@@ -132,12 +132,6 @@
     }
 }
 
-//#pragma mark 数据交互
-//- (void)senddata:(NSString *)str toPeripheral:(CBPeripheral *)peri{
-//    
-//    [CNBlueCommunication cbSendStringCon:str toPeripheral:peri withCharacteristic:self.uartRXCharacteristic];
-//}
-
 #pragma mark private API
 //订阅特征
 -(void)notifyCharacteristic:(CBPeripheral *)peripheral
