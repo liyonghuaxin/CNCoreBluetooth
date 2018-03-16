@@ -16,9 +16,6 @@ typedef void(^respondBlock)(RespondModel *model);
 
 @interface CNBlueCommunication : NSObject
 
-//lyh delete
-+ (RespondModel *)parseResponseDataWithParameter:(NSData *)myData;
-
 //监听 蓝牙锁连接状态
 
 + (void)monitorPeriConnectedState:(periConnectedStateBlock)periConnectedState;

@@ -32,10 +32,11 @@
     UIView *maskLineView = [[UIView alloc] init];
     maskLineView.frame = CGRectMake(0, 44, SCREENWIDTH, 1);
     maskLineView.backgroundColor = [UIColor whiteColor];
-    [self.navigationBar addSubview:maskLineView];
+    [bgBiew addSubview:maskLineView];
     
     UIImageView *imageBg = [[UIImageView alloc] init];
     [bgBiew addSubview:imageBg];
+    imageBg.contentMode = UIViewContentModeBottom;
     imageBg.image = [UIImage imageNamed:@"navBg"];
     [imageBg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(bgBiew);
@@ -44,11 +45,13 @@
     UIView *titleView = [[UIView alloc] init];
     [bgBiew addSubview:titleView];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(SCREENWIDTH*300/750.0, 44));
+       // make.size.mas_equalTo(CGSizeMake(SCREENWIDTH*300/750.0, 44));
+        make.size.mas_equalTo(CGSizeMake(150, 44));
         make.centerX.equalTo(bgBiew).with.offset(0);
         //因为 bgView 高48
         make.centerY.equalTo(bgBiew).with.offset(-2);
     }];
+    //70 16 215
     //imageV1:34 27 imageV2:105 28
     UIImageView *imageV1 = [[UIImageView alloc] init];
     imageV1.image = [UIImage imageNamed:@"navImage"];
@@ -56,17 +59,19 @@
     [titleView addSubview:imageV1];
     [imageV1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.height.equalTo(titleView);
-        make.width.mas_equalTo(titleView).multipliedBy(34.0/105);
+        make.width.mas_equalTo(titleView).multipliedBy(70.0/300);
     }];
+    
     UIImageView *imageV2 = [[UIImageView alloc] init];
     imageV2.image = [UIImage imageNamed:@"navTitle"];
-    imageV2.contentMode = UIViewContentModeScaleAspectFit;
+    imageV2.contentMode = UIViewContentModeCenter;
     [titleView addSubview:imageV2];
     [imageV2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(imageV1.mas_right);
         make.top.equalTo(imageV1);
         make.right.height.equalTo(titleView);
+        make.width.mas_equalTo(titleView).multipliedBy(215.0/300);
     }];
+    
     //返回按钮
     backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [bgBiew addSubview:backBtn];

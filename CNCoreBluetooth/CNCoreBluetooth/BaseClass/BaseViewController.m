@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
   
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"取消", nil) style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     leftButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = leftButton;
     
@@ -46,6 +46,7 @@
     lineView.backgroundColor = LINE_COLOR;
     
     _headView.hidden = YES;
+
 }
 
 - (void)backAction{

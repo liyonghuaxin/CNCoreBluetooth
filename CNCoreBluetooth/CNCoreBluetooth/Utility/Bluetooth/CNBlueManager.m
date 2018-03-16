@@ -112,7 +112,7 @@
     //lyh  warning
     if (@available(iOS 10.0, *)) {
         if (self.mgr.state != CBManagerStatePoweredOn) {
-            [CNPromptView showStatusWithString:@"请打开蓝牙"];
+            [CNPromptView showStatusWithString:@"Turn On Bluetooth"];
             return;
         }
     } else {

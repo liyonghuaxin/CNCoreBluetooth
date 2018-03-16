@@ -346,7 +346,8 @@ static periConnectedStateBlock periStateBlock;
                         lockStateBlock(respondModel);
                     }
                 }else{
-                    
+                    //lyh 开锁失败
+                    //[CNPromptView showStatusWithString:@"Lock is Open"];
                 }
                 break;
             }

@@ -390,7 +390,7 @@
     context.localizedFallbackTitle=@"";
     //这个设置的取消按钮的字体
     if (@available(iOS 10.0, *)) {
-        context.localizedCancelTitle=@"取消";
+        //context.localizedCancelTitle=@"取消";
     } else {
         // Fallback on earlier versions
     }
@@ -399,6 +399,7 @@
     NSString* result = @"需要验证您的touch ID";
     //首先使用canEvaluatePolicy 判断设备支持状态
     if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        
         //支持指纹验证
         [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:result reply:^(BOOL success, NSError *error) {
             if (success) {
@@ -447,16 +448,19 @@
         switch (error.code) {
             case LAErrorTouchIDNotEnrolled:
             {
+                [CNPromptView showStatusWithString:@"TouchID is not enrolled"];
                 //NSLog(@"TouchID is not enrolled");
                 break;
             }
             case LAErrorPasscodeNotSet:
             {
+                [CNPromptView showStatusWithString:@"A passcode has not been set"];
                 //NSLog(@"A passcode has not been set");
                 break;
             }
             default:
             {
+                [CNPromptView showStatusWithString:@"TouchID not available"];
                 //NSLog(@"TouchID not available");
                 break;
             }
