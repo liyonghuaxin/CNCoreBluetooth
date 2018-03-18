@@ -60,8 +60,10 @@
     }
 
     blueManager = [CNBlueManager sharedBlueManager];
+    
     self.headView.hidden = NO;
-    self.headImageV.image = [UIImage imageNamed:@"PAIRED-LOCKS"];
+    self.headLable.text = @"PAIRED LOCKS";
+    
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
     [self setRightBtn:rightBtn];
@@ -139,13 +141,14 @@
                         i++;
                     }
                 }
+                //自动登录成功后，最新锁名字已更新到数据库了，在这里刷新列表可以展现最新的名字
                 [weakSelf.myTableView reloadData];
             }
+            //更新连接状态
             for (CNPeripheralModel *model in weakSelf.dataArray) {
                 if ([model.periID isEqualToString:peripheral.identifier.UUIDString]) {
                     model.isConnect = isConnect;
-                    model.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-                    //未连接设备重新连接上
+                    //未连接设备重新连接上,peripheral重新赋值
                     if(model.peripheral == nil){
                         model.peripheral = peripheral;
                     }
@@ -296,7 +299,10 @@
     [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
         if (per) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-            model.periname = [per.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+            NSString *lockName = per.name;
+            [lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+            [lockName stringByReplacingOccurrencesOfString:@" " withString:@""];
+            model.periname = lockName;
             model.periID = per.identifier.UUIDString;
             model.peripheral = per;
             [_alert updateDeviceInfo:model];
@@ -356,6 +362,9 @@
 
 #pragma mark LockCellActionDelegate
 - (void)slideSuccess:(CBPeripheral *)peri{
+    if(peri == nil){
+        return;
+    }
     if(peri.state != CBPeripheralStateConnected){
         //lyh 若已断开，重新连接。 这里要怎么提示吗？
         [blueManager cus_connectPeripheral:peri];

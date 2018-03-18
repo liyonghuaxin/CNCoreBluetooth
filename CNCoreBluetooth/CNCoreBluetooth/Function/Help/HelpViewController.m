@@ -27,8 +27,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self initDataArray];
+    
     self.headView.hidden = NO;
-    self.headImageV.image = [UIImage imageNamed:@"HELP"];
+    self.headLable.text = @"HELP";
     
     _myTableView.tableFooterView = [[UIView alloc] init];
     [_myTableView registerNib:[UINib nibWithNibName:@"HelpCell" bundle:nil] forCellReuseIdentifier:@"HelpCell"];

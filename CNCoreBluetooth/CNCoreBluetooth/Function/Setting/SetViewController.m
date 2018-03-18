@@ -45,7 +45,8 @@
     // Do any additional setup after loading the view from its nib.
     _dataArray = [NSMutableArray array];
     self.headView.hidden = NO;
-    self.headImageV.image = [UIImage imageNamed:@"LOCK-SETTINGS"];
+    self.headLable.text = @"LOCK SETTINGS";
+    
     [_myTableView registerNib:[UINib nibWithNibName:@"SetLockCell" bundle:nil] forCellReuseIdentifier:@"SetLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
 

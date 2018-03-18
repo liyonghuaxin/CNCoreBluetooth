@@ -95,6 +95,17 @@
     }
 }
 
+- (void)disconnectAllPeri{
+    for (CBPeripheral *peripheral in _connectedPeripheralArray) {
+        if (_periConnectedState) {
+            [self.connectedPeripheralArray removeObject:peripheral];
+            [self.connectedLockIDArray removeObject:peripheral.identifier.UUIDString];
+            [_unConnectedLockIDArray addObject:peripheral.identifier.UUIDString];
+            _periConnectedState(peripheral,NO,NO,NO);
+        }
+    }
+}
+
 #pragma mark public API   扫描设备、停止扫描、连接设备、取消连接
 // 开始扫描❤️广播包
 -(void)cus_beginScanPeriPheralFinish:(scanFinishBlock)finish{
@@ -126,9 +137,11 @@
 }
 
 -(void)cus_cancelConnectPeripheral:(CBPeripheral *)peri{
-    NSLog(@"取消连接设备 ： %@",peri.name);
-    if (peri.state == CBPeripheralStateConnected) {
-        [self.mgr cancelPeripheralConnection:peri];
+    if (peri){
+        NSLog(@"取消连接设备 ： %@",peri.name);
+        if (peri.state == CBPeripheralStateConnected) {
+            [self.mgr cancelPeripheralConnection:peri];
+        }
     }
 }
 
@@ -166,6 +179,7 @@
             break;
         case CBCentralManagerStatePoweredOff:
             NSLog(@">>>蓝牙关闭");
+            [self disconnectAllPeri];
             break;
         case CBCentralManagerStatePoweredOn:{
             NSLog(@">>>蓝牙打开");
@@ -195,6 +209,7 @@
  RSSI：信号强度
  */
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
+    
     /*
      查看❤️广播包❤️数据，advertisementData数据：
      kCBAdvDataIsConnectable = 1;
@@ -203,7 +218,7 @@
         1000
      );
      */
-    
+        
     //scanForPeripheralsWithServices扫描的时候已经进行过滤操作过滤
     NSLog(@"=======发现外围设备=======%@",peripheral);
     if (![self.peripheralArray containsObject:peripheral]) {
@@ -374,10 +389,15 @@
         NSData *originData = characteristic.value;
         NSString *responseString = [[NSString alloc] initWithData:originData encoding:NSUTF8StringEncoding];
         NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
-        [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];;
+        if(originData){
+                    [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];
+        }
+    }else{
+        NSLog(@"system error:%@",error.localizedDescription);
     }
     //lyh debug
-    [CNBlueCommunication cbReadData:nil fromPeripheral:peripheral withCharacteristic:characteristic];;
+    //[CNBlueCommunication cbReadData:nil fromPeripheral:peripheral withCharacteristic:characteristic];
+
 }
 //写数据是否成功   对应  CBCharacteristicPropertyWrite
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {

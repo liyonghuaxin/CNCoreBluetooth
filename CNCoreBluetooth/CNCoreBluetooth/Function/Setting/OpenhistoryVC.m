@@ -36,14 +36,7 @@
     dataArray = [NSMutableArray array];
     
     self.headView.hidden = NO;
-    UILabel *label = [[UILabel alloc] init];
-    [self.headView addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.headImageV);
-    }];
-    label.font = TEXT_HEAD_FONT;
-    label.textColor = TEXT_HEAD_COLOR;
-    label.text = @"OPEN HISTORY";
+    self.headLable.text = @"OPEN HISTORY";
     
     [_myTableView registerNib:[UINib nibWithNibName:@"OpenHistoryCell" bundle:nil] forCellReuseIdentifier:@"OpenHistoryCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];

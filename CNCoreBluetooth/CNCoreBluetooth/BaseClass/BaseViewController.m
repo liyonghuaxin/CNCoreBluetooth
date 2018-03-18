@@ -18,25 +18,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-  
+   
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     leftButton.tintColor = [UIColor whiteColor];
     self.navigationItem.leftBarButtonItem = leftButton;
     
     _headView = [[UIView alloc] init];
+    _headView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_headView];
     [_headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view);
+        make.top.equalTo(self.view).with.offset(0);
         make.height.mas_equalTo(50);
     }];
-    _headImageV = [[UIImageView alloc] init];
-    [_headView addSubview:_headImageV];
-    _headImageV.contentMode = UIViewContentModeLeft;
-    [_headImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    _headLable = [[UILabel alloc] init];
+    [self.headView addSubview:_headLable];
+    [_headLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_headView).with.offset(edgeDistancePage);
         make.right.top.bottom.equalTo(_headView);
     }];
+    _headLable.font = TEXT_HEAD_FONT;
+    _headLable.textColor = TEXT_HEAD_COLOR;
+    
     UIView *lineView = [[UIView alloc] init];
     [_headView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -135,9 +135,11 @@ static NSString *setLockMethod = @"SetLockMethod";
     __weak typeof(self) weakself = self;
     if (_lockModel.isAdmin) {
         if (indexPath.row == 1) {
-            ModifyPwdVC *pwd = [[ModifyPwdVC alloc] init];
-            pwd.periModel = _lockModel;
-            [self.navigationController pushViewController:pwd animated:YES];
+            ModifyPwdVC *pwdVC = [[ModifyPwdVC alloc] init];
+            pwdVC.periModel = _lockModel;
+            pwdVC.lockname = _lockModel.periname;
+            pwdVC.pwd = _lockModel.periPwd;
+            [self.navigationController pushViewController:pwdVC animated:YES];
         }else if (indexPath.row == 2){
             OpenhistoryVC *history = [[OpenhistoryVC alloc] init];
             history.lockID = _lockModel.periID;
@@ -343,6 +345,8 @@ static NSString *setLockMethod = @"SetLockMethod";
                         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
                         [self.navigationController popViewControllerAnimated:YES];
+                        self.tabBarController.selectedIndex = 0;
+
                     }else{
                         //lyh debug
                         [CNPromptView showStatusWithString:@"error"];
@@ -360,6 +364,7 @@ static NSString *setLockMethod = @"SetLockMethod";
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
         [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
         [self.navigationController popViewControllerAnimated:YES];
+        self.tabBarController.selectedIndex = 0;
     }
 }
 
@@ -370,15 +375,23 @@ static NSString *setLockMethod = @"SetLockMethod";
     enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
         if ([pwd isEqualToString:_lockModel.periPwd]) {
             //解除配对（不是管理员踢人操作）
-            for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
-                if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
-                    [[CNDataBase sharedDataBase] deletePairedWithIdentifier:peri.identifier.UUIDString];
-                    _lockModel.actionType = ENDelete;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
-                    [self.navigationController popViewControllerAnimated:YES];
-                    break;
-                }
-            }
+//            for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+//                if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
+//                    [[CNDataBase sharedDataBase] deletePairedWithIdentifier:peri.identifier.UUIDString];
+//                    _lockModel.actionType = ENDelete;
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
+//                    [self.navigationController popViewControllerAnimated:YES];
+//                    self.tabBarController.selectedIndex = 0;
+//                    break;
+//                }
+//            }
+            
+            [[CNDataBase sharedDataBase] deletePairedWithIdentifier:_lockModel.periID];
+            _lockModel.actionType = ENDelete;
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
+            [self.navigationController popViewControllerAnimated:YES];
+            self.tabBarController.selectedIndex = 0;
+            
         }else{
             //密码输错提示
             //isShowIncorrectPwd = YES;

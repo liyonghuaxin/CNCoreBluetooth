@@ -103,14 +103,14 @@
     NSString *deviceName = [UIDevice currentDevice].name;
     NSData *data = [deviceName dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableString *resultStr = [[NSMutableString alloc] init];
-    if (data.length<=10) {
+    if (data.length<=20) {
         [resultStr appendString:deviceName];
-        for (int i = 0; i<10-data.length; i++) {
+        for (int i = 0; i<20-data.length; i++) {
             [resultStr appendString:@" "];
         }
         return resultStr;
     }else{
-        return [deviceName subStringByByteLength:10];
+        return [deviceName subStringByByteLength:20];
     }
 }
 

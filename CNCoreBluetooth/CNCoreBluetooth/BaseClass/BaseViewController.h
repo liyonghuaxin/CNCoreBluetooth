@@ -11,8 +11,8 @@
 
 @interface BaseViewController : UIViewController
 
-@property (nonatomic, strong) UIImageView *headImageV;
 @property (nonatomic, strong) UIView *headView;
+@property (nonatomic, strong) UILabel *headLable;
 
 - (void)setRightBtn:(UIButton *)btn;
 - (void)setLeftBtn: (UIButton *)btn;

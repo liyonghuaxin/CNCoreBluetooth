@@ -28,7 +28,8 @@
 @property (nonatomic, copy) NSString *IDAddress;
 //蓝牙锁mac地址
 @property (nonatomic, copy) NSString *lockMacAddress;
-//app 蓝牙名称
+//app名称
+@property (nonatomic, copy) NSString *appName;
+//锁子名称
 @property (nonatomic, copy) NSString *lockName;
-
 @end

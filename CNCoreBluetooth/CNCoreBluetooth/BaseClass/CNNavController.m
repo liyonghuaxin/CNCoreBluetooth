@@ -23,12 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationBar.translucent = NO;    
+    self.navigationBar.translucent = NO;
     
+
     bgBiew = [[UIView alloc] init];
     [self.navigationBar addSubview:bgBiew];
-    bgBiew.frame = CGRectMake(0, 0, SCREENWIDTH, 48);
-    
+    bgBiew.frame = CGRectMake(0, 0, SCREENWIDTH, 48);    
     UIView *maskLineView = [[UIView alloc] init];
     maskLineView.frame = CGRectMake(0, 44, SCREENWIDTH, 1);
     maskLineView.backgroundColor = [UIColor whiteColor];
@@ -36,7 +36,7 @@
     
     UIImageView *imageBg = [[UIImageView alloc] init];
     [bgBiew addSubview:imageBg];
-    imageBg.contentMode = UIViewContentModeBottom;
+    //imageBg.contentMode = UIViewContentModeBottom;
     imageBg.image = [UIImage imageNamed:@"navBg"];
     [imageBg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(bgBiew);

@@ -36,14 +36,7 @@
     dataArray = [NSMutableArray array];
     
     self.headView.hidden = NO;
-    UILabel *label = [[UILabel alloc] init];
-    [self.headView addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.headImageV);
-    }];
-    label.font = TEXT_HEAD_FONT;
-    label.textColor = TEXT_HEAD_COLOR;
-    label.text = @"USER CONTROL";
+    self.headLable.text = @"USER CONTROL";
     
     [_myTableView registerNib:[UINib nibWithNibName:@"UserControlCell" bundle:nil] forCellReuseIdentifier:@"UserControlCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];
@@ -67,6 +60,13 @@
         [CNBlueCommunication cbSendInstruction:ENUnpair toPeripheral:_model.peripheral otherParameter:model.lockMacAddress finish:^(RespondModel *model) {
             if ([model.state intValue] == 1) {
                 //解除配对成功
+                //delete
+                NSIndexSet *indexSet = [dataArray indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    RespondModel *myModel = obj;
+                    return [myModel.lockMacAddress isEqualToString:model.lockIdentifier];
+                }];
+                [dataArray removeObjectsAtIndexes:indexSet];
+                [_myTableView reloadData];
             }
         }];
     };
@@ -85,7 +85,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UserControlCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserControlCell" forIndexPath:indexPath];
     RespondModel *model = dataArray[indexPath.row];
-    cell.nameLab.text = [self adjustLockName:model.lockName];
+    cell.nameLab.text = [self adjustLockName:model.appName];
     cell.conLab.text = [self adjustLockMacAddress:model.lockMacAddress];
     return cell;
 }

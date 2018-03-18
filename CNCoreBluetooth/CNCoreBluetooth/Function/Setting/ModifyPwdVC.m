@@ -12,6 +12,7 @@
 #import "CNBlueManager.h"
 #import "CNDataBase.h"
 #import "CNBlueCommunication.h"
+#import "CommonData.h"
 
 @interface ModifyPwdVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>{
     NSArray *dataArray;
@@ -45,14 +46,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.headView.hidden = NO;
-    UILabel *label = [[UILabel alloc] init];
-    [self.headView addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.headImageV);
-    }];
-    label.font = TEXT_HEAD_FONT;
-    label.textColor = TEXT_HEAD_COLOR;
-    label.text = @"QUICK SAFE";
+    self.headLable.text = @"QUICK SAFE";
     
     dataArray = @[@"Current password",@"",@"New Password",@"Re-Enter Password",];
     
@@ -87,8 +81,12 @@
     keykoardHeight = keyboardRect.size.height;
     
     float footViewheight = 70;
+    if ([CommonData deviceIsIpad]){
+        footViewheight = 200;
+    }
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;
+
     
     offsetHeight = 50*4+footViewheight+keykoardHeight-(SCREENHEIGHT - 64-iPhoneXTopPara-49-iPhoneXBottomPara);
     offsetHeight = offsetHeight>0?offsetHeight:0;
@@ -212,7 +210,6 @@
         //lyh debug
         [CNPromptView showStatusWithString:@"原始密码错误"   withadjustBottomSpace:50];
     }
-    
 }
 
 //保存锁具名称和密码
@@ -221,7 +218,7 @@
         if ([peri.identifier.UUIDString isEqualToString:_periModel.periID]) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
             model.periPwd = pwd1;
-            model.periname = _periModel.periname;
+            model.periname = _lockname;
             [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:model finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
                     //更新内存中密码

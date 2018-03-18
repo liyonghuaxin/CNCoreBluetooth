@@ -75,8 +75,30 @@ static periConnectedStateBlock periStateBlock;
                 //被管理员踢了或旧密码失效两种情况新输入的密码已更新到数据库
                 //正常的自动登录还继续用以前的保存的旧密码
                 [dataStr appendString:localModel.periPwd];
-                //获取密码方式
-                [dataStr appendString:@"0"];
+                
+                BOOL isManual = NO;
+                for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
+                    CBPeripheral *lock = [dic objectForKey:@"device"];
+                    if ([lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+                        isManual = YES;
+                        break;
+                    }
+                }
+                
+                if(isManual){
+                    //获取密码方式
+                    [dataStr appendString:@"1"];
+                    //delete
+                    NSIndexSet *indexSet = [[CommonData sharedCommonData].deviceInfoArr indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        CBPeripheral *lock = [obj objectForKey:@"device"];
+                        return [lock.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString];
+                    }];
+                    [[CommonData sharedCommonData].deviceInfoArr removeObjectsAtIndexes:indexSet];
+                }else{
+                    //获取密码方式
+                    [dataStr appendString:@"0"];
+                }
+
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
             }else{
                 //新配对
@@ -96,6 +118,8 @@ static periConnectedStateBlock periStateBlock;
                 [dataStr appendString:[BlueHelp getCurDeviceName]];
             }
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"======%@",dataStr);
+            NSLog(@"======%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -104,6 +128,8 @@ static periConnectedStateBlock periStateBlock;
             NSMutableString *dataStr = [[NSMutableString alloc] init];
             [dataStr appendString:@"01"];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -116,6 +142,8 @@ static periConnectedStateBlock periStateBlock;
             [dataStr appendString:[BlueHelp adjustLockDeviceName:model.periname]];
             [dataStr appendString:model.periPwd];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -127,6 +155,8 @@ static periConnectedStateBlock periStateBlock;
             NSString *str = para;
             [dataStr appendString:[BlueHelp getLastDateAboutLog:str]];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -136,6 +166,8 @@ static periConnectedStateBlock periStateBlock;
             NSMutableString *dataStr = [[NSMutableString alloc] init];
             [dataStr appendString:@"07"];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -146,6 +178,8 @@ static periConnectedStateBlock periStateBlock;
             [dataStr appendString:@"08"];
             [dataStr appendString:para];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -155,6 +189,8 @@ static periConnectedStateBlock periStateBlock;
             [dataStr appendString:@"C0"];
             [dataStr appendString:@"1"];
             NSData *data = [self getDataPacketWith:dataStr];
+            NSLog(@"%@",dataStr);
+            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -173,6 +209,7 @@ static periConnectedStateBlock periStateBlock;
      -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
      立马响应
      */
+    //lyh debug
     //[peripheral readValueForCharacteristic:characteristic];
     [peripheral writeValue:data forCharacteristic:characteristic  type:type];
 }
@@ -254,7 +291,10 @@ static periConnectedStateBlock periStateBlock;
 +(void)cbReadData:(NSData *)data fromPeripheral:(CBPeripheral *)peripheral withCharacteristic:(CBCharacteristic *)characteristic{
     
     RespondModel *respondModel = [self parseResponseDataWithParameter:data];
-
+    if (respondModel == nil) {
+        return;
+    }
+    
     if (respondModel) {
         switch (respondModel.type) {
             case ENAutoLogin:{
@@ -268,7 +308,11 @@ static periConnectedStateBlock periStateBlock;
                         //连接上设备，数据本地保存
                         CNPeripheralModel *periModel = [[CNPeripheralModel alloc] init];
                         periModel.periID = peripheral.identifier.UUIDString;
-                        periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];;
+                        if(respondModel.lockName){
+                            periModel.periname = respondModel.lockName;
+                        }else{
+                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        }
                         periModel.isAdmin = [respondModel.isadmin intValue];
                         for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
                             CBPeripheral *lock = [dic objectForKey:@"device"];
@@ -283,7 +327,11 @@ static periConnectedStateBlock periStateBlock;
                         [[CNDataBase sharedDataBase] addPeripheralInfo:periModel];
                     }else{
                         periModel.periID = peripheral.identifier.UUIDString;
-                        periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        if(respondModel.lockName){
+                            periModel.periname = respondModel.lockName;
+                        }else{
+                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+                        }
                         periModel.isAdmin = [respondModel.isadmin intValue];
                         periModel.lockState = respondModel.lockState;
                         //密码修改、重新输入密码正确
@@ -398,7 +446,7 @@ static periConnectedStateBlock periStateBlock;
     
     NSString *str8 = @"80001";//同步成功
     //lyh debug
-    int temp = 1;
+    int temp = 1000;
     switch (temp) {
         case 1:
             myData = [self getDataPacketWith:str1];
@@ -448,6 +496,9 @@ static periConnectedStateBlock periStateBlock;
         myData = [myData subdataWithRange:NSMakeRange(0, totalLength)];
     }
     //--------------------解析有效数据包------------------
+    if(myData.length < 18+dataLength){
+        return nil;
+    }
     //获取数据域
     NSData *dataDomain = [myData subdataWithRange:NSMakeRange(18, dataLength)];
     //指令码
@@ -459,6 +510,9 @@ static periConnectedStateBlock periStateBlock;
         resModel.state = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(2, 1)]];
         resModel.lockState = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(3, 1)]];
         resModel.isadmin = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(4, 1)]];
+        resModel.lockName = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(5, 18)]];
+        [resModel.lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+        [resModel.lockName stringByReplacingOccurrencesOfString:@" " withString:@""];
     }else if ([instructionStr isEqualToString:@"81"]){
         //开锁
         resModel.type = ENOpenLock;
@@ -486,8 +540,8 @@ static periConnectedStateBlock periStateBlock;
         resModel.state = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(2, 1)]];
         resModel.lockMacAddress = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(3, 12)]];
         //锁具名称
-        NSString *lock = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(15, 10)]];;
-        resModel.lockName = [lock stringByReplacingOccurrencesOfString:@" " withString:@""];
+        NSString *appName = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(15, 20)]];;
+        resModel.appName = [appName stringByReplacingOccurrencesOfString:@" " withString:@""];
     }else if ([instructionStr isEqualToString:@"88"]){
         //解除配对
         resModel.type = ENUnpair;
@@ -632,8 +686,8 @@ static periConnectedStateBlock periStateBlock;
         resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         resModel.lockMacAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
         //锁具名称
-        NSString *lock = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
-        resModel.lockName = [lock stringByReplacingOccurrencesOfString:@" " withString:@""];
+        NSString *appName = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
+        resModel.appName = [appName stringByReplacingOccurrencesOfString:@" " withString:@""];
     }else if ([instructionStr isEqualToString:@"88"]){
         //解除配对
         resModel.type = ENUnpair;

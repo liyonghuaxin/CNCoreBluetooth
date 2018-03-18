@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *updatePwdBtn;
 @property (strong, nonatomic) IBOutlet UIView *footView;
 @property (strong, nonatomic) CNPeripheralModel *periModel;
-
+@property (copy, nonatomic)NSString *lockname;
+@property (copy,nonatomic)NSString *pwd;
 @end
