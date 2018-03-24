@@ -110,6 +110,11 @@
             cell.nameLab.text = @"Unknown Device";
         }
     }
+    if (model.isConnect) {
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }else{
+        cell.contentView.backgroundColor = [UIColor lightGrayColor];
+    }
     return cell;
 }
 

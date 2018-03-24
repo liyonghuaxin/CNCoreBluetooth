@@ -48,15 +48,17 @@
         _fingerprintImagev.hidden = YES;
     }
     if (model.isConnect) {
+        if ([model.lockState intValue] == 1) {
+            [self updateLockState:YES];
+        }else{
+            [self updateLockState:NO];
+        }
         self.contentView.backgroundColor = [UIColor whiteColor];
     }else{
+        [self updateLockState:NO];
         self.contentView.backgroundColor = [UIColor lightGrayColor];
     }
-    if ([model.lockState intValue] == 1) {
-        [self updateLockState:YES];
-    }else{
-        [self updateLockState:NO];
-    }
+
 }
 
 - (void)sliderValueChanged:(id)sender{

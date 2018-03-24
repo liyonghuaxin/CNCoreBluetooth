@@ -10,7 +10,7 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "CNBlueCommon.h"
 
-typedef void(^scanFinishBlock)(CBPeripheral *per);
+typedef void(^scanFinishBlock)(CBPeripheral *per, NSString *lockName);
 typedef void(^periConnectedStateBlock)(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd);
 
 @interface CNBlueManager : NSObject<CBCentralManagerDelegate,CBPeripheralDelegate>
@@ -47,5 +47,6 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripheral, BOOL isConnect,
 @property (nonatomic,strong) NSMutableArray *connectedLockIDArray;
 //存放已配对但未连接的外设ID
 @property (nonatomic,strong) NSMutableArray *unConnectedLockIDArray;
+@property (nonatomic,strong) NSMutableDictionary *lockInfoDic;
 
 @end

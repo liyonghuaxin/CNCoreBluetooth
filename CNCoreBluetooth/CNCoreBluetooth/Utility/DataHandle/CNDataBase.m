@@ -118,7 +118,9 @@
     NSMutableArray *array = [NSMutableArray array];
     while ([rs next]) {
         NSString *string = [rs stringForColumn:@"peri_id"];
-        [array addObject:string];
+        if (string) {
+            [array addObject:string];
+        }
     }
     [_db close];
     return array;
@@ -154,6 +156,11 @@
 
 - (void)addLog:(RespondModel *)model{
     [_dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
+        NSInteger count = [db intForQuery:@"select count(*) from lockLog"];
+        if (count > 99) {
+            NSString *deleteSql = [NSString stringWithFormat:@"delete from lockLog where id in(select id from lockLog order by log_date desc limit 0,%ld)", count-99];
+            [db executeUpdate:deleteSql];
+        }
         [db executeUpdate:@"INSERT INTO lockLog (log_lockId, log_method, log_date, log_deviceAddress) VALUES (?, ?, ?, ?)",model.lockIdentifier, @(model.lockMethod), model.date, model.IDAddress];
     }];
 }

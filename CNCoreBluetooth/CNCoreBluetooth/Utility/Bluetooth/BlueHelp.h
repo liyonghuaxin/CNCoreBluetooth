@@ -17,5 +17,6 @@
 + (NSData *)getCurDateBytes;
 + (NSString *)getCurDeviceName;
 + (NSString *)adjustLockDeviceName:(NSString *)name;
-
++ (NSDictionary *)getFormatTime:(NSString *)str;
++ (NSString *)getFormatAddress:(NSString *)str;
 @end

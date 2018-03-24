@@ -14,8 +14,6 @@
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
 }
-/** 设备特征值*/
-@property (nonatomic, strong) CBCharacteristic *uartRXCharacteristic;
 //上锁和解锁的characteristic
 @property (nonatomic, strong) CBCharacteristic* lockUnlockCharacteristic;
 
@@ -48,6 +46,7 @@
         manager.connectedPeripheralArray = [NSMutableArray array];
         manager.connectedLockIDArray = [NSMutableArray array];
         manager.unConnectedLockIDArray = [NSMutableArray array];
+        manager.lockInfoDic = [[NSMutableDictionary alloc] init];
     });
     return manager;
 }
@@ -220,6 +219,7 @@
      */
         
     //scanForPeripheralsWithServices扫描的时候已经进行过滤操作过滤
+    NSString *lockName = [advertisementData objectForKey:@"kCBAdvDataLocalName"];
     NSLog(@"=======发现外围设备=======%@",peripheral);
     if (![self.peripheralArray containsObject:peripheral]) {
         [self.peripheralArray addObject:peripheral];
@@ -229,7 +229,10 @@
     CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
     if (periModel == nil) {
         if (_scanFinished) {
-            _scanFinished(peripheral);
+            if (lockName == nil) {
+                lockName = peripheral.name;
+            }
+            _scanFinished(peripheral, lockName);
             //一次只扫一个
             //[self cus_stopScan];
         }
@@ -330,9 +333,9 @@
                 [self notifyCharacteristic:peripheral characteristic:characteristic];
             }
             if([characteristic.UUID.UUIDString isEqualToString:@"FFE1"]){
-                //数据发送
-                self.uartRXCharacteristic = characteristic;
-                [CNBlueCommunication initCharacteristic:characteristic];
+                [self.lockInfoDic setObject:characteristic forKey:peripheral.identifier.UUIDString];
+                [CNBlueCommunication setCharacteristicDic:self.lockInfoDic];
+                //[CNBlueCommunication initCharacteristic:characteristic];
             }
         }
         //描述相关的方法,代理实际项目中没有涉及到,只做了解
@@ -387,8 +390,10 @@
 -(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
     if (!error) {
         NSData *originData = characteristic.value;
-        NSString *responseString = [[NSString alloc] initWithData:originData encoding:NSUTF8StringEncoding];
+  
         NSLog(@"-------来自%@-------收到数据:%@",peripheral.name,originData);
+        NSString *responseString = [[NSString alloc] initWithData:originData encoding:NSUTF8StringEncoding];
+        NSLog(@"=====%@",responseString);
         if(originData){
                     [CNBlueCommunication cbReadData:originData fromPeripheral:peripheral withCharacteristic:characteristic];
         }

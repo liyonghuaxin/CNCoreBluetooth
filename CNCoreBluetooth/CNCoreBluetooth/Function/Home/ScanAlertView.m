@@ -70,9 +70,10 @@
     }
 }
 
--(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri{
-    if (peri.name) {
-        _lockNameLab.text = [peri.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+-(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri withLockName:(NSString *)name{
+    if (name) {
+        _lockNameLab.text = [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        _lockNameLab.text = [name stringByReplacingOccurrencesOfString:@"\0" withString:@""];
     }else{
         _lockNameLab.text = @"Unknown Device";
     }
@@ -183,7 +184,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     CNPeripheralModel *periModel = (CNPeripheralModel *)dataArray[indexPath.row];
     curLock = periModel.peripheral;
-    [self setShowType:AlertEnterPwd WithPeripheral:periModel.peripheral];
+    [self setShowType:AlertEnterPwd WithPeripheral:periModel.peripheral withLockName:periModel.periname];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

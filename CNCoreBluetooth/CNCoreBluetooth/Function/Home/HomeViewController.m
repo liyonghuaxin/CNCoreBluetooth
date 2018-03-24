@@ -55,8 +55,11 @@
     [CommonData sharedCommonData].listPeriArr = _dataArray;
     NSArray *periArr = [[CNDataBase sharedDataBase] searchAllPariedPeris];
     for (CNPeripheralModel *model in periArr) {
-        [_lockIDArray addObject:model.periID];
-        [_dataArray addObject:model];
+        //lyh 删设备造成数据库存在nil数据
+        if (model.periID) {
+            [_lockIDArray addObject:model.periID];
+            [_dataArray addObject:model];
+        }
     }
 
     blueManager = [CNBlueManager sharedBlueManager];
@@ -116,8 +119,9 @@
     //外设连接状态发生变化
     blueManager.periConnectedState = ^(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
         if (isNeedReRnterPwd) {
+            CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
             //密码失效重新输入密码
-            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripheral];
+            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripheral withLockName:periModel.periname];
         }else if (isOpenTimer) {
             //循环自动同步
             [weakSelf addTimer];
@@ -296,12 +300,11 @@
     beginDate = [NSDate date];
     [_alert beginScan];
     //开始搜索外设
-    [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per) {
+    [blueManager cus_beginScanPeriPheralFinish:^(CBPeripheral *per, NSString *lockName) {
         if (per) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
-            NSString *lockName = per.name;
-            [lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
-            [lockName stringByReplacingOccurrencesOfString:@" " withString:@""];
+            lockName =[lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+            lockName =[lockName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             model.periname = lockName;
             model.periID = per.identifier.UUIDString;
             model.peripheral = per;

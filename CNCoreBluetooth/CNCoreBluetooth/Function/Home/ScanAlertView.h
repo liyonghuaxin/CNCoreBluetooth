@@ -24,7 +24,7 @@ typedef enum : NSUInteger {
 - (void)stopScanAnimation;
 
 @property (nonatomic,assign) AlertType showType;
--(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri;
+-(void)setShowType:(AlertType)showType WithPeripheral:(CBPeripheral *)peri withLockName:(NSString *)name;
 - (void)updateDeviceInfo:(CNPeripheralModel *)lockModel;
 @property (nonatomic,copy) void (^alertBlock)(void);
 @property (nonatomic,copy) void (^returnPasswordStringBlock)(NSString *pwd, CBPeripheral *peri);

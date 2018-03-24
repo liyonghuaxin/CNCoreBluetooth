@@ -36,6 +36,7 @@ typedef void(^respondBlock)(RespondModel *model);
 //生成一个本地蓝牙地址
 + (NSString *)makeMyBlueMacAddress;
 + (void)initCharacteristic:(CBCharacteristic *)chara;
++ (void)setCharacteristicDic:(NSMutableDictionary *)dic;
 
 // 获取手机蓝牙mac地址
 + (void)cbGetMacID:(CBPeripheral *)peripheral characteristic:(CBCharacteristic *)characteristic;

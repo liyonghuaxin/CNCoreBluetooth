@@ -30,7 +30,6 @@ extern float lyh;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
     char *str1="absde";
     char str2[]="absde";
     char str3[8]={'a'};

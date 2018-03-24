@@ -85,13 +85,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UserControlCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserControlCell" forIndexPath:indexPath];
     RespondModel *model = dataArray[indexPath.row];
-    cell.nameLab.text = [self adjustLockName:model.appName];
+    cell.nameLab.text = [self adjustAppName:model.appName];
     cell.conLab.text = [self adjustLockMacAddress:model.lockMacAddress];
     return cell;
 }
 
-- (NSString *)adjustLockName:(NSString *)name{
-   return [name stringByReplacingOccurrencesOfString:@" " withString:@""];
+- (NSString *)adjustAppName:(NSString *)name{
+   return [name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 - (NSString *)adjustLockMacAddress:(NSString *)address{

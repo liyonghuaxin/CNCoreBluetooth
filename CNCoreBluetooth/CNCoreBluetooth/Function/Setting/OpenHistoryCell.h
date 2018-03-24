@@ -10,8 +10,9 @@
 
 @interface OpenHistoryCell : BaseCell
 @property (weak, nonatomic) IBOutlet UIImageView *imageV;
-@property (weak, nonatomic) IBOutlet UILabel *conLab;
 @property (weak, nonatomic) IBOutlet UILabel *timeLab;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateLab;
+@property (weak, nonatomic) IBOutlet UILabel *macAddress;
+@property (weak, nonatomic) IBOutlet UILabel *openMethod;
+@property (weak, nonatomic) IBOutlet UILabel *dateLab;
 
 @end

@@ -332,6 +332,8 @@ static NSString *setLockMethod = @"SetLockMethod";
 - (void)updateSetInfo{
     CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
     if (![originalModel.periname isEqualToString:tempModel.periname]) {
+        //如果密码在别的地方已修改，这里传最新的密码
+        tempModel.periPwd = _lockModel.periPwd;
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
                 [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:tempModel finish:^(RespondModel *model) {
@@ -357,15 +359,27 @@ static NSString *setLockMethod = @"SetLockMethod";
         }
     }else{
         //更新数据
-        _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
         _lockModel.openMethod = tempModel.openMethod;
         _lockModel.actionType = ENUpdate;
+        BOOL isTouchUnlock_old = _lockModel.isTouchUnlock;
+        _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
         //不传_lockModel也可以
         [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
         [[CNDataBase sharedDataBase] updatePeripheralInfo:_lockModel];
         [self.navigationController popViewControllerAnimated:YES];
         self.tabBarController.selectedIndex = 0;
+        if (isTouchUnlock_old != tempModel.isTouchUnlock) {
+            for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
+                if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
+                    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
+                        
+                    }];
+                }
+            }
+        }
     }
+
+    
 }
 
 - (void)unPaired{

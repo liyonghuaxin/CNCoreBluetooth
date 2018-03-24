@@ -145,6 +145,7 @@
     switch (indexPath.row) {
         case 0:{
             cell.conTF.text = @"";
+            cell.conTF.secureTextEntry = YES;
             cell.conTF.delegate = self;
             cell.conTF.tag = 1;
             break;

@@ -11,6 +11,7 @@
 #import "CNBlueCommunication.h"
 #import "CNBlueManager.h"
 #import "CNDataBase.h"
+#import "BlueHelp.h"
 
 @interface OpenhistoryVC ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *dataArray;
@@ -51,8 +52,13 @@
         if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
             [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:model.date finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
+                    for (RespondModel *myModel in dataArray) {
+                        if ([myModel.date isEqualToString:model.date]) {
+                            return ;
+                        }
+                    }
                     model.lockIdentifier = _lockID;
-                    [dataArray addObject:model];
+                    [dataArray insertObject:model atIndex:0];
                     [[CNDataBase sharedDataBase] addLog:model];
                     [self.myTableView reloadData];
                 }else{
@@ -71,30 +77,22 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    return 60;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     OpenHistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OpenHistoryCell" forIndexPath:indexPath];
     RespondModel *model = dataArray[indexPath.row];
-    
-    NSMutableString *string = [[NSMutableString alloc] init];
-    //[string appendString:model.IDAddress];
+    NSDictionary *dic = [BlueHelp getFormatTime:model.date];
+    cell.timeLab.text = [dic objectForKey:@"time"];
+    cell.dateLab.text = [dic objectForKey:@"date"];
+    cell.macAddress.text = [BlueHelp getFormatAddress:model.IDAddress];
     if (model.lockMethod == ENRFIDMethod) {
-        [string appendString:@"RFID开锁"];
+        cell.openMethod.text = @"RFID";
     }else if (model.lockMethod == ENTouchMethod){
-        [string appendString:@"触摸开锁"];
+        cell.openMethod.text = @"Touch";
     }else{
-        [string appendString:@"APP开锁"];
-    }
-    [string appendString:model.date];
-    
-    if (indexPath.row%2 == 0) {
-        cell.imageV.image = [UIImage imageNamed:@"lockRedLog"];
-        cell.conLab.text = string;//@"You Locked Quick Safe 1";
-    }else{
-        cell.imageV.image = [UIImage imageNamed:@"lockGreenLog"];
-        cell.conLab.text = string;//@"You Unlocked Quick Safe 1";
+        cell.openMethod.text = @"APP";
     }
     return cell;
 }

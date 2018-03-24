@@ -14,7 +14,7 @@
     //data：2018-02-01 06:29:25 +0000
     NSDate *date = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YY-MM-dd-hh-mm-ss"];
+    [dateFormatter setDateFormat:@"YY-MM-dd-HH-mm-ss"];
     //dateString：18-02-01-02-29   已转为中国时间了
     NSString *dateString = [dateFormatter stringFromDate:date];
     NSArray *time_strs = [dateString componentsSeparatedByString:@"-"];
@@ -127,4 +127,48 @@
         return [name subStringByByteLength:18];
     }
 }
+
++ (NSString *)getFormatAddress:(NSString *)str{
+    if (str.length == 12) {
+        NSMutableString *string = [[NSMutableString alloc] init];
+        for (int i = 0; i<str.length; i=i+2) {
+            if (i == 0) {
+                [string appendString:[str substringWithRange:NSMakeRange(0, 2)]];
+            }else{
+                [string appendString:@":"];
+                [string appendString:[str substringWithRange:NSMakeRange(i, 2)]];
+            }
+        }
+        return string;
+    }else{
+        return str;
+    }
+}
+
++ (NSDictionary *)getFormatTime:(NSString *)str{
+    
+    if (str.length == 12) {
+        NSMutableString *date = [[NSMutableString alloc] init];
+        [date appendString:[str substringWithRange:NSMakeRange(2, 2)]];
+        [date appendString:@"/"];
+        [date appendString:[str substringWithRange:NSMakeRange(4, 2)]];
+        [date appendString:@"/"];
+        [date appendString:[str substringWithRange:NSMakeRange(0, 2)]];
+        
+        NSMutableString *time = [[NSMutableString alloc] init];
+        NSString *hour = [str substringWithRange:NSMakeRange(6, 2)];
+        NSString *minute = [str substringWithRange:NSMakeRange(8, 2)];
+        if ([hour intValue] > 12) {
+            [time appendString:[NSString stringWithFormat:@"%d:%@ PM",[hour intValue]-12, minute]];
+        }else{
+            [time appendString:[NSString stringWithFormat:@"%@:%@ AM",hour, minute]];
+        }
+        NSDictionary *dic = @{@"time":time, @"date":date};
+        return dic;
+    }else{
+        NSDictionary *dic = @{@"time":@"", @"date":@""};
+        return dic;
+    }
+}
+
 @end

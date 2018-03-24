@@ -14,6 +14,7 @@
 #include <math.h>
 
 static CBCharacteristic *blCharacteristic = nil;
+static NSMutableDictionary *blCharacteristicDic = nil;
 static respondBlock openLogBlock;
 static respondBlock lockStateBlock;
 static respondBlock modifyPwdBlock;
@@ -27,6 +28,10 @@ static periConnectedStateBlock periStateBlock;
     if (blCharacteristic == nil) {
         blCharacteristic = chara;
     }
+}
+
++(void)setCharacteristicDic:(NSMutableDictionary *)dic{
+    blCharacteristicDic = dic;
 }
 
 +(void)monitorLockState:(respondBlock)lockState{
@@ -58,6 +63,7 @@ static periConnectedStateBlock periStateBlock;
 }
 #pragma mark ----------发送数据-------------
 + (void)cbSendInstruction:(InstructionEnum)instruction toPeripheral:(CBPeripheral *)peripheral otherParameter:(id)para finish:(respondBlock)finish{
+    blCharacteristic = [blCharacteristicDic objectForKey:peripheral.identifier.UUIDString];
     if (blCharacteristic == nil || peripheral == nil) {
         return;
     }
@@ -142,8 +148,6 @@ static periConnectedStateBlock periStateBlock;
             [dataStr appendString:[BlueHelp adjustLockDeviceName:model.periname]];
             [dataStr appendString:model.periPwd];
             NSData *data = [self getDataPacketWith:dataStr];
-            NSLog(@"%@",dataStr);
-            NSLog(@"%@",data);
             [self cbSendData:data toPeripheral:peripheral withCharacteristic:blCharacteristic];
             break;
         }
@@ -311,7 +315,8 @@ static periConnectedStateBlock periStateBlock;
                         if(respondModel.lockName){
                             periModel.periname = respondModel.lockName;
                         }else{
-                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+                            periModel.periname = [peripheral.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@"\0" withString:@""];
                         }
                         periModel.isAdmin = [respondModel.isadmin intValue];
                         for (NSDictionary *dic in [CommonData sharedCommonData].deviceInfoArr) {
@@ -330,7 +335,8 @@ static periConnectedStateBlock periStateBlock;
                         if(respondModel.lockName){
                             periModel.periname = respondModel.lockName;
                         }else{
-                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+                            periModel.periname = [peripheral.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                            periModel.periname = [peripheral.name stringByReplacingOccurrencesOfString:@"\0" withString:@""];
                         }
                         periModel.isAdmin = [respondModel.isadmin intValue];
                         periModel.lockState = respondModel.lockState;
@@ -354,6 +360,10 @@ static periConnectedStateBlock periStateBlock;
                     if (periStateBlock) {
                         periStateBlock(peripheral, NO, NO, YES);
                     }
+                    if(respondModel.lockName){
+                        periModel.periname = respondModel.lockName;
+                        [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
+                    }
                 }else if([respondModel.state intValue] == 2){
                     //配对密码错误
                     if (!periModel) {
@@ -366,6 +376,10 @@ static periConnectedStateBlock periStateBlock;
                         if (periStateBlock) {
                             periStateBlock(peripheral, NO, NO, YES);
                         }
+                    }
+                    if(respondModel.lockName){
+                        periModel.periname = respondModel.lockName;
+                        [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
                 }else{
                     //密码正确但同步失败
@@ -511,8 +525,8 @@ static periConnectedStateBlock periStateBlock;
         resModel.lockState = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(3, 1)]];
         resModel.isadmin = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(4, 1)]];
         resModel.lockName = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(5, 18)]];
-        [resModel.lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
-        [resModel.lockName stringByReplacingOccurrencesOfString:@" " withString:@""];
+        resModel.lockName = [resModel.lockName stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+        resModel.lockName = [resModel.lockName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }else if ([instructionStr isEqualToString:@"81"]){
         //开锁
         resModel.type = ENOpenLock;
@@ -539,9 +553,8 @@ static periConnectedStateBlock periStateBlock;
         resModel.type = ENLookHasPair;
         resModel.state = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(2, 1)]];
         resModel.lockMacAddress = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(3, 12)]];
-        //锁具名称
         NSString *appName = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(15, 20)]];;
-        resModel.appName = [appName stringByReplacingOccurrencesOfString:@" " withString:@""];
+        resModel.appName = [appName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }else if ([instructionStr isEqualToString:@"88"]){
         //解除配对
         resModel.type = ENUnpair;
@@ -685,9 +698,8 @@ static periConnectedStateBlock periStateBlock;
         resModel.type = ENLookHasPair;
         resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
         resModel.lockMacAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
-        //锁具名称
         NSString *appName = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
-        resModel.appName = [appName stringByReplacingOccurrencesOfString:@" " withString:@""];
+        resModel.appName = [appName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     }else if ([instructionStr isEqualToString:@"88"]){
         //解除配对
         resModel.type = ENUnpair;
