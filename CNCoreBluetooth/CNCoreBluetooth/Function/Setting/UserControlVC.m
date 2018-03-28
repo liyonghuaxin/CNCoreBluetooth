@@ -11,6 +11,7 @@
 #import "CNBlueCommunication.h"
 #import "CNBlueCommunication.h"
 #import "DeleteUnpairAlert.h"
+#import "EnterPwdAlert.h"
 
 @interface UserControlVC ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *dataArray;
@@ -54,24 +55,44 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    __weak typeof(self) weakself = self;
     DeleteUnpairAlert *alert = [[NSBundle mainBundle] loadNibNamed:@"DeleteUnpairAlert" owner:self options:nil][0];
     alert.unpairedBlock = ^{
-        RespondModel *model = dataArray[indexPath.row];
-        [CNBlueCommunication cbSendInstruction:ENUnpair toPeripheral:_model.peripheral otherParameter:model.lockMacAddress finish:^(RespondModel *model) {
-            if ([model.state intValue] == 1) {
-                //解除配对成功
-                //delete
-                NSIndexSet *indexSet = [dataArray indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    RespondModel *myModel = obj;
-                    return [myModel.lockMacAddress isEqualToString:model.lockIdentifier];
-                }];
-                [dataArray removeObjectsAtIndexes:indexSet];
-                [_myTableView reloadData];
+        RespondModel *curModel = dataArray[indexPath.row];
+
+        //弹出输入密码框
+        EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
+        enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        __weak typeof(self) weakself = self;
+        enterAlert.returnPasswordStringBlock = ^(NSString *pwd) {
+            if ([pwd isEqualToString:_model.periPwd]) {
+                [weakself deleteDevice:curModel];
+            }else{
+                //密码输错提示
+                //isShowIncorrectPwd = YES;
+                [CNPromptView showStatusWithString:@"Incorrect Password"  withadjustBottomSpace:0];
             }
-        }];
+        };
+        [enterAlert showWithName:weakself.model.periname];
     };
     alert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
     [[UIApplication sharedApplication].keyWindow addSubview:alert];
+}
+
+
+- (void)deleteDevice:(RespondModel *)curModel{
+    [CNBlueCommunication cbSendInstruction:ENUnpair toPeripheral:_model.peripheral otherParameter:curModel.lockMacAddress finish:^(RespondModel *model) {
+        if ([model.state intValue] == 1) {
+            //解除配对成功
+            //delete
+            NSIndexSet *indexSet = [dataArray indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                RespondModel *myModel = obj;
+                return [myModel.lockMacAddress isEqualToString:curModel.lockMacAddress];
+            }];
+            [dataArray removeObjectsAtIndexes:indexSet];
+            [_myTableView reloadData];
+        }
+    }];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

@@ -307,8 +307,8 @@ static periConnectedStateBlock periStateBlock;
                 if ([respondModel.state intValue] == 0) {
                     //登录成功
                     [[CommonData sharedCommonData].reportIDArr removeObject:peripheral.identifier.UUIDString];
+                    [CNPromptView showStatusWithString:@"Lock Paired"];
                     if (!periModel) {
-                        [CNPromptView showStatusWithString:@"Lock Paired"];
                         //连接上设备，数据本地保存
                         CNPeripheralModel *periModel = [[CNPeripheralModel alloc] init];
                         periModel.periID = peripheral.identifier.UUIDString;
@@ -367,7 +367,7 @@ static periConnectedStateBlock periStateBlock;
                 }else if([respondModel.state intValue] == 2){
                     //配对密码错误
                     if (!periModel) {
-                        [CNPromptView showStatusWithString:@"Lock Unpaired"];
+                        [CNPromptView showStatusWithString:@"Incorrect Password"];
                         if (periStateBlock) {
                             periStateBlock(peripheral, NO, NO, NO);
                         }

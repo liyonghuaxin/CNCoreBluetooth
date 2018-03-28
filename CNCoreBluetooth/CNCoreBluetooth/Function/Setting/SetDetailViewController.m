@@ -331,6 +331,7 @@ static NSString *setLockMethod = @"SetLockMethod";
 //保存锁具名称和密码
 - (void)updateSetInfo{
     CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
+    [CNPromptView showStatusWithString:@"Setting Saved"];
     if (![originalModel.periname isEqualToString:tempModel.periname]) {
         //如果密码在别的地方已修改，这里传最新的密码
         tempModel.periPwd = _lockModel.periPwd;
