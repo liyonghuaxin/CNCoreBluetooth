@@ -26,7 +26,7 @@
     }
     return strlength;
 }
-- (NSString *)subStringByByteLength:(NSInteger)Len{
+- (NSString *)subStringByByteLength:(NSInteger)Len withPara:(NSString *)para{
     
     NSString *tempStr = [[NSString alloc] init];
     if ([self getByteNum] <= Len) {
@@ -48,7 +48,7 @@
     NSMutableString *resultStr = [[NSMutableString alloc] init];
     [resultStr appendString:tempStr];
     for (int i = 0; i <Len-[tempStr getByteNum]; i++) {
-        [resultStr appendString:@" "];
+        [resultStr appendString:para];
     }
     return resultStr;
 }

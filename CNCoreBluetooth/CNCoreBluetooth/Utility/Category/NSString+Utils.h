@@ -14,7 +14,7 @@
 - (int)getByteNum;
 
 //从字符串中截取指定字节数
-- (NSString *)subStringByByteLength:(NSInteger)Len;
+- (NSString *)subStringByByteLength:(NSInteger)Len withPara:(NSString *)para;
 
 /**
  *  去除字符串两边的空格

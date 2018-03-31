@@ -204,12 +204,12 @@
         }else{
             //两次密码不一致 或 密码位数错误
             //lyh debug
-            [CNPromptView showStatusWithString:@"error"   withadjustBottomSpace:50];
+            [CNPromptView showStatusWithString:@"Inconsistent Passwordr"   withadjustBottomSpace:50];
         }
     }else{
         //原始密码错误
         //lyh debug
-        [CNPromptView showStatusWithString:@"原始密码错误"   withadjustBottomSpace:50];
+        [CNPromptView showStatusWithString:@"Incorrect Current Password"   withadjustBottomSpace:50];
     }
 }
 

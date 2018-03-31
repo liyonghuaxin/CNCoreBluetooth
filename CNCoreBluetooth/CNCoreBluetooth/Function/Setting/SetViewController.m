@@ -101,8 +101,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SetLockCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SetLockCell" forIndexPath:indexPath];
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
-    if ([model.periname isEqualToString:@"Quick Safe"]) {
-        cell.nameLab.text = [NSString stringWithFormat:@"Quick Safe %ld",indexPath.row+1];
+    if ([model.periname isEqualToString:@"QuickSafe"]) {
+        cell.nameLab.text = [NSString stringWithFormat:@"QuickSafe %ld",indexPath.row+1];
     }else{
         if (model.periname) {
             cell.nameLab.text = model.periname;

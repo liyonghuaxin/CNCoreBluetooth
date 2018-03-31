@@ -283,7 +283,7 @@
     if (_periConnectedState) {
         _periConnectedState(peripheral,NO,NO,NO);
     }
-    
+    //lyh 注意：手动输入密码错误，这里会循环的重连
     //[self.mgr connectPeripheral:peripheral options:nil];
     NSLog(@"-❌❌❌❌❌❌❌❌-----失去和设备%@的连接-------",peripheral.name);
 }
@@ -348,7 +348,11 @@
 //    }
     
     //自动登录
-    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:nil];
+    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:^(RespondModel *model) {
+        if ([model.state intValue] == 0) {
+            [CNPromptView showStatusWithString:@"Lock Paired"];
+        }
+    }];
     //app端自动登录成功才认为真正连接上
     [CNBlueCommunication monitorPeriConnectedState:^(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
         if (isNeedReRnterPwd) {

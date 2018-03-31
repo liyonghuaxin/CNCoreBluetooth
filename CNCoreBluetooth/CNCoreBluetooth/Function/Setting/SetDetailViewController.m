@@ -384,6 +384,13 @@ static NSString *setLockMethod = @"SetLockMethod";
 }
 
 - (void)unPaired{
+    [[CNDataBase sharedDataBase] deletePairedWithIdentifier:_lockModel.periID];
+    _lockModel.actionType = ENDelete;
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotificationReload object:_lockModel];
+    [self.navigationController popViewControllerAnimated:YES];
+    self.tabBarController.selectedIndex = 0;
+    return;
+    
     //弹出输入密码框
     EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
     enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);

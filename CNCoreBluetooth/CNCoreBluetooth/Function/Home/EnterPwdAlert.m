@@ -37,6 +37,7 @@
     [self.assistTF addTarget:self action:@selector(txchange:) forControlEvents:UIControlEventEditingChanged];
     
 }
+
 -(void)showWithName:(NSString *)name{
     self.hidden = NO;
     if (name) {
@@ -54,6 +55,7 @@
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     [self.assistTF becomeFirstResponder];
 }
+
 - (void)txchange:(UITextField *)tx{
     NSString *password = tx.text;
     for (int i = 0; i < 6; i++){
@@ -65,6 +67,7 @@
             pwdtx.text = pwd;
         }
     }
+    
     // 输入密码完毕
     if (password.length == 6){
         self.hidden = YES;
@@ -78,4 +81,5 @@
 - (IBAction)cancel:(id)sender {
     [self removeFromSuperview];
 }
+
 @end

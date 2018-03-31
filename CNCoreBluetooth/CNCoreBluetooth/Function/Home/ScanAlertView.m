@@ -7,6 +7,7 @@
 //
 
 #import "ScanAlertView.h"
+#import "CNBlueManager.h"
 
 @interface ScanAlertView()<UITableViewDelegate,UITableViewDataSource>{
     BOOL canDismiss;
@@ -181,6 +182,7 @@
 #pragma mark taleview delegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [[CNBlueManager sharedBlueManager] cus_stopScan];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     CNPeripheralModel *periModel = (CNPeripheralModel *)dataArray[indexPath.row];
     curLock = periModel.peripheral;

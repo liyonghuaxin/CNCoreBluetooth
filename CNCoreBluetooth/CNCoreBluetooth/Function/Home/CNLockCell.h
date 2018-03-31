@@ -27,5 +27,6 @@
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UIImageView *fingerprintImagev;
 @property (weak, nonatomic) IBOutlet UILabel *pwdLab;
+@property (weak, nonatomic) IBOutlet UILabel *errorPwdLab;
 
 @end

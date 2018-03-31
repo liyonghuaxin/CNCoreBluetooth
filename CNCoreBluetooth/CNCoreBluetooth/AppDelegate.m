@@ -18,6 +18,7 @@
 #import "CommonData.h"
 #import "CNNavController.h"
 #import "BlueHelp.h"
+#include <stdio.h>
 
 extern float lyh;
 

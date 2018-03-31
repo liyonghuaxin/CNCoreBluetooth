@@ -15,12 +15,14 @@
 
 static CBCharacteristic *blCharacteristic = nil;
 static NSMutableDictionary *blCharacteristicDic = nil;
+static respondBlock autoLoginBlock;
 static respondBlock openLogBlock;
 static respondBlock lockStateBlock;
 static respondBlock modifyPwdBlock;
 static respondBlock pairedLockLogBlock;
 static respondBlock unpairBlock;
 static periConnectedStateBlock periStateBlock;
+static NSDate  *getLoginConDate;
 
 @implementation CNBlueCommunication
 
@@ -70,6 +72,7 @@ static periConnectedStateBlock periStateBlock;
     CNPeripheralModel *localModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
     switch (instruction) {
         case ENAutoLogin:{
+            autoLoginBlock = finish;
             //自动登录
             NSMutableString *dataStr = [[NSMutableString alloc] init];
             [dataStr appendString:@"00"];
@@ -307,7 +310,6 @@ static periConnectedStateBlock periStateBlock;
                 if ([respondModel.state intValue] == 0) {
                     //登录成功
                     [[CommonData sharedCommonData].reportIDArr removeObject:peripheral.identifier.UUIDString];
-                    [CNPromptView showStatusWithString:@"Lock Paired"];
                     if (!periModel) {
                         //连接上设备，数据本地保存
                         CNPeripheralModel *periModel = [[CNPeripheralModel alloc] init];
@@ -365,8 +367,8 @@ static periConnectedStateBlock periStateBlock;
                         [[CNDataBase sharedDataBase] updatePeripheralInfo:periModel];
                     }
                 }else if([respondModel.state intValue] == 2){
-                    //配对密码错误
                     if (!periModel) {
+                        //配对密码错误
                         [CNPromptView showStatusWithString:@"Incorrect Password"];
                         if (periStateBlock) {
                             periStateBlock(peripheral, NO, NO, NO);
@@ -386,6 +388,9 @@ static periConnectedStateBlock periStateBlock;
                     if (periStateBlock) {
                         periStateBlock(peripheral, YES, YES, NO);
                     }
+                }
+                if (autoLoginBlock) {
+                    autoLoginBlock(respondModel);
                 }
                 break;
             }

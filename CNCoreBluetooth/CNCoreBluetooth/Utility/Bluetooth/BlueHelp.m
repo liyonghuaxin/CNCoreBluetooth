@@ -110,7 +110,7 @@
         }
         return resultStr;
     }else{
-        return [deviceName subStringByByteLength:20];
+        return [deviceName subStringByByteLength:20 withPara:@" "];
     }
 }
 
@@ -120,11 +120,11 @@
     if (data.length<=18) {
         [resultStr appendString:name];
         for (int i = 0; i<18-data.length; i++) {
-            [resultStr appendString:@" "];
+            [resultStr appendString:@"\0"];
         }
         return resultStr;
     }else{
-        return [name subStringByByteLength:18];
+        return [name subStringByByteLength:18 withPara:@"\0"];
     }
 }
 

@@ -54,7 +54,11 @@
             [self updateLockState:NO];
         }
         self.contentView.backgroundColor = [UIColor whiteColor];
+        self.errorPwdLab.hidden = YES;
     }else{
+        if ([[CommonData sharedCommonData].canConnectLockIDArr containsObject:model.periID]) {
+            self.errorPwdLab.hidden = NO;
+        }
         [self updateLockState:NO];
         self.contentView.backgroundColor = [UIColor lightGrayColor];
     }

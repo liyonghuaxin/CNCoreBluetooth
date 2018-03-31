@@ -20,8 +20,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="362" height="135.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quick Safe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDd-Kh-hfe">
-                        <rect key="frame" x="29" y="30" width="112.5" height="29"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QuickSafe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDd-Kh-hfe">
+                        <rect key="frame" x="29" y="30" width="107" height="29"/>
                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -83,6 +83,12 @@
                             <constraint firstAttribute="width" constant="40" id="kw5-oG-taq"/>
                         </constraints>
                     </imageView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid Password" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="glB-0d-9pG">
+                        <rect key="frame" x="160.5" y="108.5" width="113.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.70197886228561401" green="0.12411133199930191" blue="0.14018985629081726" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="u2z-IV-vVK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="2Ui-Yf-8qP"/>
@@ -96,6 +102,8 @@
                     <constraint firstItem="u2z-IV-vVK" firstAttribute="centerY" secondItem="Vt3-2I-zAg" secondAttribute="centerY" id="FBu-Uf-Exa"/>
                     <constraint firstItem="by4-ar-OeJ" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="30:375" id="FbL-nu-NYa"/>
                     <constraint firstItem="by4-ar-OeJ" firstAttribute="centerY" secondItem="hDd-Kh-hfe" secondAttribute="centerY" id="HtB-M8-HI3"/>
+                    <constraint firstItem="glB-0d-9pG" firstAttribute="trailing" secondItem="Ood-xE-9jq" secondAttribute="trailing" id="KJ3-95-BDQ"/>
+                    <constraint firstAttribute="bottom" secondItem="glB-0d-9pG" secondAttribute="bottom" constant="9" id="KaJ-Kq-9vh"/>
                     <constraint firstAttribute="trailing" secondItem="IdT-Ff-4i3" secondAttribute="trailing" id="L9k-23-jiy"/>
                     <constraint firstItem="BOK-1j-ynH" firstAttribute="bottom" secondItem="hDd-Kh-hfe" secondAttribute="bottom" constant="-2" id="MFX-tT-HW9"/>
                     <constraint firstItem="Ood-xE-9jq" firstAttribute="leading" secondItem="Vt3-2I-zAg" secondAttribute="trailing" constant="5" id="NCb-9X-Ug4"/>
@@ -114,6 +122,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="errorPwdLab" destination="glB-0d-9pG" id="WtC-FZ-G7M"/>
                 <outlet property="fingerprintImagev" destination="Dx2-GB-gS2" id="A4O-Uc-oOt"/>
                 <outlet property="lockLeft" destination="Vt3-2I-zAg" id="aQ5-SA-OVm"/>
                 <outlet property="lockNameLab" destination="hDd-Kh-hfe" id="eS6-L2-TWc"/>

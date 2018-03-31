@@ -28,6 +28,7 @@
 @property (nonatomic,strong) NSMutableArray *lockIDArray;
 @property (nonatomic,strong) ScanAlertView *alert;
 @property (nonatomic,strong) NSTimer *myTimer;
+@property (nonatomic,copy) NSString *curPeriID;
 
 @end
 
@@ -39,9 +40,9 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (blueManager.unConnectedLockIDArray.count) {
-        [blueManager connectAllPairedLock];
-    }
+//    if (blueManager.unConnectedLockIDArray.count) {
+//        [blueManager connectAllPairedLock];
+//    }
 }
 
 - (void)viewDidLoad {
@@ -119,14 +120,24 @@
     //外设连接状态发生变化
     blueManager.periConnectedState = ^(CBPeripheral *peripheral, BOOL isConnect, BOOL isOpenTimer, BOOL isNeedReRnterPwd) {
         if (isNeedReRnterPwd) {
-            CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
-            //密码失效重新输入密码
-            [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripheral withLockName:periModel.periname];
+            if (weakSelf.curPeriID) {
+                CNPeripheralModel *periModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
+                //密码失效重新输入密码
+                [weakSelf.alert setShowType:AlertEnterPwd WithPeripheral:peripheral withLockName:periModel.periname];
+                weakSelf.curPeriID = nil;
+            }else{
+                if (![[CommonData sharedCommonData].canConnectLockIDArr containsObject:peripheral.identifier.UUIDString]) {
+                    [[CommonData sharedCommonData].canConnectLockIDArr addObject:peripheral.identifier.UUIDString];
+                }
+            }
         }else if (isOpenTimer) {
             //循环自动同步
             [weakSelf addTimer];
         }else{
             if (isConnect) {
+                if ([[CommonData sharedCommonData].canConnectLockIDArr containsObject:peripheral.identifier.UUIDString]) {
+                    [[CommonData sharedCommonData].canConnectLockIDArr removeObject:peripheral.identifier.UUIDString];
+                }
                 //更新列表
                 CNPeripheralModel *model =  [[CNDataBase sharedDataBase] searchPeripheralInfo:peripheral.identifier.UUIDString];
                 model.isConnect = isConnect;
@@ -159,6 +170,16 @@
                     break;
                 }
             }
+            //已连接在上，未连接在下
+            [weakSelf.dataArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                CNPeripheralModel *ojg11 = (CNPeripheralModel *)obj1;
+                CNPeripheralModel *ojg22 = (CNPeripheralModel *)obj2;
+                if (ojg11.isConnect && !ojg22.isConnect) {
+                    return NSOrderedAscending;
+                }else{
+                    return NSOrderedDescending;
+                }
+            }];
             [weakSelf.myTableView reloadData];
         }
     };
@@ -230,7 +251,11 @@
     for (NSString *idStr in [CommonData sharedCommonData].reportIDArr) {
         for (CBPeripheral *peri in blueManager.connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:idStr]) {
-                [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:nil];
+                [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
+                    if ([model.state intValue] == 0) {
+                        [CNPromptView showStatusWithString:@"Lock Paired"];
+                    }
+                }];
             }
         }
     }
@@ -337,7 +362,14 @@
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
+    if (model.peripheral) {
+        if (model.peripheral.state == CBPeripheralStateDisconnected) {
+            self.curPeriID = model.peripheral.identifier.UUIDString;
+            [[CNBlueManager sharedBlueManager] cus_connectPeripheral:model.peripheral];
+        }
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 136;
@@ -351,8 +383,8 @@
     cell.delegate = self;
     CNPeripheralModel *model = (CNPeripheralModel *)_dataArray[indexPath.row];
     cell.model = model;
-    if ([model.periname isEqualToString:@"Quick Safe"]) {
-        cell.lockNameLab.text = [NSString stringWithFormat:@"Quick Safe %ld",indexPath.row+1];
+    if ([model.periname isEqualToString:@"QuickSafe"]) {
+        cell.lockNameLab.text = [NSString stringWithFormat:@"QuickSafe %d",indexPath.row+1];
     }else{
         if (model.periname) {
             cell.lockNameLab.text = model.periname;
@@ -408,7 +440,7 @@
     }
     //错误对象
     NSError* error = nil;
-    NSString* result = @"需要验证您的touch ID";
+    NSString* result = @"Validate the touch ID";
     //首先使用canEvaluatePolicy 判断设备支持状态
     if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
         
