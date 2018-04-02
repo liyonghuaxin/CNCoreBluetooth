@@ -24,7 +24,7 @@ typedef void(^periConnectedStateBlock)(CBPeripheral *peripheral, BOOL isConnect,
 
 - (void)cus_connectPeripheral:(CBPeripheral *)peri;
 - (void)cus_cancelConnectPeripheral:(CBPeripheral *)peri;
-
+- (void)disconnectAllPeri;
 - (void)connectAllPairedLock;
 /**
  app发送指令

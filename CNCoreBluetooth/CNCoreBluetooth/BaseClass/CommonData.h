@@ -37,4 +37,6 @@ typedef enum : NSUInteger {
 //打开app走的远了、或者未及时输入密码，被别人占用都会出问题
 @property (nonatomic,strong) NSMutableArray *canConnectLockIDArr;
 
+@property (nonatomic, strong) NSMutableArray *reportArr;
+
 @end

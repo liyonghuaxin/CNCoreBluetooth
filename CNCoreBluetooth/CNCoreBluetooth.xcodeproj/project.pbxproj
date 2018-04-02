@@ -76,6 +76,7 @@
 		18C3A680201AB10600999678 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C3A67E201AB10600999678 /* LaunchScreen.storyboard */; };
 		18C3A683201AB10600999678 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A682201AB10600999678 /* main.m */; };
 		18C3A68D201AB10600999678 /* CNCoreBluetoothUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */; };
+		18CA9A8A206F819B00D903A5 /* WeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA9A89206F819B00D903A5 /* WeakModel.m */; };
 		7703C1B32B53266D2DBFDCC0 /* libPods-CNCoreBluetooth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,8 @@
 		18C3A688201AB10600999678 /* CNCoreBluetoothUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CNCoreBluetoothUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18C3A68C201AB10600999678 /* CNCoreBluetoothUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CNCoreBluetoothUITests.m; sourceTree = "<group>"; };
 		18C3A68E201AB10600999678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18CA9A88206F819B00D903A5 /* WeakModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakModel.h; sourceTree = "<group>"; };
+		18CA9A89206F819B00D903A5 /* WeakModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakModel.m; sourceTree = "<group>"; };
 		552EB7769CEF286813A857E9 /* Pods-CNCoreBluetooth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.release.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.release.xcconfig"; sourceTree = "<group>"; };
 		C7C971532DED831BDA9F16F6 /* Pods-CNCoreBluetooth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CNCoreBluetooth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CNCoreBluetooth/Pods-CNCoreBluetooth.debug.xcconfig"; sourceTree = "<group>"; };
 		F67CEB15F66AF85FFA8E4DFD /* libPods-CNCoreBluetooth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CNCoreBluetooth.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -406,6 +409,8 @@
 				1810A6E920229841001487B0 /* CNBlueCommunication.m */,
 				18A4B4B4202D5FA500725545 /* BlueHelp.h */,
 				18A4B4B5202D5FA500725545 /* BlueHelp.m */,
+				18CA9A88206F819B00D903A5 /* WeakModel.h */,
+				18CA9A89206F819B00D903A5 /* WeakModel.m */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -709,6 +714,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				186FCD702020577300A16E87 /* CNPeripheralModel.m in Sources */,
+				18CA9A8A206F819B00D903A5 /* WeakModel.m in Sources */,
 				18262A1A20297BB6004DE2B2 /* SetDetailCell.m in Sources */,
 				182629E820274E11004DE2B2 /* BaseViewController.m in Sources */,
 				1810A6CB2021591F001487B0 /* SetLockCell.m in Sources */,

@@ -10,6 +10,7 @@
 #import "SVProgressHUD.h"
 #import "CNBlueCommunication.h"
 #import "CNDataBase.h"
+#import "WeakModel.h"
 
 @interface CNBlueManager(){
     scanFinishBlock _scanFinished;
@@ -95,7 +96,8 @@
 }
 
 - (void)disconnectAllPeri{
-    for (CBPeripheral *peripheral in _connectedPeripheralArray) {
+    NSArray *tempArr = [NSArray arrayWithArray:_connectedLockIDArray];
+    for (CBPeripheral *peripheral in tempArr) {
         if (_periConnectedState) {
             [self.connectedPeripheralArray removeObject:peripheral];
             [self.connectedLockIDArray removeObject:peripheral.identifier.UUIDString];
@@ -346,7 +348,29 @@
 //    if (_periConnectedState) {
 //        _periConnectedState(peripheral,YES);
 //    }
+
     
+//    NSIndexSet *indexSet = [[CommonData sharedCommonData].deviceInfoArr indexesOfObjectsPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        ReportModel *portModel = (ReportModel *)obj;
+//        return [portModel.lockID isEqualToString:peripheral.identifier.UUIDString];
+//    }];
+//    if (indexSet.count) {
+//
+//    }else{
+//        ReportModel *portModel = [[ReportModel alloc] init];
+//        portModel.lockID = peripheral.identifier.UUIDString;
+//        portModel.sendDate = [NSDate date];
+//        portModel.peri = peripheral;
+//        [[CommonData sharedCommonData].deviceInfoArr addObject:portModel];
+//    }
+
+
+//    WeakModel *weakModel = [[WeakModel alloc] init];
+//    weakModel.sendDate = [NSDate date];
+//    weakModel.peri = peripheral;
+//    weakModel.lockID = [NSString stringWithFormat:@"%d",i];
+//    [weakModel beginWeak];
+
     //自动登录
     [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peripheral otherParameter:nil finish:^(RespondModel *model) {
         if ([model.state intValue] == 0) {
@@ -413,7 +437,6 @@
     if (error) {
         NSLog(@"APP发送数据失败:%@",error.localizedDescription);
     } else {
-        //lyh 要写吗
         //[self.cbperipheral readValueForCharacteristic:self.cbchar];
         NSLog(@"APP向设备发送数据成功");
     }

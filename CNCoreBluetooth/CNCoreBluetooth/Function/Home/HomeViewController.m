@@ -40,9 +40,17 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    if (blueManager.unConnectedLockIDArray.count) {
-//        [blueManager connectAllPairedLock];
-//    }
+}
+
+-(void)rotate{
+    if ([CommonData deviceIsIpad]) {
+        UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+        rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 }
 
 - (void)viewDidLoad {
@@ -68,10 +76,19 @@
     self.headView.hidden = NO;
     self.headLable.text = @"PAIRED LOCKS";
     
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
-    [self setRightBtn:rightBtn];
-    [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    if ([CommonData deviceIsIpad]) {
+        UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+        rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }else{
+        UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
+        [self setRightBtn:rightBtn];
+        [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+    }
 
     [_myTableView registerNib:[UINib nibWithNibName:@"CNLockCell" bundle:nil] forCellReuseIdentifier:@"CNLockCell"];
     _myTableView.tableFooterView = [[UIView alloc] init];

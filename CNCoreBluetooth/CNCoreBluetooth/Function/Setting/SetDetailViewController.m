@@ -372,9 +372,7 @@ static NSString *setLockMethod = @"SetLockMethod";
         if (isTouchUnlock_old != tempModel.isTouchUnlock) {
             for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
                 if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
-                    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:^(RespondModel *model) {
-                        
-                    }];
+                    [CNBlueCommunication cbSendInstruction:ENAutoLogin toPeripheral:peri otherParameter:nil finish:nil];
                 }
             }
         }

@@ -18,9 +18,6 @@
 #import "CommonData.h"
 #import "CNNavController.h"
 #import "BlueHelp.h"
-#include <stdio.h>
-
-extern float lyh;
 
 @interface AppDelegate ()
 
@@ -28,34 +25,8 @@ extern float lyh;
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    char *str1="absde";
-    char str2[]="absde";
-    char str3[8]={'a'};
-    char ss[] = "0123456789";
-    
-    int a1 = sizeof(str1);
-    int a2 = sizeof(str2);
-    int a3 = sizeof(str3);
-    int a4 = sizeof(ss);
-        
-    char a = 'B';
-    char b = '1';
-    int c = 0x18;
-
-    int num = a+b+c;//66 49  24
-    
-    Byte byte[] = {a, b, c};
-    NSData *data = [NSData dataWithBytes:byte length:3];
-    
-    NSString *string = @"B1\x18";
-    NSData *data2 = [string dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSString *string3 = [BlueHelp getCurDateByBCDEncode];
-    NSData *data3 = [string3 dataUsingEncoding:NSUTF8StringEncoding];
-    
     if (kDevice_Is_iPhoneX) {
         iPhoneXTopPara = 24;
         iPhoneXBottomPara = 34;

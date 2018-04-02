@@ -11,7 +11,6 @@
 #import "RespondModel.h"
 #import "BlueHelp.h"
 #import "CNDataBase.h"
-#include <math.h>
 
 static CBCharacteristic *blCharacteristic = nil;
 static NSMutableDictionary *blCharacteristicDic = nil;

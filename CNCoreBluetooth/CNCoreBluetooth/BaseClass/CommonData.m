@@ -25,6 +25,7 @@ Boolean isopen = false;
         data.reportIDArr = [NSMutableArray array];
         data.deviceInfoArr = [NSMutableArray array];
         data.canConnectLockIDArr = [NSMutableArray array];
+        data.reportArr = [NSMutableArray array];
     });
     return data;
 }
