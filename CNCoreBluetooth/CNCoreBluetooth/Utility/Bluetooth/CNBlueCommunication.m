@@ -553,8 +553,10 @@ static NSDate  *getLoginConDate;
         //开锁方式 1RFID2触摸3APP
         resModel.lockMethod = [[self stringFromData:[dataDomain subdataWithRange:NSMakeRange(3, 1)]] intValue];
         //时间bcd编码
-        NSString *openTimeStr = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(4, 6)]];
-        resModel.date = [BlueHelp getDateWith:openTimeStr];
+        NSString *string = [[dataDomain subdataWithRange:NSMakeRange(4, 6)] description];
+        string = [string substringWithRange:NSMakeRange(1, string.length-2)];
+        string = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+        resModel.date = string;
         resModel.IDAddress = [self stringFromData:[dataDomain subdataWithRange:NSMakeRange(10, 12)]];
     }else if ([instructionStr isEqualToString:@"87"]){
         //已配对设备查询
@@ -578,146 +580,6 @@ static NSDate  *getLoginConDate;
 + (NSString *)stringFromData:(NSData *)data{
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return str;
-}
-
-/*
- 汉子占三个字节，已配对设备查询目前限制10个字节
- */
-//（弃用）解析锁具发给app的数据
-+ (RespondModel *)debugParseResponseDataWithParameter:(NSData *)myData{
-    /*
-     -----⭐️------假数据测试------⭐️-----
-     假设D2B14CBB2ED7是锁mac地址
-     
-     同步：成功、锁开        BL D2B14CBB2ED7 004 8010 ]
-     开锁请求回执：成功      BLD2B14CBB2ED7 003 811 -
-     修改回执：成功  BL D2B14CBB2ED7 003 851 1
-     开锁记录查询: 逐条上传，直到状态码为0
-     BL D2B14CBB2ED7 033 861118/02/04/09/35/40AABBCCDDEEFF f
-     已配对设备查询：
-     BL D2B14CBB2ED7 025 871AABBCCDDEEFFLOCKNAME空格空格 w
-     解除配对：
-     BL D2B14CBB2ED7 003 881 4
-     锁具状态上报
-     BL D2B14CBB2ED7 003 401 (
-     */
-    
-    //debug 计算校验位
-    //NSArray *array = @[@"0048010", @"003811", @"003851", @"033861118/02/04/09/35/40AABBCCDDEEFF", @"025 871AABBCCDDEEFFLOCKNAME  ", @"003881", @"003401"];
-    //for (NSString *string in array) {
-        //NSString *stringTemp = [CNBlueCommunication getCheckCode:string];
-        //NSLog(@"===%@===",stringTemp);
-    //}
-    
-    //debug
-    //示例： 同步回执 BLD2B14CBB2ED70048010]——》“BL D2B14CBB2ED7 0048010 ]”
-    //假数据
-    NSString *str1 = @"80001";//同步成功
-    NSString *str2 = @"811";//开锁请求回执
-    NSString *str3 = @"851";//名称密码修改回执
-    NSString *curTime = [BlueHelp getCurDateByBCDEncode];
-    NSString *str4 = [NSString stringWithFormat:@"8613%@aabbccddeeff",curTime];//开锁记录查询
-    NSString *str5 = @"871aabbccddeeffname      ";//已配对设备查询上传
-    NSString *str6 = @"881";//解除配对关系回执
-    NSString *str7 = @"401";//上报锁具状态
-  
-    NSString *str8 = @"80001";//同步成功
-    //lyh debug
-    int temp = 1000;
-    switch (temp) {
-        case 1:
-            myData = [self getDataPacketWith:str1];
-            break;
-        case 2:
-            myData = [self getDataPacketWith:str2];
-            break;
-        case 3:
-            myData = [self getDataPacketWith:str3];
-            break;
-        case 4:
-            myData = [self getDataPacketWith:str4];
-            break;
-        case 5:
-            myData = [self getDataPacketWith:str5];
-            break;
-        case 6:
-            myData = [self getDataPacketWith:str6];
-            break;
-        case 7:
-            myData = [self getDataPacketWith:str7];
-            break;
-        case 8:
-            myData = [self getDataPacketWith:str8];
-            break;
-        default:
-            break;
-    }
-    //解析数据，暂没用校验位
-    RespondModel *resModel = [[RespondModel alloc] init];
-    NSString *responseString = [[NSString alloc] initWithData:myData encoding:NSUTF8StringEncoding];
-    NSUInteger length = responseString.length;
-    if (length<15) {
-        return nil;
-    }
-    responseString = [responseString substringWithRange:NSMakeRange(14, length-14-1)];
-    if (responseString.length<4) {
-        return nil;
-    }
-    //长度域
-    NSString *lengthDStr = [responseString substringWithRange:NSMakeRange(0, 4)];
-    //数据域长度
-    int dataDlen = [lengthDStr intValue];
-    //数据域
-    //lyh 数据域长度按字节取避免汉子出现问题
-    NSString *dataDomainStr = [responseString substringWithRange:NSMakeRange(4, responseString.length-4)];
-    if (dataDomainStr.length != dataDlen) {
-        return nil;
-    }
-    //指令码
-    NSString *instructionStr = [dataDomainStr substringWithRange:NSMakeRange(0, 2)];
-    if ([instructionStr isEqualToString:@"80"]) {
-        //自动同步
-        resModel.type = ENAutoLogin;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-        resModel.lockState = [dataDomainStr substringWithRange:NSMakeRange(3, 1)];
-        resModel.isadmin = [dataDomainStr substringWithRange:NSMakeRange(4, 1)];
-    }else if ([instructionStr isEqualToString:@"81"]){
-        //开锁
-        resModel.type = ENOpenLock;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-        resModel.lockState =  [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-    }else if ([instructionStr isEqualToString:@"85"]){
-        //广播名称及配对密码修改
-        resModel.type = ENChangeNameAndPwd;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-    }else if ([instructionStr isEqualToString:@"86"]){
-        //开锁记录查询
-        resModel.type = ENLookLockLog;
-        //状态码上传为0则上传完毕
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-        //开锁方式 1RFID2触摸3APP
-        resModel.lockMethod = [[dataDomainStr substringWithRange:NSMakeRange(3, 1)] intValue];
-        //时间bcd编码
-        NSString *openTimeStr = [dataDomainStr substringWithRange:NSMakeRange(4, 6)];
-        resModel.date = [BlueHelp getDateWith:openTimeStr];
-        resModel.IDAddress = [dataDomainStr substringWithRange:NSMakeRange(10, 12)];
-    }else if ([instructionStr isEqualToString:@"87"]){
-        //已配对设备查询
-        resModel.type = ENLookHasPair;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-        resModel.lockMacAddress = [dataDomainStr substringWithRange:NSMakeRange(3, 12)];
-        NSString *appName = [dataDomainStr substringWithRange:NSMakeRange(15, 10)];
-        resModel.appName = [appName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    }else if ([instructionStr isEqualToString:@"88"]){
-        //解除配对
-        resModel.type = ENUnpair;
-        resModel.state = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-    }else if ([instructionStr isEqualToString:@"40"]){
-        //锁具状态上报
-        resModel.type = ENLockStateReport;
-        resModel.lockState = [dataDomainStr substringWithRange:NSMakeRange(2, 1)];
-    }
-    return resModel;
 }
 
 //生成校验码 仅对ascii码有效

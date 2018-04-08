@@ -15,6 +15,7 @@
 
 @interface OpenhistoryVC ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *dataArray;
+    BOOL isupdate;
 }
 
 @end
@@ -54,6 +55,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    isupdate = YES;
+
     dataArray = [NSMutableArray array];
     if ([CommonData deviceIsIpad]) {
         UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -100,7 +103,6 @@
                     
                     [self.myTableView reloadData];
                     
-                    static BOOL isupdate = YES;
                     if (isupdate) {
                         [[CNDataBase sharedDataBase] updateLockLogQueryTime:_lockID];
                         isupdate = NO;
