@@ -9,6 +9,7 @@
 #import "CNDataBase.h"
 #import <FMDB.h>
 #import "RespondModel.h"
+#import "BlueHelp.h"
 
 @interface CNDataBase(){
     
@@ -52,6 +53,10 @@
         // 初始化数据表
         NSString *openLog = @"create table if not exists lockLog (id INTEGER primary key autoincrement  not null , log_lockId VARCHAR(255), log_method VARCHAR(255), log_date VARCHAR(255), log_deviceAddress VARCHAR(255))";
         [db executeUpdate:openLog];
+        
+        // 初始化数据表
+        NSString *lockSetting = @"create table if not exists lockSetting (id INTEGER primary key autoincrement  not null , log_lockId VARCHAR(255), query_date VARCHAR(255))";
+        [db executeUpdate:lockSetting];
     }];
     
 }
@@ -162,7 +167,7 @@
             [db executeUpdate:deleteSql];
         }
         [db executeUpdate:@"INSERT INTO lockLog (log_lockId, log_method, log_date, log_deviceAddress) VALUES (?, ?, ?, ?)",model.lockIdentifier, @(model.lockMethod), model.date, model.IDAddress];
-    }];
+    }];    
 }
 
 - (NSArray *)queryOpenLockLog:(NSString *)lockID{
@@ -179,5 +184,42 @@
     }
     return array;
 }
+
+#pragma mark 开锁日志
+- (void)updateLockLogQueryTime:(NSString *)lockID{
+    /*
+     NSString *lockSetting = @"create table if not exists lockSetting (id INTEGER primary key autoincrement  not null , log_lockId VARCHAR(255), query_date VARCHAR(255))";
+
+     */
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YY-MM-dd-HH-mm-ss"];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    dateString = [dateString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    //lyh 属性存在才更新/插入
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        NSUInteger totalCount = [db intForQuery:@"SELECT COUNT (log_lockId) FROM lockSetting WHERE log_lockId = ?",lockID];
+        if (totalCount > 0) {
+            //更新
+            [db executeUpdate:@"UPDATE lockSetting SET query_date = ? WHERE log_lockId = ?",dateString, lockID];
+        }else{
+            //插入
+            [db executeUpdate:@"INSERT INTO lockSetting (log_lockId, query_date) VALUES (?, ?)",lockID ,dateString];
+        }
+    }];
+}
+
+-(NSString *)getLastOpenLockDate:(NSString *)lockID{
+    [_db open];
+    FMResultSet *rs = [_db executeQuery:@"Select * FROM lockSetting where log_lockId = ?", lockID];
+    NSString *str;
+    while ([rs next]) {
+        str = [rs stringForColumn:@"query_date"];
+    }
+    [_db close];
+    return str;
+}
+
+
 
 @end

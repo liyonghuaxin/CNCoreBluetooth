@@ -34,7 +34,7 @@
 }
 
 +(NSString *)getLastDateAboutLog:(NSString *)str{
-    if (!str) {
+    if (!str || str.length == 0) {
         //2018-01-01 00:00:00
         str = @"180101000000";
     }

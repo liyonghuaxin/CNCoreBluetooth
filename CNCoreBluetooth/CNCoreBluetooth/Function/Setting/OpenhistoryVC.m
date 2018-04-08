@@ -31,11 +31,42 @@
     [self setBackBtnHiden:NO];
 }
 
+-(void)rotate{
+    if ([CommonData deviceIsIpad]) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0+5, 0, 0);
+        }else{
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0, 0, 0);
+        }
+        [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
+}
+
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    dataArray = [NSMutableArray array];
     
+    dataArray = [NSMutableArray array];
+    if ([CommonData deviceIsIpad]) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0+5, 0, 0);
+        }else{
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0, 0, 0);
+        }
+        [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
     self.headView.hidden = NO;
     self.headLable.text = @"OPEN HISTORY";
     
@@ -44,13 +75,10 @@
     
     NSArray *array = [[CNDataBase sharedDataBase] queryOpenLockLog:_lockID];
     [dataArray addObjectsFromArray:array];
-    RespondModel *model;
-    if (array.count) {
-        model = array[0];
-    }
+    NSString *lastTime = [[CNDataBase sharedDataBase] getLastOpenLockDate:_lockID];
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_lockID]) {
-            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:model.date finish:^(RespondModel *model) {
+            [CNBlueCommunication cbSendInstruction:ENLookLockLog toPeripheral:peri otherParameter:lastTime finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
                     for (RespondModel *myModel in dataArray) {
                         if ([myModel.date isEqualToString:model.date]) {
@@ -60,7 +88,24 @@
                     model.lockIdentifier = _lockID;
                     [dataArray insertObject:model atIndex:0];
                     [[CNDataBase sharedDataBase] addLog:model];
+                    [dataArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                        RespondModel *ojg11 = (RespondModel *)obj1;
+                        RespondModel *ojg22 = (RespondModel *)obj2;
+                        if ([ojg11.date compare:ojg22.date] == NSOrderedAscending) {
+                            return NSOrderedDescending;
+                        }else{
+                            return NSOrderedAscending;
+                        }
+                    }];
+                    
                     [self.myTableView reloadData];
+                    
+                    static BOOL isupdate = YES;
+                    if (isupdate) {
+                        [[CNDataBase sharedDataBase] updateLockLogQueryTime:_lockID];
+                        isupdate = NO;
+                    }
+                    
                 }else{
                     //查询完毕
                     //[model.state intValue] == 0
@@ -69,7 +114,6 @@
             break;
         }
     }
-    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

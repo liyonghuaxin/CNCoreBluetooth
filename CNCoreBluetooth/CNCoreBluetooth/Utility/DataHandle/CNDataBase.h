@@ -42,5 +42,9 @@
 
 - (NSArray *)queryOpenLockLog:(NSString *)lockID;
 
+- (void)updateLockLogQueryTime:(NSString *)lockID;
+
+-(NSString *)getLastOpenLockDate:(NSString *)lockID;
+
 @end
 

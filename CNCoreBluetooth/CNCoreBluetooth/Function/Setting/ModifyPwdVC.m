@@ -42,9 +42,38 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
+-(void)rotate{
+    if ([CommonData deviceIsIpad]) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0+5, 0, 0);
+        }else{
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0, 0, 0);
+        }
+        [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    if ([CommonData deviceIsIpad]) {
+        UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftBtn setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0+5, 0, 0);
+        }else{
+            leftBtn.contentEdgeInsets = UIEdgeInsetsMake(0, edgeDistancePage*2/3.0, 0, 0);
+        }
+        [leftBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+        self.navigationItem.leftBarButtonItem = leftItem;
+    }
+    
     self.headView.hidden = NO;
     self.headLable.text = @"QUICK SAFE";
     
@@ -67,6 +96,10 @@
     }
     _footView.frame = CGRectMake(0, 0, SCREENWIDTH, footViewheight);
     _myTableView.tableFooterView = _footView;
+}
+
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)hideKeyboard{

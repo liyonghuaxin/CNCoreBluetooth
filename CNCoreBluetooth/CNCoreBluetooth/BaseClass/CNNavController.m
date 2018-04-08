@@ -29,7 +29,6 @@
     self.navigationBar.translucent = NO;
     
     if ([CommonData deviceIsIpad]) {
-     
         
     }else{
         bgBiew = [[UIView alloc] init];

@@ -10,6 +10,7 @@
 #import "HelpCell.h"
 #import "HelpConCell.h"
 #import "NSString+Utils.h"
+#import "SetDetailViewController.h"
 
 @implementation SetModel
 

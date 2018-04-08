@@ -101,7 +101,6 @@
             make.left.equalTo(_headView).with.offset(edgeDistancePage);
             make.right.top.bottom.equalTo(_headView);
         }];
-        
         [self rotate];
     }
 }

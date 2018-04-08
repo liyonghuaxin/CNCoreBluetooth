@@ -46,7 +46,11 @@
     if ([CommonData deviceIsIpad]) {
         UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-        rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0+5);
+        }else{
+            rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        }
         [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
         self.navigationItem.rightBarButtonItem = rightItem;
@@ -79,7 +83,11 @@
     if ([CommonData deviceIsIpad]) {
         UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-        rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        if (SCREENWIDTH>SCREENHEIGHT) {
+            rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0+5);
+        }else{
+            rightBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, edgeDistancePage*2/3.0);
+        }
         [rightBtn addTarget:self action:@selector(scanPeri) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
         self.navigationItem.rightBarButtonItem = rightItem;

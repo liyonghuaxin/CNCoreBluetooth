@@ -24,8 +24,24 @@
 @end
 
 @implementation AppDelegate
+- (void)redirectNSlogToDocumentFolder{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *fileName = [NSString stringWithFormat:@"dr.log"];
+    // 注意不是NSData!
+    NSString *logFilePath = [documentDirectory stringByAppendingPathComponent:fileName];
+    // 先删除已经存在的文件
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    [defaultManager removeItemAtPath:logFilePath error:nil]; // 将log输入到文件
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stdout);
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self redirectNSlogToDocumentFolder];
+    
+    [BlueHelp getCurDateByBCDEncode];
     // Override point for customization after application launch.
     if (kDevice_Is_iPhoneX) {
         iPhoneXTopPara = 24;
@@ -33,7 +49,6 @@
     }
     scalePage = SCREENWIDTH/375.0;
     edgeDistancePage = 30*scalePage;
-    
     //获得蓝牙mac地址
     CNKeychainManager *manager = [CNKeychainManager default];
     NSString *macAddress = [manager load:@"customMacAddress"];
