@@ -40,6 +40,7 @@
 		18262A2F202AA2D6004DE2B2 /* OpenhistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A2D202AA2D6004DE2B2 /* OpenhistoryVC.xib */; };
 		18262A33202AA399004DE2B2 /* OpenHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18262A31202AA399004DE2B2 /* OpenHistoryCell.m */; };
 		18262A34202AA399004DE2B2 /* OpenHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */; };
+		182E117F207B78230014F467 /* model.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 182E117E207B78230014F467 /* model.sqlite */; };
 		1835AD012051418200BE0C83 /* UserControlVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835ACFF2051418200BE0C83 /* UserControlVC.m */; };
 		1835AD022051418200BE0C83 /* UserControlVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1835AD002051418200BE0C83 /* UserControlVC.xib */; };
 		1835AD062051428300BE0C83 /* UserControlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1835AD042051428300BE0C83 /* UserControlCell.m */; };
@@ -147,6 +148,7 @@
 		18262A30202AA399004DE2B2 /* OpenHistoryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenHistoryCell.h; sourceTree = "<group>"; };
 		18262A31202AA399004DE2B2 /* OpenHistoryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenHistoryCell.m; sourceTree = "<group>"; };
 		18262A32202AA399004DE2B2 /* OpenHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenHistoryCell.xib; sourceTree = "<group>"; };
+		182E117E207B78230014F467 /* model.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.sqlite; sourceTree = "<group>"; };
 		1835ACFE2051418200BE0C83 /* UserControlVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserControlVC.h; sourceTree = "<group>"; };
 		1835ACFF2051418200BE0C83 /* UserControlVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserControlVC.m; sourceTree = "<group>"; };
 		1835AD002051418200BE0C83 /* UserControlVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserControlVC.xib; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		18C3A672201AB10600999678 /* CNCoreBluetooth */ = {
 			isa = PBXGroup;
 			children = (
+				182E117E207B78230014F467 /* model.sqlite */,
 				182629E22027453C004DE2B2 /* BaseClass */,
 				18A7178A2026099C00F25626 /* View */,
 				18A717892026096200F25626 /* Utility */,
@@ -638,6 +641,7 @@
 				1810A6CC2021591F001487B0 /* SetLockCell.xib in Resources */,
 				18262A0620285772004DE2B2 /* HelpCell.xib in Resources */,
 				18C3A67B201AB10600999678 /* Main.storyboard in Resources */,
+				182E117F207B78230014F467 /* model.sqlite in Resources */,
 				18262A2020298A2C004DE2B2 /* SetLockMethod.xib in Resources */,
 				186E839B201EE3EC008D08B1 /* ScanAlertView.xib in Resources */,
 				18262A1620297B63004DE2B2 /* SetDetailViewController.xib in Resources */,

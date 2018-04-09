@@ -35,16 +35,45 @@
     return _DBCtl;
 }
 
+- (void)debugData{
+    
+    /*
+     NSURL *dbDocumentsURL2 = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"model.sqlite"];
+     NSString *dbDocumentsPath2 = [dbDocumentsURL2 path];
+     */
+    NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDir = [documentPaths objectAtIndex:0];
+    NSString *databasePath = [documentsDir stringByAppendingPathComponent:@"model.sqlite"];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    BOOL isExist = [fm fileExistsAtPath:databasePath];
+    if (!isExist){
+        NSString *backupDbPath = [[NSBundle mainBundle] pathForResource:@"model" ofType:@"sqlite"];
+        if (backupDbPath) {
+            NSError *error;
+            [fm copyItemAtPath:backupDbPath toPath:databasePath error:&error];
+        }
+    }
+}
+
+- (NSURL *)applicationDocumentsDirectory{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
 - (void)initDataBase{
+    
+    [self debugData];
+    
     // 获得Documents目录路径
     NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     // 文件路径
     NSString *filePath = [documentsPath stringByAppendingPathComponent:@"model.sqlite"];
     // 实例化FMDataBase对象
     NSLog(@"%@",filePath);
+    
     _db = [FMDatabase databaseWithPath:filePath];
     _dbQueue = [FMDatabaseQueue databaseQueueWithPath:filePath];
-
+    
     [_dbQueue inDatabase:^(FMDatabase * _Nonnull db) {
         // 初始化数据表
         NSString *periSql = @"Create table if not exists peripheral (id INTEGER primary key autoincrement  not null , peri_id VARCHAR(255), peri_name VARCHAR(255), peri_pwd VARCHAR(255), peri_lockState VARCHAR(255), peri_isAdmin INTEGER, peri_openMethod INTEGER, peri_isTouchUnlock INTEGER)";
@@ -166,7 +195,7 @@
             [db executeUpdate:deleteSql];
         }
         [db executeUpdate:@"INSERT INTO lockLog (log_lockId, log_method, log_date, log_deviceAddress) VALUES (?, ?, ?, ?)",model.lockIdentifier, @(model.lockMethod), model.date, model.IDAddress];
-    }];    
+    }];
 }
 
 - (NSArray *)queryOpenLockLog:(NSString *)lockID{
@@ -188,7 +217,7 @@
 - (void)updateLockLogQueryTime:(NSString *)lockID{
     /*
      NSString *lockSetting = @"create table if not exists lockSetting (id INTEGER primary key autoincrement  not null , log_lockId VARCHAR(255), query_date VARCHAR(255))";
-
+     
      */
     NSDate *date = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -222,3 +251,4 @@
 
 
 @end
+
