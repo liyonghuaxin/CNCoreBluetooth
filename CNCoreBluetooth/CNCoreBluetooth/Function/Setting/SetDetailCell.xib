@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -70,7 +70,7 @@
                     <constraint firstItem="R2v-20-BbQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="VEZ-vF-BUP"/>
                     <constraint firstItem="s9W-hH-SoK" firstAttribute="centerY" secondItem="cJ5-X6-msX" secondAttribute="centerY" id="Vsc-jZ-MCs"/>
                     <constraint firstItem="R2v-20-BbQ" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="30/375" id="ZWV-RO-ApA"/>
-                    <constraint firstItem="cJ5-X6-msX" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="250/635" id="Zmh-A7-8xk"/>
+                    <constraint firstItem="cJ5-X6-msX" firstAttribute="width" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="250/635" id="Zmh-A7-8xk"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="centerY" secondItem="R2v-20-BbQ" secondAttribute="centerY" id="dVX-Ub-OQQ"/>
                     <constraint firstItem="Alc-XS-q7N" firstAttribute="width" secondItem="R2v-20-BbQ" secondAttribute="width" id="kfa-AT-Iia"/>
                     <constraint firstAttribute="trailing" secondItem="Alc-XS-q7N" secondAttribute="trailing" id="mLg-xr-cre"/>

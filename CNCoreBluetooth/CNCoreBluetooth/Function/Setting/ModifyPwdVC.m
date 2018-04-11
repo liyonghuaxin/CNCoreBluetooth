@@ -237,7 +237,7 @@
         }else{
             //两次密码不一致 或 密码位数错误
             //lyh debug
-            [CNPromptView showStatusWithString:@"Inconsistent Passwordr"   withadjustBottomSpace:50];
+            [CNPromptView showStatusWithString:@"Inconsistent Password"   withadjustBottomSpace:50];
         }
     }else{
         //原始密码错误
@@ -248,11 +248,13 @@
 
 //保存锁具名称和密码
 - (void)updateSetInfo{
+    __block BOOL isFinish = false;
     for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
         if ([peri.identifier.UUIDString isEqualToString:_periModel.periID]) {
             CNPeripheralModel *model = [[CNPeripheralModel alloc] init];
             model.periPwd = pwd1;
             model.periname = _lockname;
+            isFinish = YES;
             [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:model finish:^(RespondModel *model) {
                 if ([model.state intValue] == 1) {
                     //更新内存中密码
@@ -262,11 +264,14 @@
                     [self.navigationController popViewControllerAnimated:YES];
                 }else{
                     //lyh debug
-                    [CNPromptView showStatusWithString:@"error" withadjustBottomSpace:50];
+                    [CNPromptView showStatusWithString:@"Failed" withadjustBottomSpace:50];
                 }
             }];
             break;
         }
+    }
+    if(isFinish == NO){
+        [CNPromptView showStatusWithString:@"Failed" withadjustBottomSpace:50];
     }
 }
 @end

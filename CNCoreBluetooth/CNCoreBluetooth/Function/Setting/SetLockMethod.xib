@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -53,7 +53,7 @@
                             <constraint firstAttribute="width" secondItem="7EC-hK-GIG" secondAttribute="height" id="ll1-vA-sNB"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseGray" translatesAutoresizingMaskIntoConstraints="NO" id="iov-FQ-KAF" userLabel="imageV33">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseGray" translatesAutoresizingMaskIntoConstraints="NO" id="iov-FQ-KAF" userLabel="imageV33">
                         <rect key="frame" x="264.5" y="102.5" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="6jT-c3-4vv"/>
@@ -61,26 +61,26 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slide Only" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEi-Ge-nAO">
-                        <rect key="frame" x="151" y="10" width="89.5" height="43"/>
+                        <rect key="frame" x="151" y="10" width="88.5" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.60385400060000005" green="0.60396051409999996" blue="0.60384726519999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNw-Ns-YhD" userLabel="Con Lab3">
-                        <rect key="frame" x="151" y="95.5" width="89.5" height="43"/>
+                        <rect key="frame" x="151" y="95.5" width="88.5" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.60385400060000005" green="0.60396051409999996" blue="0.60384726519999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseWhite" translatesAutoresizingMaskIntoConstraints="NO" id="hBv-hL-Ebs" userLabel="imageV11">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseWhite" translatesAutoresizingMaskIntoConstraints="NO" id="hBv-hL-Ebs" userLabel="imageV11">
                         <rect key="frame" x="264.5" y="16" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="3SQ-PG-bjd"/>
                             <constraint firstAttribute="width" secondItem="hBv-hL-Ebs" secondAttribute="height" id="SZm-AG-1e4"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thumb Print" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd7-i4-482">
-                        <rect key="frame" x="151" y="53" width="89.5" height="42.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Biometric ID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd7-i4-482">
+                        <rect key="frame" x="151" y="53" width="88.5" height="42.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.60385400060000005" green="0.60396051409999996" blue="0.60384726519999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -92,7 +92,7 @@
                             <constraint firstAttribute="width" constant="30" id="Q4b-NF-IrF"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseGray" translatesAutoresizingMaskIntoConstraints="NO" id="z9g-2A-ilO" userLabel="imageV22">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipseGray" translatesAutoresizingMaskIntoConstraints="NO" id="z9g-2A-ilO" userLabel="imageV22">
                         <rect key="frame" x="264" y="58.5" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="z9g-2A-ilO" secondAttribute="height" id="JNh-XO-6FA"/>

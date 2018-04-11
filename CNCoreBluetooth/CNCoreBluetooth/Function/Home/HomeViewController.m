@@ -423,6 +423,7 @@
 #pragma mark LockCellActionDelegate
 - (void)slideSuccess:(CBPeripheral *)peri{
     if(peri == nil){
+        [CNPromptView showStatusWithString:@"Failed"];
         return;
     }
     if(peri.state != CBPeripheralStateConnected){

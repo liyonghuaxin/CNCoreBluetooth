@@ -363,14 +363,16 @@ static NSString *setLockMethod = @"SetLockMethod";
 //保存锁具名称和密码
 - (void)updateSetInfo{
     CNPeripheralModel *originalModel = [[CNDataBase sharedDataBase] searchPeripheralInfo:_lockModel.periID];
-    [CNPromptView showStatusWithString:@"Setting Saved"];
     if (![originalModel.periname isEqualToString:tempModel.periname]) {
         //如果密码在别的地方已修改，这里传最新的密码
         tempModel.periPwd = _lockModel.periPwd;
+        __block BOOL isFinish = false;
         for (CBPeripheral *peri in [CNBlueManager sharedBlueManager].connectedPeripheralArray) {
             if ([peri.identifier.UUIDString isEqualToString:_lockModel.periID]) {
+                isFinish = YES;
                 [CNBlueCommunication cbSendInstruction:ENChangeNameAndPwd toPeripheral:peri otherParameter:tempModel finish:^(RespondModel *model) {
                     if ([model.state intValue] == 1) {
+                        [CNPromptView showStatusWithString:@"Setting Saved"];
                         //更新数据
                         _lockModel.periname = tempModel.periname;
                         _lockModel.isTouchUnlock = tempModel.isTouchUnlock;
@@ -384,13 +386,17 @@ static NSString *setLockMethod = @"SetLockMethod";
 
                     }else{
                         //lyh debug
-                        [CNPromptView showStatusWithString:@"error"];
+                        [CNPromptView showStatusWithString:@"Failed" withadjustBottomSpace:50];
                     }
                 }];
                 break;
             }
         }
+        if(isFinish == NO){
+            [CNPromptView showStatusWithString:@"Failed" withadjustBottomSpace:50];
+        }
     }else{
+        [CNPromptView showStatusWithString:@"Setting Saved"];
         //更新数据
         _lockModel.openMethod = tempModel.openMethod;
         _lockModel.actionType = ENUpdate;
