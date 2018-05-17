@@ -336,6 +336,11 @@ static NSString *setLockMethod = @"SetLockMethod";
 */
 
 - (IBAction)save:(id)sender {
+    NSData *nameData = [tempModel.periname dataUsingEncoding:NSUTF8StringEncoding];
+    if (nameData.length > 18) {
+        [CNPromptView showStatusWithString:@"Name is too long" withadjustBottomSpace:50];
+        return;
+    }
     //弹出输入密码框
     EnterPwdAlert *enterAlert = [[NSBundle mainBundle] loadNibNamed:@"EnterPwdAlert" owner:self options:nil][0];
     enterAlert.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
